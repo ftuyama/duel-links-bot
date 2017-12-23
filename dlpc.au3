@@ -32,7 +32,7 @@ EndFunc
 Func Street_duel($world,$start_area)
 	Select
 		Case $world = 0
-			Local $duelist = [1,2,3,6,7,8,13,14,15,16]
+			Local $duelist = [1,2,3,6,7,8,13,14,15,16,17]
 		Case $world = 1
 			Local $duelist = [1,2,3,4,5,6,7,8,9,10,11,12,13]
 	EndSelect
@@ -83,9 +83,9 @@ Func Search($area,$char)
 
 	Local $found
 	If Not @error Then
-		;MouseMove($pos[0], $pos[1])
-		;MsgBox(0,"Coords", "Nomor "&$char&" di "& $pos[0] & ", " & $pos[1] &" " &$pos[2])
-		MouseClick($MOUSE_CLICK_LEFT,$pos[0],$pos[1])
+		MouseMove($pos[0], $pos[1])
+		MsgBox(0,"Coords", "Nomor "&$char&" di "& $pos[0] & ", " & $pos[1] &" " &$pos[2])
+		;MouseClick($MOUSE_CLICK_LEFT,$pos[0],$pos[1])
 		$found = 1
 	Else
 		$found = 0
@@ -149,6 +149,9 @@ Func Object_color($n)
 			Local $david	  = [0xEEC09E,0xEBBEA7,0xEEC79E,0xEEC3A1]
 			Return $david
 		Case $n = 16
+			Local $bakura	  = [0xDECCBB,0xEECCBB,0xE0CCB9,0xE7CCBB,0xE5CCB5,0xE8CCBB,0xEBDAB8,0xEBCCBB,0xE8CDB5]
+			Return $bakura
+		Case $n = 17
 			Local $josh	  = [0xEEC89D,0xE8CBA3,0xEEBFA6,0xE7C59A,0xEDCAA1,0xF6CCA3,0xEEC5A0,0xECC098,0xEEC6A6]
 			Return $josh
 		Case $n = 99
