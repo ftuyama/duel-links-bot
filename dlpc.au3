@@ -10,14 +10,15 @@ $winPos   = WinGetPos($title)
 FFSetWnd($FFWnd)
 
 
-;Search(0,16)
 ;Street_duel(0,2)
 ;Gate_duel(10)
-;Dbg_excluded(643, 420,0)
 ;--------------------------------------------------------------
-Func Gate_duel($player)
+#cs
+Duel as many as $amount Legendary duelists
+#ce
+Func Gate_duel($amount)
 	Go_to_area(0)
-	For $i = 0 To $player Step 1
+	For $i = 0 To $amount Step 1
 		Do
 			Click(727, 341)
 			Wait_pixel(626, 743, 0xFFFFFF, 5000, "Legendary Duelist list")
@@ -29,6 +30,10 @@ Func Gate_duel($player)
 	Next
 EndFunc
 
+#cs
+Duel any steet duelist availbae at $world(0 for Yu-Gi-Oh and 1 for
+Yu-Gi-Oh GX) starting from $start_area
+#ce
 Func Street_duel($world,$start_area)
 	Select
 		Case $world = 0
@@ -54,6 +59,9 @@ Func Street_duel($world,$start_area)
 	Next
 EndFunc
 
+#cs
+Duel with Autowin Skipped duel cheat. Precondition is starting duel dialog
+#ce
 Func duel()
 	While Compare_pixel(640, 103,0x0) == 0;
 		Click(600, 653);duel
@@ -73,18 +81,21 @@ Func duel()
 	WEnd
 EndFunc
 
-Func Search($area,$char)
+#cs
+Search $object insinde $area
+#ce
+Func Search($area,$object)
 	Local $found
 	Go_to_area($area)
 	Duel_world_exclude_area($area)
 
-	FFAddColor(Object_color($char))
+	FFAddColor(Object_color($object))
 	Local $pos  = FFBestSpot(10,9,16,632, 488,-1,2)
 
 	Local $found
 	If Not @error Then
 		;MouseMove($pos[0], $pos[1])
-		;MsgBox(0,"Coords", "Nomor "&$char&" di "& $pos[0] & ", " & $pos[1] &" " &$pos[2])
+		;MsgBox(0,"Coords", "Nomor "&$object&" di "& $pos[0] & ", " & $pos[1] &" " &$pos[2])
 		;Exit
 		MouseClick($MOUSE_CLICK_LEFT,$pos[0],$pos[1])
 		$found = 1
@@ -96,6 +107,10 @@ Func Search($area,$char)
 	Return $found
 EndFunc
 
+#cs
+Face color database for duelist and other search able object like orange loot
+$n is code for specific object
+#ce
 Func Object_color($n)
 
 
@@ -164,32 +179,55 @@ Func Object_color($n)
 		EndSelect
 EndFunc
 
+#cs
+Move cursor to ($x,$y)
+#ce
 Func Move($x,$y)
 	$winPos   = WinGetPos($title)
 	MouseMove($x+$winPos[0], $y+$winPos[1])
 EndFunc
 
+#cs
+Do a single mouse click at ($x,$y)
+#ce
 Func Click($x,$y)
 	$winPos   = WinGetPos($title)
 	MouseClick($MOUSE_CLICK_LEFT,$x+$winPos[0], $y+$winPos[1],1,5)
 EndFunc
 
+#cs
+Take SnapShot of current screen. Refer to FastFind.chm for information
+#ce
 Func SnapShot($x1, $y1, $x2, $y2)
 	$winPos   = WinGetPos($title)
 	FFSnapShot($x1+$winPos[0], $y1+$winPos[1], $x2+$winPos[0], $y2+$winPos[1])
 EndFunc
 
+#cs
+return color of pixel at ($x,$y)
+#ce
 Func GetPixel($x, $y)
 	FFSnapShot()
 	$winPos   = WinGetPos($title)
 	Return FFGetPixel($x+$winPos[0], $y+$winPos[1])
 EndFunc
 
+#cs
+Add exclude zone inside rectangle that defined by two coordinate
+($x1, $y1) and  ($x2, $y2)
+#ce
 Func AddExcludedArea($x1, $y1, $x2, $y2)
 	$winPos   = WinGetPos($title)
 	FFAddExcludedArea($x1+$winPos[0], $y1+$winPos[1], $x2+$winPos[0], $y2+$winPos[1])
 EndFunc
 
+#cs
+Return current area code
+0:Gate
+1:Duel
+2:Shop
+3:Studio
+#ce
 Func Get_area()
 	SnapShot(372, 698, 914, 745)
 	Local $pos =FFBestSpot(7, 4, 9, 655+$winPos[0], 721+$winPos[1], 0x001AFF, 10, False)
@@ -230,6 +268,9 @@ Func Go_to_area($des_area)
 	EndIf
 EndFunc
 
+#cs
+Return 1 if pixel at ($x,$y) is exactly has $color color
+#ce
 Func Compare_pixel($x,$y,$color)
 	$winPos   = WinGetPos($title)
 	If GetPixel($x, $y) <> $color Then
@@ -239,6 +280,10 @@ Func Compare_pixel($x,$y,$color)
 	EndIf
 EndFunc
 
+#cs
+wait for $color show at ($x, $y). When $time_out pass it will show error
+with $massage text
+#ce
 Func Wait_pixel($x,$y,$color,$time_out,$massage)
 	Local $timer = TimerInit()
 	While Compare_pixel($x, $y, $color) = 0 And (TimerDiff($timer)< $time_out)
@@ -250,11 +295,11 @@ Func Wait_pixel($x,$y,$color,$time_out,$massage)
 	Sleep(500)
 EndFunc
 
-Func IsExcluded($x,$y)
-	$winPos   = WinGetPos($title)
-	Return FFIsExcluded($x+$winPos[0], $y+$winPos[1],$FFWnd)
-EndFunc
-
+#cs
+Add exclude zone that not will considere by search function for specific
+$area. There is foour area correspond from Gate, duel, shop, card studio area
+respectively. Every $area has uniqe exclude zone.
+#ce
 Func Duel_world_exclude_area($area)
 	AddExcludedArea(  0, 0, 372, 749);left pane
 	AddExcludedArea(  913, 0, 1286, 749);right pane
@@ -278,6 +323,9 @@ Func Duel_world_exclude_area($area)
 	EndSelect
 EndFunc
 
+#cs
+Check if point ($x,$y) in $area is excluded from search zone.
+#ce
 Func Dbg_excluded($x,$y,$area)
 	duel_world_exclude_area($area)
 	If IsExcluded($x,$y) Then
@@ -285,12 +333,27 @@ Func Dbg_excluded($x,$y,$area)
 	EndIf
 EndFunc
 
+#cs
+Helper function for Dbg_excluded($x,$y,$area)
+#ce
+Func IsExcluded($x,$y)
+	$winPos   = WinGetPos($title)
+	Return FFIsExcluded($x+$winPos[0], $y+$winPos[1],$FFWnd)
+EndFunc
+
+#cs
+Show pixel color of coordinate ($x,$y)
+#ce
 Func Dbg_print_color($x,$y)
 	MsgBox($MB_SYSTEMMODAL, "Color", Hex(GetPixel($x,$y)));
 	Move($x,$y)
 	Exit
 EndFunc
 
+#cs
+Show mean color of areas inside rectangle that defined by two coordinate
+($x1, $y1) and  ($x2, $y2)
+#ce
 Func Dbg_print_mean($x1, $y1, $x2, $y2)
 	GUICreate("Mean", 200,20)
 	$display = GUICtrlCreateLabel("", 0, 0, 100, 20)
