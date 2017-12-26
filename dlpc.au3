@@ -11,7 +11,7 @@ FFSetWnd($FFWnd)
 
 
 ;Search(0,16)
-Street_duel(0,0)
+;Street_duel(0,2)
 ;Gate_duel(10)
 ;Dbg_excluded(643, 420,0)
 ;--------------------------------------------------------------
@@ -32,7 +32,7 @@ EndFunc
 Func Street_duel($world,$start_area)
 	Select
 		Case $world = 0
-			Local $duelist = [1,2,3,6,7,8,13,14,15,16,17]
+			Local $duelist = [1,2,3,6,7,8,13,14,15,16,17,18]
 		Case $world = 1
 			Local $duelist = [1,2,3,4,5,6,7,8,9,10,11,12,13]
 	EndSelect
@@ -62,11 +62,11 @@ Func duel()
 		Click(644, 708);until exit
 		Sleep(500)
 	WEnd
+	Sleep(1000)
 	While Compare_pixel(640, 736,0xFFFFFF) == 1
 		Click(644, 708);until exit dialoge
 		Sleep(500)
 	WEnd
-	Sleep(1000)
 	While Compare_pixel(800, 203,0xFFFFFF) == 1
 		Click(644, 708);Duel beacon
 		Sleep(500)
@@ -83,9 +83,10 @@ Func Search($area,$char)
 
 	Local $found
 	If Not @error Then
-		MouseMove($pos[0], $pos[1])
-		MsgBox(0,"Coords", "Nomor "&$char&" di "& $pos[0] & ", " & $pos[1] &" " &$pos[2])
-		;MouseClick($MOUSE_CLICK_LEFT,$pos[0],$pos[1])
+		;MouseMove($pos[0], $pos[1])
+		;MsgBox(0,"Coords", "Nomor "&$char&" di "& $pos[0] & ", " & $pos[1] &" " &$pos[2])
+		;Exit
+		MouseClick($MOUSE_CLICK_LEFT,$pos[0],$pos[1])
 		$found = 1
 	Else
 		$found = 0
@@ -149,11 +150,14 @@ Func Object_color($n)
 			Local $david	  = [0xEEC09E,0xEBBEA7,0xEEC79E,0xEEC3A1]
 			Return $david
 		Case $n = 16
-			Local $bakura	  = [0xDECCBB,0xEECCBB,0xE0CCB9,0xE7CCBB,0xE5CCB5,0xE8CCBB,0xEBDAB8,0xEBCCBB,0xE8CDB5]
+			Local $bakura	  = [0xD3A08F,0xCCA988,0xCCA688,0xCCA088,0xCCA588,0xCCA188,0xCC9F88,0xCCA788,0xCCA787]
 			Return $bakura
 		Case $n = 17
 			Local $josh	  = [0xEEC89D,0xE8CBA3,0xEEBFA6,0xE7C59A,0xEDCAA1,0xF6CCA3,0xEEC5A0,0xECC098,0xEEC6A6]
 			Return $josh
+		Case $n = 18
+			Local $odin	  = [0xA37053,0xA97051,0xA27050,0xA26D4D]
+			Return $odin
 		Case $n = 99
 			Local $loot       = [0xFF6600]
 			Return $loot
