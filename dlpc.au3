@@ -9,8 +9,9 @@ $winPos   = WinGetPos($title)
 
 FFSetWnd($FFWnd)
 
-
-;Street_duel(0,2)
+;Search(0,99)
+;Dbg_excluded(642, 407,0)
+Street_duel(0,0)
 ;Gate_duel(10)
 ;--------------------------------------------------------------
 #cs
@@ -90,7 +91,7 @@ Func Search($area,$object)
 	Duel_world_exclude_area($area)
 
 	FFAddColor(Object_color($object))
-	Local $pos  = FFBestSpot(10,9,16,632, 488,-1,2)
+	Local $pos  = FFBestSpot(10,7,16,632, 488,-1,2)
 
 	Local $found
 	If Not @error Then
@@ -174,7 +175,7 @@ Func Object_color($n)
 			Local $odin	  = [0xA37053,0xA97051,0xA27050,0xA26D4D]
 			Return $odin
 		Case $n = 99
-			Local $loot       = [0xFF6600]
+			Local $loot       = [0xFF6600,0xFF7700,0xFF5600,0xFF5700,0xFF5500]
 			Return $loot
 		EndSelect
 EndFunc
@@ -252,6 +253,9 @@ Func Get_area()
 	Return $area
 EndFunc
 
+#cs
+Go to $des_area
+#ce
 Func Go_to_area($des_area)
 	If Get_area() <> $des_area Then
 		Select
@@ -303,7 +307,7 @@ respectively. Every $area has uniqe exclude zone.
 Func Duel_world_exclude_area($area)
 	AddExcludedArea(  0, 0, 372, 749);left pane
 	AddExcludedArea(  913, 0, 1286, 749);right pane
-	AddExcludedArea(  372, 0, 914, 416);top pane
+	AddExcludedArea(  372, 0, 914, 405);top pane
 	AddExcludedArea( 372, 653, 914, 749);bottom pane
 	AddExcludedArea( 764, 490, 914, 653);character pane
 	Select
