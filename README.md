@@ -20,13 +20,13 @@ Simple bot using Autoit languange for farming Duellink PC. This is active projec
 3. Run The bot
   - Open Duellink PC via Steam
   - Open *dlpc.au3* whith SciTE Script editor that included form Autoit Installation.
-  - For now There is two main feature function
-    -`Gate_duel($arg)`
-      Duel any legendary duellist inside gate until '$arg' cumulaive different legendary duellist.
-    -'Street_duel($arg1,$arg2)'
+  - For now There is two main feature function  
+    - `Gate_duel($arg)`  
+      Duel any legendary duellist inside gate until `$arg` cumulative different legendary duellist.  
+    - `Street_duel($arg1,$arg2)`  
       Duel any duelist included Standard duelist , vagabond, and legendary duelist available in the Street and collect orange
-      exclamation mark that contain loot. '$arg1' is Duelworld, 0 for Yu-Gi-Oh 1 for Yu-Gi-Oh GX. '$arg2 is code area starting from 0 for duel gate
-      area and 3 for Card shop area.
+      exclamation mark that contain loot. `$arg1` is Duelworld, 0 for Yu-Gi-Oh 1 for Yu-Gi-Oh GX. `$arg2` is code area starting from 0 for duel   
+      gate area and 3 for Card shop area.
       
 **Major BUg**
 - If Vagabond offer friend recommendation bot will crash and you must manually select a friend and restart the bot.
