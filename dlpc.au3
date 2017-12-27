@@ -1,17 +1,21 @@
 #include <MsgBoxConstants.au3>
 #include <AutoItConstants.au3>
-#include <GUIConstantsEx.au3>
-#include "FastFind.au3"
 #include <WinAPI.au3>
-$title = "[TITLE:Yu-Gi-Oh! DUEL LINKS]"
-$FFWnd = _WinAPI_GetDesktopWindow()
+#include <GUIConstantsEx.au3>
+#include <ButtonConstants.au3>
+#Include <GuiEdit.au3>
+#include "FastFind.au3"
+#include "gui_dlpc.au3"
+$title    = "[TITLE:Yu-Gi-Oh! DUEL LINKS]"
+$FFWnd    = _WinAPI_GetDesktopWindow()
 $winPos   = WinGetPos($title)
-
 FFSetWnd($FFWnd)
 
+
+gui()
+;Street_duel(0,0)
 ;Search(0,99)
 ;Dbg_excluded(642, 407,0)
-Street_duel(0,0)
 ;Gate_duel(10)
 ;--------------------------------------------------------------
 #cs
@@ -76,10 +80,22 @@ Func duel()
 		Click(644, 708);until exit dialoge
 		Sleep(500)
 	WEnd
-	While Compare_pixel(800, 203,0xFFFFFF) == 1
-		Click(644, 708);Duel beacon
-		Sleep(500)
-	WEnd
+
+	Sleep(300)
+	If Compare_pixel(637, 394, 0xFFFFFF) == 1 Then
+		Write_log('Collectible fragments')
+		Click(642, 425)
+	EndIf
+
+	Sleep(300)
+	If Compare_pixel(638, 600, 0xFFFFFF) == 1 Then
+		Write_log('Duel beacon')
+		Click(646, 575)
+	EndIf
+
+	if $nMsg = $GUI_EVENT_CLOSE Then
+		Exit
+	EndIf
 EndFunc
 
 #cs
