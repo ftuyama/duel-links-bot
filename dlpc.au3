@@ -11,7 +11,6 @@ $FFWnd    = _WinAPI_GetDesktopWindow()
 $winPos   = WinGetPos($title)
 FFSetWnd($FFWnd)
 
-
 gui()
 ;Street_duel(0,0)
 ;Search(0,99)
@@ -49,7 +48,7 @@ Func Street_duel($world,$start_area)
 
 	For $area=$start_area To 3 Step 1
 		Do
-			If search($area,99) = 1 Then
+			If search($area,99) == 1 Then
 				Write_log("Loot detected")
 				$massage = "Recieve Rewards"
 				wait_pixel(469, 303,0xFFFFFF,5000,$massage)
@@ -57,7 +56,7 @@ Func Street_duel($world,$start_area)
 				Click(640, 470)
 				Sleep(1000)
 			EndIf
-		Until search($area,99) = 0
+		Until search($area,99) == 0
 		Write_log("Area is clear from loot")
 		For $char = 0 To UBound($duelist)-1 Step 1
 			If search($area,$duelist[$char])= 1 Then
@@ -180,7 +179,8 @@ Func Search($area,$object)
 	Go_to_area($area)
 	Duel_world_exclude_area($area)
 
-	FFAddColor(Object_color($object))
+	Local $hObject = Object_color($object)
+	FFAddColor($hObject[1])
 	Local $pos  = FFBestSpot(10,7,16,632, 488,-1,2)
 
 	Local $found
@@ -188,6 +188,7 @@ Func Search($area,$object)
 		;MouseMove($pos[0], $pos[1])
 		;MsgBox(0,"Coords", "Nomor "&$object&" di "& $pos[0] & ", " & $pos[1] &" " &$pos[2])
 		;Exit
+		Write_log("Seems like "$hObject[0] & ", " & $pos[2] & " pixel detected.")
 		MouseClick($MOUSE_CLICK_LEFT,$pos[0],$pos[1])
 		$found = 1
 	Else
@@ -203,71 +204,66 @@ Face color database for duelist and other search able object like orange loot
 $n is code for specific object
 #ce
 Func Object_color($n)
-
-
-	Local $04zachary   =   [0xDBB59C,0xDBB8A0,0xDCBAA4,0xFFEBD2] ;
-
-
-	Local $07vagabond  =   [0xE5C399,0x8B312C,0xBE4545,0xE8C699,0xBD4545] ;
-	Local $08jay       =   [0xEECA9B,0xEEC3A4,0xEEC3A1,0xEBC6A0,0xEECB9D,0xEEBE9E,0x664744]
-	Local $09logan     =   [0xFCD8B1,0xFCDBAF,0xFFDCAB,0xFDD4B0,0xFFDAAA,0xFBDAB0,0xFCD9AB,0xFBDAAB]
-
-	Local $11evan      =   [0xFEDBAD,0xF6DCAA,0xFDDDAA,0xFEDCAE,0xFCD9AE,0xF8D6B2,0xFADAAD,0xFFDDAB]
-
 	Select
 		Case $n = 1
-			Local $alyssa    =   [0xF9E7D5,0xF5D1B5,0xFFE4C7,0xFFE2C8,0xFFE3CA] ;
-			return $alyssa
+			Local $face	= [0xF9E7D5,0xF5D1B5,0xFFE4C7,0xFFE2C8,0xFFE3CA]
+			Local $return = ["Alyssa", $face]
 		Case $n = 2
-			Local $nick      =   [0xEBC29E,0xEBC29E,0xEDC8A1]
-			return $nick
+			Local $face	= [0xEBC29E,0xEBC29E,0xEDC8A1]
+			Local $return = ["Nick", $face]
 		Case $n = 3
-			Local $emma      =   [0xC79574,0xEDBE9B,0xF6E2D5,0x765752];
-			return $emma
+			Local $face   = [0xC79574,0xEDBE9B,0xF6E2D5,0x765752]
+			Local $return = ["Emma", $face]
 		Case $n = 4
-			return $04zachary
+			Local $face   = [0xDBB59C,0xDBB8A0,0xDCBAA4,0xFFEBD2]
+			Local $return = ["Zachary", $face]
 		Case $n = 5
-			Local $alexis    =   [0x675A34,0xECCC7A,0xBDA862,0xB5A164]
-			return $alexis
+			Local $face   = [0x675A34,0xECCC7A,0xBDA862,0xB5A164]
+			Local $return = ["Alexis", $face]
 		Case $n = 6
-			Local $ashley       =   [0xEECCBB]
-			return $ashley
+			Local $face   = [0xEECCBB]
+			Local $return = ["Ashley", $face]
 		Case $n = 7
-			return $07vagabond
+			Local $face   = [0xE5C399,0x8B312C,0xBE4545,0xE8C699,0xBD4545] ;
+			Local $return = ["Vagabond", $face]
 		Case $n = 8
-			return $08jay
+			Local $face   = [0xEECA9B,0xEEC3A4,0xEEC3A1,0xEBC6A0,0xEECB9D,0xEEBE9E,0x664744]
+			Local $return = ["Jay", $face]
 		Case $n = 9
-			return $09logan
+			Local $face   = [0xFCD8B1,0xFCDBAF,0xFFDCAB,0xFDD4B0,0xFFDAAA,0xFBDAB0,0xFCD9AB,0xFBDAAB]
+			Local $return = ["Logan", $face]
 		Case $n = 10
-			Local $Madison   =   [0xFFE8D2,0xFFE6D3,0xFDEEDC,0xFFE6D5,0xFFE5D8,0xFFE2D9,0xFFEDD4,0xFFE8DC]
-			return $Madison
+			Local $face   = [0xFFE8D2,0xFFE6D3,0xFDEEDC,0xFFE6D5,0xFFE5D8,0xFFE2D9,0xFFEDD4,0xFFE8DC]
+			Local $return = ["Madison", $face]
 		Case $n = 11
-			return $11evan
+			Local $face   = [0xFEDBAD,0xF6DCAA,0xFDDDAA,0xFEDCAE,0xFCD9AE,0xF8D6B2,0xFADAAD,0xFFDDAB]
+			Local $return = ["Evan", $face]
 		Case $n = 12
-			Local $aster      = [0xFFE9CC,0xFFE5D0,0xFFE9CC]
-			Return $aster
+			Local $face   = [0xFFE9CC,0xFFE5D0,0xFFE9CC]
+			Local $return = ["Aster", $face]
 		Case $n = 13
-			Local $jesse      = [0xF7D6AC,0xFBDEB0,0xFEDCAA,0xF7D5AA,0xF8D4AA,0xF0CBA0,0xFCD1A9,0xF4D1AA,0xF9D6AA]
-			Return $jesse
+			Local $face   = [0xF7D6AC,0xFBDEB0,0xFEDCAA,0xF7D5AA,0xF8D4AA,0xF0CBA0,0xFCD1A9,0xF4D1AA,0xF9D6AA]
+			Local $return = ["Jesse", $face]
 		Case $n = 14
-			Local $mai	      = [0xFFDDBB]
-			Return $mai
+			Local $face   = [0xFFDDBB]
+			Local $return = ["Mai", $face]
 		Case $n = 15
-			Local $david	  = [0xEEC09E,0xEBBEA7,0xEEC79E,0xEEC3A1]
-			Return $david
+			Local $face   = [0xEEC09E,0xEBBEA7,0xEEC79E,0xEEC3A1]
+			Local $return = ["David", $face]
 		Case $n = 16
-			Local $bakura	  = [0xD3A08F,0xCCA988,0xCCA688,0xCCA088,0xCCA588,0xCCA188,0xCC9F88,0xCCA788,0xCCA787]
-			Return $bakura
+			Local $face   = [0xD3A08F,0xCCA988,0xCCA688,0xCCA088,0xCCA588,0xCCA188,0xCC9F88,0xCCA788,0xCCA787]
+			Local $return = ["Bakura", $face]
 		Case $n = 17
-			Local $josh	  = [0xEEC89D,0xE8CBA3,0xEEBFA6,0xE7C59A,0xEDCAA1,0xF6CCA3,0xEEC5A0,0xECC098,0xEEC6A6]
-			Return $josh
+			Local $face   = [0xEEC89D,0xE8CBA3,0xEEBFA6,0xE7C59A,0xEDCAA1,0xF6CCA3,0xEEC5A0,0xECC098,0xEEC6A6]
+			Local $return = ["Josh", $face]
 		Case $n = 18
-			Local $odin	  = [0xA37053,0xA97051,0xA27050,0xA26D4D]
-			Return $odin
+			Local $face   = [0xA37053,0xA97051,0xA27050,0xA26D4D]
+			Local $return = ["Odin", $face]
 		Case $n = 99
-			Local $loot       = [0xFF6600,0xFF7700,0xFF5600,0xFF5700,0xFF5500]
-			Return $loot
-		EndSelect
+			Local $face   = [0xFF6600,0xFF7700,0xFF5600,0xFF5700,0xFF5500]
+			Local $return = ["Loot", $face]
+	EndSelect
+	Return $return
 EndFunc
 
 #cs
