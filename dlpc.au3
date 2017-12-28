@@ -50,22 +50,27 @@ Func Street_duel($world,$start_area)
 	For $area=$start_area To 3 Step 1
 		Do
 			If search($area,99) = 1 Then
-				wait_pixel(469, 303,0xFFFFFF,5000,"Recieve Rewards")
+				Write_log("Loot detected")
+				$massage = "Recieve Rewards"
+				wait_pixel(469, 303,0xFFFFFF,5000,$massage)
+				Write_log($massage)
 				Click(640, 470)
 				Sleep(1000)
 			EndIf
 		Until search($area,99) = 0
+		Write_log("Area is clear from loot")
 		For $char = 0 To UBound($duelist)-1 Step 1
 			If search($area,$duelist[$char])= 1 Then
 				duel()
 				$char = 0
 			EndIf
 		Next
+		Write_log("No one here")
 	Next
 EndFunc
 
 #cs
-Duel with Autowin Skipped duel cheat. Precondition is starting duel dialog
+Duel with Autowin Skipped duel cheat. Precondition is starting duel dialog.
 #ce
 Func duel()
 	Local $timer
@@ -83,7 +88,7 @@ Func duel()
 		Write_log("Time out!")
 		Exit
 	Else
-		Write_log(Round(TimerDiff($timer)/1000,1) & "s")
+		Write_log(Round(TimerDiff($timer)/1000,1) & " s")
 	EndIf
 
 	$massage = "Skipping duel and reward"
@@ -98,7 +103,7 @@ Func duel()
 		Write_log("Time out!")
 		Exit
 	Else
-		Write_log(Round(TimerDiff($timer)/1000,1) & "s")
+		Write_log(Round(TimerDiff($timer)/1000,1) & " s")
 	EndIf
 
 	$massage = "Exit Dialouge"
@@ -114,7 +119,7 @@ Func duel()
 		Write_log("Time out!")
 		Exit
 	Else
-		Write_log(Round(TimerDiff($timer)/1000,1) & "s")
+		Write_log(Round(TimerDiff($timer)/1000,1) & " s")
 	EndIf
 
 	Sleep(1000)
@@ -123,32 +128,11 @@ Func duel()
 		Click(642, 425)
 	Else
 		If Compare_pixel(646, 212, 0x042744) ==1 Then
-			Write_log('Vagabond Introduce')
-			Click(629, 319)
-
-			$massage = "Set Challenge"
-			Wait_pixel(681, 251, 0xFFFFFF, 2000, $massage)
-			Write_log($massage)
-			Click(638, 418)
-
-			$massage = "Choose One Opening Hand"
-			Wait_pixel(629, 403, 0x001118, 2000, $massage)
-			Write_log($massage)
-			Click(602, 516)
-
-			$massage = "Confirm"
-			Wait_pixel(681, 251, 0xFFFFFF, 2000, $massage)
-			Write_log($massage)
-			Click(733, 488)
-
-			$massage = "Exit extra dialouge"
-			Wait_pixel(823, 593, 0xFFFFFF, 2000, $massage)
-			Write_log($massage)
-			Click(634, 703)
+			vagabond_challange()
 		EndIf
 	EndIf
 
-	Sleep(600)
+	Sleep(500)
 	If Compare_pixel(638, 600, 0xFFFFFF) == 1 Then
 		Write_log('Duel beacon')
 		Click(646, 575)
@@ -158,6 +142,34 @@ Func duel()
 	if $nMsg = $GUI_EVENT_CLOSE Then
 		Exit
 	EndIf
+EndFunc
+
+#cs
+Vagabond introduce. Set second name in the list and choose one opening hand as challange
+#ce
+Func vagabond_challange()
+	Write_log('Vagabond Introduce')
+	Click(629, 319)
+
+	$massage = "Set Challenge"
+	Wait_pixel(681, 251, 0xFFFFFF, 2000, $massage)
+	Write_log($massage)
+	Click(638, 418)
+
+	$massage = "Choose One Opening Hand"
+	Wait_pixel(629, 403, 0x001118, 2000, $massage)
+	Write_log($massage)
+	Click(602, 516)
+
+	$massage = "Confirm"
+	Wait_pixel(681, 251, 0xFFFFFF, 2000, $massage)
+	Write_log($massage)
+	Click(733, 488)
+
+	$massage = "Exit extra dialouge"
+	Wait_pixel(823, 593, 0xFFFFFF, 2000, $massage)
+	Write_log($massage)
+	Click(634, 703)
 EndFunc
 
 #cs
