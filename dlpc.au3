@@ -68,29 +68,91 @@ EndFunc
 Duel with Autowin Skipped duel cheat. Precondition is starting duel dialog
 #ce
 Func duel()
-	While Compare_pixel(640, 103,0x0) == 0;
-		Click(600, 653);duel
-	WEnd
-	While Compare_pixel(897, 666,0xFFFFFF) == 0
-		Click(644, 708);until exit
-		Sleep(500)
-	WEnd
-	Sleep(1000)
-	While Compare_pixel(640, 736,0xFFFFFF) == 1
-		Click(644, 708);until exit dialoge
-		Sleep(500)
-	WEnd
+	Local $timer
+	Local $massage
+	Local $time_out
 
-	Sleep(300)
-	If Compare_pixel(637, 394, 0xFFFFFF) == 1 Then
-		Write_log('Collectible fragments')
-		Click(642, 425)
+	$massage = "Starting duel"
+	Write_log($massage)
+	$time_out = 5000
+	$timer =  TimerInit()
+	While Compare_pixel(640, 103,0x0) == 0 And (TimerDiff($timer)<$time_out)
+		Click(600, 653);
+	WEnd
+	If TimerDiff($timer) >= $time_out Then
+		Write_log("Time out!")
+		Exit
+	Else
+		Write_log(Round(TimerDiff($timer)/1000,1) & "s")
 	EndIf
 
-	Sleep(300)
+	$massage = "Skipping duel and reward"
+	Write_log($massage)
+	$time_out = 20000
+	$timer =  TimerInit()
+	While Compare_pixel(897, 666,0xFFFFFF) == 0 And (TimerDiff($timer)<$time_out)
+		Click(644, 708);
+		Sleep(500)
+	WEnd
+	If TimerDiff($timer) >= $time_out Then
+		Write_log("Time out!")
+		Exit
+	Else
+		Write_log(Round(TimerDiff($timer)/1000,1) & "s")
+	EndIf
+
+	$massage = "Exit Dialouge"
+	Write_log($massage)
+	Sleep(1000)
+	$time_out = 5000
+	$timer =  TimerInit()
+	While Compare_pixel(640, 736,0xFFFFFF) == 1  And (TimerDiff($timer)<$time_out)
+		Click(644, 708)
+		Sleep(500)
+	WEnd
+	If TimerDiff($timer) >= $time_out Then
+		Write_log("Time out!")
+		Exit
+	Else
+		Write_log(Round(TimerDiff($timer)/1000,1) & "s")
+	EndIf
+
+	Sleep(1000)
+	If Compare_pixel(637, 394, 0xFFFFFF) == 1 Then
+		Write_log('Collect fragments')
+		Click(642, 425)
+	Else
+		If Compare_pixel(646, 212, 0x042744) ==1 Then
+			Write_log('Vagabond Introduce')
+			Click(629, 319)
+
+			$massage = "Set Challenge"
+			Wait_pixel(681, 251, 0xFFFFFF, 2000, $massage)
+			Write_log($massage)
+			Click(638, 418)
+
+			$massage = "Choose One Opening Hand"
+			Wait_pixel(629, 403, 0x001118, 2000, $massage)
+			Write_log($massage)
+			Click(602, 516)
+
+			$massage = "Confirm"
+			Wait_pixel(681, 251, 0xFFFFFF, 2000, $massage)
+			Write_log($massage)
+			Click(733, 488)
+
+			$massage = "Exit extra dialouge"
+			Wait_pixel(823, 593, 0xFFFFFF, 2000, $massage)
+			Write_log($massage)
+			Click(634, 703)
+		EndIf
+	EndIf
+
+	Sleep(600)
 	If Compare_pixel(638, 600, 0xFFFFFF) == 1 Then
 		Write_log('Duel beacon')
 		Click(646, 575)
+		Sleep(500)
 	EndIf
 
 	if $nMsg = $GUI_EVENT_CLOSE Then
@@ -306,7 +368,7 @@ with $massage text
 #ce
 Func Wait_pixel($x,$y,$color,$time_out,$massage)
 	Local $timer = TimerInit()
-	While Compare_pixel($x, $y, $color) = 0 And (TimerDiff($timer)< $time_out)
+	While Compare_pixel($x, $y, $color) == 0 And (TimerDiff($timer)< $time_out)
 	WEnd
 	If TimerDiff($timer)>=$time_out Then
 		MsgBox($MB_ICONERROR,"Error","Timeout "&$massage)
