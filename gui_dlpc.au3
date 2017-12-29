@@ -4,14 +4,16 @@ Func gui()
 	Global $duel_mode = 0
 	Global $hGui = GUICreate("Duellink Bot For PC",400, 400, 10, 20)
 
-	GUICtrlCreateLabel("World",220, 10)
-	Global $rad_world0 = GUICtrlCreateRadio("Yu-Gi-Oh", 220,25)
+	GUICtrlCreateGroup("World",220, 10,170,40)
+	GUIStartGroup()
+	Global $rad_world0 = GUICtrlCreateRadio("Yu-Gi-Oh", 225,25)
 	Global $rad_world1 = GUICtrlCreateRadio("Yu-Gi-Oh GX", 300, 25)
 	GUICtrlSetState($rad_world0, $GUI_CHECKED)
 
-	GUICtrlCreateLabel("Duel Mode",220, 65)
-	Global $rad_sd = GUICtrlCreateRadio("Street duel", 220, 80)
-	Global $rad_gd = GUICtrlCreateRadio("Gate duel", 300, 80)
+	GUICtrlCreateGroup("Duel Mode",220, 75,170,40)
+	GUIStartGroup()
+	Global $rad_sd = GUICtrlCreateRadio("Street duel", 225, 90)
+	Global $rad_gd = GUICtrlCreateRadio("Gate duel", 300, 90)
 	GUICtrlSetState($rad_sd, $GUI_CHECKED)
 
 	Global $log  = GUICtrlCreateEdit("",10, 10, 200, 330)
