@@ -13,8 +13,8 @@ FFSetWnd($FFWnd)
 
 gui()
 ;Street_duel(0,0)
-;Search(0,99)
-;Dbg_excluded(642, 407,0)
+;Search(3,4)
+;Dbg_excluded(504, 522,0)
 ;Gate_duel(10)
 ;--------------------------------------------------------------
 #cs
@@ -196,9 +196,9 @@ Func Search($area,$object)
 
 	Local $found
 	If Not @error Then
-		;MouseMove($pos[0], $pos[1])
-		;MsgBox(0,"Coords", "Nomor "&$object&" di "& $pos[0] & ", " & $pos[1] &" " &$pos[2])
-		;Exit
+		MouseMove($pos[0], $pos[1])
+		MsgBox(0,"", $hObject[0] & " at " & $pos[0] & ", " & $pos[1] &" " &$pos[2]  & " pixel detected." )
+		Exit
 		Write_log("Seems like " & $hObject[0] & ", " & $pos[2] & " pixel detected.")
 		MouseClick($MOUSE_CLICK_LEFT,$pos[0],$pos[1])
 		$found = 1
@@ -407,21 +407,26 @@ Func Duel_world_exclude_area($area)
 	AddExcludedArea(  372, 0, 914, 405);top pane
 	AddExcludedArea( 372, 653, 914, 749);bottom pane
 	AddExcludedArea( 764, 490, 914, 653);character pane
-	Select
-		Case $area = 0
-			AddExcludedArea(371, 357,565, 579);duel school
-		Case $area = 1
+	Switch $area
+		Case 0
+			AddExcludedArea(371, 357,565, 506);duel school
+		Case 1
 			AddExcludedArea(369, 389,506, 684);left
 			AddExcludedArea(679, 394, 914, 665);right
 			AddExcludedArea(668, 465,716, 549);street repaly
-		Case $area = 2
+		Case 2
 			AddExcludedArea(716, 549,669, 648);card trader
 			AddExcludedArea(371, 358,469, 687);left
 			AddExcludedArea(445, 521,501, 687);bottom left flower
-		Case $area = 3
-			AddExcludedArea(370, 420,480, 647);right
-			AddExcludedArea(757, 428,912, 648)
-	EndSelect
+		Case 3
+			Switch $world
+				Case 0
+					AddExcludedArea(370, 420,480, 647);right
+				Case 1
+					AddExcludedArea(370, 420,581, 658);right
+			EndSwitch
+			AddExcludedArea(757, 428,912, 648);left
+	EndSwitch
 EndFunc
 
 #cs
