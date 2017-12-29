@@ -63,6 +63,23 @@ Func Street_duel($world,$start_area)
 		For $char = 0 To UBound($duelist)-1 Step 1
 			If search($area,$duelist[$char])= 1 Then
 				duel()
+				Sleep(1000)
+				If Compare_pixel(637, 394, 0xFFFFFF) == 1 Then
+					Write_log('Collect fragments')
+					Click(642, 425)
+				Else
+					If Compare_pixel(646, 212, 0x042744) ==1 Then
+						vagabond_challange()
+					EndIf
+				EndIf
+
+				Sleep(1000)
+				If Compare_pixel(638, 600, 0xFFFFFF) == 1 Then
+					Write_log('Duel beacon, its over')
+					Click(646, 575)
+					Sleep(500)
+					Return
+				EndIf
 				$char = 0
 			EndIf
 		Next
@@ -130,23 +147,6 @@ Func duel()
 		Exit
 	Else
 		Write_log(Round(TimerDiff($timer)/1000,1) & " s")
-	EndIf
-
-	Sleep(1000)
-	If Compare_pixel(637, 394, 0xFFFFFF) == 1 Then
-		Write_log('Collect fragments')
-		Click(642, 425)
-	Else
-		If Compare_pixel(646, 212, 0x042744) ==1 Then
-			vagabond_challange()
-		EndIf
-	EndIf
-
-	Sleep(1000)
-	If Compare_pixel(638, 600, 0xFFFFFF) == 1 Then
-		Write_log('Duel beacon')
-		Click(646, 575)
-		Sleep(500)
 	EndIf
 
 	if $nMsg = $GUI_EVENT_CLOSE Then

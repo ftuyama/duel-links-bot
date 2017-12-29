@@ -1,17 +1,26 @@
 Func gui()
 	Global $nMsg = ""
 	Global $world = 0
+	Global $duel_mode = 0
 	Global $hGui = GUICreate("Duellink Bot For PC",400, 400, 10, 20)
+
+	GUICtrlCreateLabel("World",220, 10)
+	Global $rad_world0 = GUICtrlCreateRadio("Yu-Gi-Oh", 220,25)
+	Global $rad_world1 = GUICtrlCreateRadio("Yu-Gi-Oh GX", 300, 25)
+	GUICtrlSetState($rad_world0, $GUI_CHECKED)
+
+	GUICtrlCreateLabel("Duel Mode",220, 65)
+	Global $rad_sd = GUICtrlCreateRadio("Street duel", 220, 80)
+	Global $rad_gd = GUICtrlCreateRadio("Gate duel", 300, 80)
+	GUICtrlSetState($rad_sd, $GUI_CHECKED)
 
 	Global $log  = GUICtrlCreateEdit("",10, 10, 200, 330)
 
-	Global $button = GUICtrlCreateButton("Log", 10, 350, 80, 30)
+	Global $but_duel = GUICtrlCreateButton("    It's Time To DUEL    ", 10, 350)
 
-	Global $rad_sd = GUICtrlCreateRadio("Street duel", 220, 5)
-	Global $rad_gd = GUICtrlCreateRadio("Gate duel", 220, 25)
 
-	Global $rad_world0 = GUICtrlCreateRadio("Yu-Gi-Oh", 320, 50)
-	Global $rad_world1 = GUICtrlCreateRadio("Yu-Gi-Oh GX", 220, 60)
+
+
 
 	GUISetState(@SW_SHOW)
 	WinSetOnTop($hGui,'',$WINDOWS_ONTOP)
@@ -20,12 +29,12 @@ Func gui()
 		Switch $nMsg
 			Case $GUI_EVENT_CLOSE
 				Exit
-			Case $button
-				write_log("test")
+			Case $but_duel
+				duel_bot()
 			Case $rad_sd
-				Street_duel($world ,0)
+				$duel_mode = 0
 			Case $rad_gd
-				Gate_duel(10)
+				$duel_mode = 1
 			Case $rad_world0
 				$world = 0
 			Case $rad_world1
@@ -37,4 +46,13 @@ EndFunc
 Func write_log($variable)
 	$variable = $variable & @CRLF
 	_GUICtrlEdit_AppendText($log,$variable)
+EndFunc
+
+Func duel_bot()
+	Switch $duel_mode
+		Case 0
+			Street_duel($world, 0)
+		Case 1
+			Gate_duel(10)
+	EndSwitch
 EndFunc
