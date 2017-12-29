@@ -6,7 +6,7 @@
 #Include <GuiEdit.au3>
 #include "FastFind.au3"
 #include "gui_dlpc.au3"
-$title    = "[TITLE:Yu-Gi-Oh! DUEL LINKS]"
+
 $FFWnd    = _WinAPI_GetDesktopWindow()
 $winPos   = WinGetPos($title)
 FFSetWnd($FFWnd)

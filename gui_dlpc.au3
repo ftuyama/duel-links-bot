@@ -1,8 +1,10 @@
+Global $title    = "[TITLE:Yu-Gi-Oh! DUEL LINKS]"
 Global $nMsg = ""
 Global $world = 0
 Global $duel_mode = 0
 
 Func gui()
+	Local $window_status = 0
 	Global $hGui = GUICreate("Duellink Bot For PC",400, 400, 10, 20)
 
 	GUICtrlCreateGroup("World",220, 10,170,40)
@@ -17,13 +19,11 @@ Func gui()
 	Global $rad_gd = GUICtrlCreateRadio("Gate duel", 300, 90)
 	GUICtrlSetState($rad_sd, $GUI_CHECKED)
 
+	Global $l_status = GUICtrlCreateLabel("Duellink status: Stopped",270, 371)
+
 	Global $log  = GUICtrlCreateEdit("",10, 10, 200, 330)
 
 	Global $but_duel = GUICtrlCreateButton("    It's Time To DUEL    ", 10, 350)
-
-
-
-
 
 	GUISetState(@SW_SHOW)
 	WinSetOnTop($hGui,'',$WINDOWS_ONTOP)
@@ -43,6 +43,18 @@ Func gui()
 			Case $rad_world1
 				$world = 1
 		EndSwitch
+
+		If WinExists($title) Then
+			If $window_status == 0 Then
+				GUICtrlSetData($l_status, "Duellink status: Running")
+				$window_status = 1
+			EndIf
+		Else
+			If $window_status == 1 Then
+				GUICtrlSetData($l_status, "Duellink status: Stopped")
+				$window_status = 0
+			EndIf
+		EndIf
 	WEnd
 	Exit
 EndFunc
