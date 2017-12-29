@@ -1,7 +1,8 @@
+Global $nMsg = ""
+Global $world = 0
+Global $duel_mode = 0
+
 Func gui()
-	Global $nMsg = ""
-	Global $world = 0
-	Global $duel_mode = 0
 	Global $hGui = GUICreate("Duellink Bot For PC",400, 400, 10, 20)
 
 	GUICtrlCreateGroup("World",220, 10,170,40)
@@ -30,7 +31,7 @@ Func gui()
 		$nMsg = GUIGetMsg()
 		Switch $nMsg
 			Case $GUI_EVENT_CLOSE
-				Exit
+				ExitLoop
 			Case $but_duel
 				duel_bot()
 			Case $rad_sd
@@ -43,6 +44,7 @@ Func gui()
 				$world = 1
 		EndSwitch
 	WEnd
+	Exit
 EndFunc
 
 Func write_log($variable)

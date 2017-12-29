@@ -196,9 +196,9 @@ Func Search($area,$object)
 
 	Local $found
 	If Not @error Then
-		MouseMove($pos[0], $pos[1])
-		MsgBox(0,"", $hObject[0] & " at " & $pos[0] & ", " & $pos[1] &" " &$pos[2]  & " pixel detected." )
-		Exit
+		;MouseMove($pos[0], $pos[1])
+		;MsgBox(0,"", $hObject[0] & " at " & $pos[0] & ", " & $pos[1] &" " &$pos[2]  & " pixel detected." )
+		;Exit
 		Write_log("Seems like " & $hObject[0] & ", " & $pos[2] & " pixel detected.")
 		MouseClick($MOUSE_CLICK_LEFT,$pos[0],$pos[1])
 		$found = 1
