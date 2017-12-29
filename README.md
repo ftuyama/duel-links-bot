@@ -1,12 +1,16 @@
 # Duellink-PC-Bot
-Simple bot using Autoit languange for farming Duellink PC. This is active project and I check it daily.
+Simple bot with GUI using Autoit languange for farming Duellink PC. This is active project and I check it daily.
+
+**Feature**  
+  - Gate duel: duel any available legendary duelist in the gate. You must set key amount manually
+  - Street duel: duel any duelist in the street and pickup loot
 
 **Tutorial**
 
 1. Install
   - Install Duellink PC from Steam
   - Download Autowin cheat  
-    for now, this farm bot only compatible with Autowin cheat for Duellink PC via Steam from [conom.org](http://conom.org/). Read carefully
+    for now, this farm bot only compatible with Autowin  and skip PVE cheat for Duellink PC via Steam from [conom.org](http://conom.org/). Read carefully
     and follow necessary step on that link
   - Install Autoit with full installation mode. You can get it in [here](https://www.autoitscript.com/site/autoit/downloads/)
   - Donwload and install Advanced Pixel Search Library for Autoit from [here](https://www.autoitscript.com/forum/topic/126430-advanced-pixel-search-library/), put all files inside your repository. There is a help file in there in case you are
@@ -24,5 +28,8 @@ Simple bot using Autoit languange for farming Duellink PC. This is active projec
   - Open dlpc.exe at your repository
   - Make sure Duellink windows is visible
   
-4. Caution
+**Caution**
   - If Bot stuck at some point please wait for less than 20 secons. The GUI will detect unexpected result and exit automatically.
+  
+**Next Update**
+  - Option to non-cheater player
