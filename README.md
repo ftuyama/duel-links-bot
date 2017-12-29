@@ -22,6 +22,7 @@ Simple bot using Autoit languange for farming Duellink PC. This is active projec
   - Open *dlpc.au3* whith SciTE Script editor that included form Autoit Installation.
   - Build the source code by press F7
   - Open dlpc.exe at your repository
+  - Make sure Duellink windows is visible
   
 4. Caution
   - If Bot stuck at some point please wait for less than 20 secons. The GUI will detect unexpected result and exit automatically.
