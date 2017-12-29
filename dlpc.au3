@@ -48,6 +48,7 @@ Func Street_duel($world,$start_area)
 			Write_log("Yu-Gi-Oh Gx World selected")
 	EndSelect
 
+	Local $area_loop = 0
 	For $area=$start_area To 3 Step 1
 		Do
 			Switch  search($area,99)
@@ -91,6 +92,18 @@ Func Street_duel($world,$start_area)
 			EndSwitch
 		Next
 		Write_log("No one here.")
+
+		If (Compare_pixel(436, 72, 0xFFFFFF) == 1) And ($area == 3) Then
+			Write_log("There is still standard duelist.")
+			Write_log("Go back to gate area")
+			$area = -1 ; next iteration will make $area == 0 true.
+			$area_loop += 1
+			If $area_loop == 2 Then
+				Write_log("Can't Find last standard duelist.")
+				Write_log("Over.")
+				Return
+			EndIf
+		EndIf
 	Next
 EndFunc
 
