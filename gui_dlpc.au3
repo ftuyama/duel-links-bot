@@ -26,6 +26,7 @@ Func gui()
 	Global $but_duel = GUICtrlCreateButton("    It's Time To DUEL    ", 10, 350)
 
 	GUISetState(@SW_SHOW)
+	write_log("Make sure you are already log in")
 	WinSetOnTop($hGui,'',$WINDOWS_ONTOP)
 	While 1
 		$nMsg = GUIGetMsg()

@@ -50,40 +50,47 @@ Func Street_duel($world,$start_area)
 
 	For $area=$start_area To 3 Step 1
 		Do
-			If search($area,99) == 1 Then
-				Write_log("Loot detected")
-				$massage = "Recieve Rewards"
-				wait_pixel(469, 303,0xFFFFFF,5000,$massage)
-				Write_log($massage)
-				Click(640, 470)
-				Sleep(1000)
-			EndIf
+			Switch  search($area,99)
+				Case -1
+					Return
+				Case 1
+					Write_log("Loot detected")
+					$massage = "Recieve Rewards"
+					wait_pixel(469, 303,0xFFFFFF,5000,$massage)
+					Write_log($massage)
+					Click(640, 470)
+					Sleep(1000)
+			EndSwitch
 		Until search($area,99) == 0
 		Write_log("Area is clear from loot")
-		For $char = 0 To UBound($duelist)-1 Step 1
-			If search($area,$duelist[$char])= 1 Then
-				duel()
-				Sleep(1000)
-				If Compare_pixel(637, 394, 0xFFFFFF) == 1 Then
-					Write_log('Collect fragments')
-					Click(642, 425)
-				Else
-					If Compare_pixel(646, 212, 0x042744) ==1 Then
-						vagabond_challange()
-					EndIf
-				EndIf
 
-				Sleep(1000)
-				If Compare_pixel(638, 600, 0xFFFFFF) == 1 Then
-					Write_log('Duel beacon, its over')
-					Click(646, 575)
-					Sleep(500)
+		For $char = 0 To UBound($duelist)-1 Step 1
+			Switch search($area,$duelist[$char])
+				Case -1
 					Return
-				EndIf
+				Case 1
+					duel()
+					Sleep(500)
+					If Compare_pixel(637, 394, 0xFFFFFF) == 1 Then
+						Write_log('Collect fragments')
+						Click(642, 425)
+					Else
+						If Compare_pixel(646, 212, 0x042744) ==1 Then
+							vagabond_challange()
+						EndIf
+					EndIf
+
+					Sleep(1000)
+					If Compare_pixel(638, 600, 0xFFFFFF) == 1 Then
+						Write_log('Duel beacon, its over')
+						Click(646, 575)
+						Sleep(500)
+						Return
+					EndIf
 				$char = 0
-			EndIf
+			EndSwitch
 		Next
-		Write_log("No one here")
+		Write_log("No one here.")
 	Next
 EndFunc
 
@@ -186,10 +193,13 @@ EndFunc
 Search $object insinde $area
 #ce
 Func Search($area,$object)
-	Local $found
-	Go_to_area($area)
+
+	If Go_to_area($area) == -1 Then
+		Return -1
+	EndIf
 	Duel_world_exclude_area($area)
 
+	Local $found
 	Local $hObject = Object_color($object)
 	FFAddColor($hObject[1])
 	Local $pos  = FFBestSpot(10,7,16,632, 488,-1,2)
@@ -271,7 +281,7 @@ Func Object_color($n)
 			Local $face   = [0xA37053,0xA97051,0xA27050,0xA26D4D]
 			Local $return = ["Odin", $face]
 		Case $n = 99
-			Local $face   = [0xFF6600,0xFF7700,0xFF5600,0xFF5700,0xFF5500]
+			Local $face   = [0xFF6600,0xFF7700,0xFF8500,0xFF5700,0xFF8700]
 			Local $return = ["Loot", $face]
 	EndSelect
 	Return $return
@@ -331,7 +341,7 @@ Func Get_area()
 	Local $pos =FFBestSpot(7, 4, 9, 655+$winPos[0], 721+$winPos[1], 0x001AFF, 10, False)
 	If Not @error Then
 		;MouseMove($pos[0], $pos[1])
-		Local $area
+		Local $area = 0
 		Switch $pos[0]-$winPos[0]
 			Case 392 To 500
 				$area = 0
@@ -342,28 +352,38 @@ Func Get_area()
 			Case 764 To 868
 				$area = 3
 		EndSwitch
+		Return $area
 		;MsgBox(0, "Area", $area & " at " &$pos[0]&", "&$pos[1])
 	Else
-		MsgBox($MB_ICONERROR,"Error","Area can't be decided")
-		Exit
+		Write_log("Area can't be decided.")
+		Write_log("Make sure four area tab is visible")
+		Return -1
 	EndIf
-	Return $area
 EndFunc
 
 #cs
 Go to $des_area
 #ce
 Func Go_to_area($des_area)
-	If Get_area() <> $des_area Then
+	Local $cur_area = Get_area()
+	If  $cur_area<> $des_area Then
+		If $cur_area == -1 Then
+			Return -1
+		EndIf
+		Local $massage = ""
 		Select
 			Case $des_area = 0
 				Click(463, 722)
+				$massage = "Go to Gate area"
 			Case $des_area = 1
 				Click(592, 721)
+				$massage = "Go to Duel area"
 			Case $des_area = 2
 				Click(710, 722)
+				$massage = "Go to Shop area"
 			Case $des_area = 3
 				Click(835, 722)
+				$massage = "Go to Studio area"
 		EndSelect
 		Sleep(1000)
 	EndIf
