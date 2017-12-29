@@ -42,8 +42,10 @@ Func Street_duel($world,$start_area)
 	Select
 		Case $world = 0
 			Local $duelist = [1,2,3,6,7,8,13,14,15,16,17,18]
+			Write_log("Yu-Gi-Oh World selected")
 		Case $world = 1
 			Local $duelist = [1,2,3,4,5,6,7,8,9,10,11,12,13]
+			Write_log("Yu-Gi-Oh Gx World selected")
 	EndSelect
 
 	For $area=$start_area To 3 Step 1
@@ -84,7 +86,10 @@ Func duel()
 		Click(600, 653);
 	WEnd
 	If TimerDiff($timer) >= $time_out Then
+		$time_out = 5000
 		Write_log("Time out!")
+		Write_log("Exit in " & $time_out/1000 & " s")
+		Sleep($time_out)
 		Exit
 	Else
 		Write_log(Round(TimerDiff($timer)/1000,1) & " s")
@@ -99,7 +104,10 @@ Func duel()
 		Sleep(500)
 	WEnd
 	If TimerDiff($timer) >= $time_out Then
+		$time_out = 5000
 		Write_log("Time out!")
+		Write_log("Exit in " & $time_out & " s")
+		Sleep($time_out)
 		Exit
 	Else
 		Write_log(Round(TimerDiff($timer)/1000,1) & " s")
@@ -115,7 +123,10 @@ Func duel()
 		Sleep(500)
 	WEnd
 	If TimerDiff($timer) >= $time_out Then
+		$time_out = 5000
 		Write_log("Time out!")
+		Write_log("Exit in " & $time_out/1000 & " s")
+		Sleep($time_out)
 		Exit
 	Else
 		Write_log(Round(TimerDiff($timer)/1000,1) & " s")
@@ -131,7 +142,7 @@ Func duel()
 		EndIf
 	EndIf
 
-	Sleep(500)
+	Sleep(1000)
 	If Compare_pixel(638, 600, 0xFFFFFF) == 1 Then
 		Write_log('Duel beacon')
 		Click(646, 575)
@@ -188,7 +199,7 @@ Func Search($area,$object)
 		;MouseMove($pos[0], $pos[1])
 		;MsgBox(0,"Coords", "Nomor "&$object&" di "& $pos[0] & ", " & $pos[1] &" " &$pos[2])
 		;Exit
-		Write_log("Seems like "$hObject[0] & ", " & $pos[2] & " pixel detected.")
+		Write_log("Seems like " & $hObject[0] & ", " & $pos[2] & " pixel detected.")
 		MouseClick($MOUSE_CLICK_LEFT,$pos[0],$pos[1])
 		$found = 1
 	Else
