@@ -95,9 +95,10 @@ Func Street_duel($world, $start_area)
 		Write_log("No one here.")
 
 		If $Loop And $area == 3 Then
-			$area = 0
+			$area = -1
 		EndIf
 	Next
+	Write_log("Street duel over")
 	Return
 EndFunc   ;==>Street_duel
 

@@ -1,4 +1,5 @@
 #include <String.au3>
+#include <MsgBoxConstants.au3>
 #include <StringConstants.au3>
 #include <GuiScrollBars.au3>
 #include <GUIConstantsEx.au3>
@@ -68,23 +69,9 @@ Func gui()
 	GUISetState(@SW_SHOW)
 	WinSetOnTop($hGui,'',$WINDOWS_ONTOP)
 	While 1
-		$nMsg = GUIGetMsg()
-		Switch $nMsg
-			Case $GUI_EVENT_CLOSE
-				ExitLoop
-			Case $but_duel
-				duel_bot()
-			Case $rad_sd
-				$duel_mode = 0
-			Case $rad_gd
-				$duel_mode = 1
-			Case $rad_world0
-				$world = 0
-			Case $rad_world1
-				$world = 1
-			Case $cLoop
-				$Loop = True
-		EndSwitch
+		If Control_gui(GUIGetMsg()) == -1 Then
+			ExitLoop
+		EndIf
 
 		If WinExists($title) Then
 			If $window_status == 0 Then
@@ -98,6 +85,7 @@ Func gui()
 			EndIf
 		EndIf
 	WEnd
+	GUIDelete($hGui)
 	Exit
 EndFunc
 
@@ -130,6 +118,7 @@ Func Hot_key()
 			$sPaused = Not $sPaused
 			Local $Informed = False
 			While $sPaused
+				Control_gui(GUIGetMsg())
 				$timer = TimerInit()
 				If Not $Informed Then
 					Write_log("Bot Paused.")
@@ -145,4 +134,31 @@ Func Hot_key()
 			Sleep(1000)
 			Exit
 	EndSwitch
+EndFunc
+
+Func Control_gui($nMsg)
+		Switch $nMsg
+			Case $GUI_EVENT_CLOSE
+				Return -1
+			Case $but_duel
+				duel_bot()
+			Case $rad_sd
+				$duel_mode = 0
+			Case $rad_gd
+				$duel_mode = 1
+			Case $rad_world0
+				$world = 0
+			Case $rad_world1
+				$world = 1
+			Case $cLoop
+				if _IsChecked($cLoop) Then
+					$Loop = True
+				Else
+					$Loop = false
+				EndIf
+		EndSwitch
+EndFunc
+
+Func _IsChecked($idControlID)
+    Return BitAND(GUICtrlRead($idControlID), $GUI_CHECKED) = $GUI_CHECKED
 EndFunc
