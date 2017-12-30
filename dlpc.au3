@@ -102,7 +102,7 @@ Func Street_duel($world,$start_area)
 			$area = -1 ; next iteration(Foor loop in 55) will make $area = $area+1 = -1+1 =0
 			$area_loop += 1
 			If $area_loop == 2 Then
-				Write_log("Already done " & $area_loop " loop(s), ")
+				Write_log("Already done " & $area_loop & " loop(s), ")
 				Write_log("But can't find last standard duelist.")
 				Write_log("Terminating Street Duel Function.")
 				Return
