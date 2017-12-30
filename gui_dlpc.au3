@@ -1,32 +1,61 @@
-Global $title    = "[TITLE:Yu-Gi-Oh! DUEL LINKS]"
+#include <String.au3>
+#include <StringConstants.au3>
+#include <GuiScrollBars.au3>
+#include <GUIConstantsEx.au3>
+#include <ButtonConstants.au3>
+#include <GuiEdit.au3>
+#include <FileConstants.au3>
+#include <WinAPIFiles.au3>
+#include "dlpc.au3"
+
 Global $nMsg = ""
-Global $world = 0
 Global $duel_mode = 0
+
+gui()
 
 Func gui()
 	Local $window_status = 0
 	Global $hGui = GUICreate("Duellink Bot For PC",400, 400, 10, 20)
 
-	GUICtrlCreateGroup("World",220, 10,170,40)
-	GUIStartGroup()
-	Global $rad_world0 = GUICtrlCreateRadio("Yu-Gi-Oh", 225,25)
-	Global $rad_world1 = GUICtrlCreateRadio("Yu-Gi-Oh GX", 300, 25)
-	GUICtrlSetState($rad_world0, $GUI_CHECKED)
+	GUICtrlCreateTab(0,0,400,400)
+		GUICtrlCreateTabItem("Duel")
+			Global $log  = GUICtrlCreateEdit("",5, 25, 210, 340)
+				write_log("Make sure you are already log in.")
 
-	GUICtrlCreateGroup("Duel Mode",220, 75,170,40)
-	GUIStartGroup()
-	Global $rad_sd = GUICtrlCreateRadio("Street duel", 225, 90)
-	Global $rad_gd = GUICtrlCreateRadio("Gate duel", 300, 90)
-	GUICtrlSetState($rad_sd, $GUI_CHECKED)
+			GUICtrlCreateGroup("World",220, 25,170,40)
+				GUIStartGroup()
+				Global $rad_world0 = GUICtrlCreateRadio("Yu-Gi-Oh", 225,40)
+				Global $rad_world1 = GUICtrlCreateRadio("Yu-Gi-Oh GX", 300, 40)
+				GUICtrlSetState($rad_world0, $GUI_CHECKED)
 
-	Global $l_status = GUICtrlCreateLabel("Duellink status: Stopped",270, 371)
+			GUICtrlCreateGroup("Duel Mode",220, 75,170,40)
+				GUIStartGroup()
+				Global $rad_sd = GUICtrlCreateRadio("Street duel", 225, 90)
+				Global $rad_gd = GUICtrlCreateRadio("Gate duel", 300, 90)
+				GUICtrlSetState($rad_sd, $GUI_CHECKED)
 
-	Global $log  = GUICtrlCreateEdit("",10, 10, 200, 330)
+			Global $but_duel = GUICtrlCreateButton("    It's time To DUEL    ", 10, 370)
 
-	Global $but_duel = GUICtrlCreateButton("    It's Time To DUEL    ", 10, 350)
+			Global $l_status = GUICtrlCreateLabel("Duellink status: Stopped",270, 371)
+
+		GUICtrlCreateTabItem("Hotkey")
+			GUICtrlCreateLabel("F9  : Pause/resume",5,25)
+			GUICtrlCreateLabel("F10: Terminate",5,40)
+
+		GUICtrlCreateTabItem("Setting")
+
+		GUICtrlCreateTabItem("Help")
+			Local $nHelp = "\help.txt"
+			Local $hFileOpen = FileOpen(@ScriptDir & $nHelp)
+			If $hFileOpen = -1 Then
+				MsgBox($MB_SYSTEMMODAL, "", "An error occurred when reading " & $nHelp)
+			Else
+				Local $lHelp = GUICtrlCreateLabel(FileRead($hFileOpen),5,25,Default,Default,0x0000)
+			EndIf
+
+	GUICtrlCreateTabItem("")
 
 	GUISetState(@SW_SHOW)
-	write_log("Make sure you are already log in")
 	WinSetOnTop($hGui,'',$WINDOWS_ONTOP)
 	While 1
 		$nMsg = GUIGetMsg()
