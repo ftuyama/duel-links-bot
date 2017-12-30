@@ -44,7 +44,7 @@ EndFunc   ;==>Gate_duel
 Func Street_duel($world, $start_area)
 	Select
 		Case $world = 0
-			Local $duelist = [1, 2, 3, 6, 7, 8, 13, 14, 15, 16, 17, 18]
+			Local $duelist = [1, 2, 3, 6, 7, 8, 13, 14, 15, 16, 17, 18, 19]
 			Write_log("Yu-Gi-Oh World selected")
 		Case $world = 1
 			Local $duelist = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
@@ -275,6 +275,9 @@ Func Object_color($n)
 		Case $n = 18
 			Local $face = [0xA37053, 0xA97051, 0xA27050, 0xA26D4D]
 			Local $return = ["Odin", $face]
+		Case $n = 19
+			Local $face = [0xBD9A67, 0xC19977, 0xBD9977, 0xC49970,0xBB906C,0xBB996B,0xBB966B]
+			Local $return = ["Anzu", $face]
 		Case $n = 99
 			Local $face = [0xFF6600, 0xFF7700, 0xFF8700, 0xFF5700]
 			Local $return = ["Loot", $face]
