@@ -129,7 +129,8 @@ Func duel()
 		Write_log("Time out!")
 		Return -1
 	Else
-		Write_log(Round(TimerDiff($timer)/1000,1) & " s")\	EndIf
+		Write_log(Round(TimerDiff($timer)/1000,1) & " s")
+	EndIf
 
 	$massage = "Skipping duel and reward"
 	Write_log($massage)
