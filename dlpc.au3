@@ -13,7 +13,7 @@ FFSetWnd($FFWnd)
 
 gui()
 ;Street_duel(0,0)
-;Search(3,4)
+;Dbg_print_color(759,439)
 ;Dbg_excluded(504, 522,0)
 ;Gate_duel(10)
 ;--------------------------------------------------------------
@@ -206,7 +206,6 @@ EndFunc
 Search $object insinde $area
 #ce
 Func Search($area,$object)
-
 	If Go_to_area($area) == -1 Then
 		Return -1
 	EndIf
@@ -219,9 +218,6 @@ Func Search($area,$object)
 
 	Local $found
 	If Not @error Then
-		;MouseMove($pos[0], $pos[1])
-		;MsgBox(0,"", $hObject[0] & " at " & $pos[0] & ", " & $pos[1] &" " &$pos[2]  & " pixel detected." )
-		;Exit
 		Write_log("Seems like " & $hObject[0] & ", " & $pos[2] & " pixel detected.")
 		MouseClick($MOUSE_CLICK_LEFT,$pos[0],$pos[1])
 		$found = 1
@@ -294,7 +290,7 @@ Func Object_color($n)
 			Local $face   = [0xA37053,0xA97051,0xA27050,0xA26D4D]
 			Local $return = ["Odin", $face]
 		Case $n = 99
-			Local $face   = [0xFF6600,0xFF7700,0xFF8500,0xFF5700,0xFF8700]
+			Local $face   = [0xFF6600,0xFF7700,0xFF8700,0xFF5700]
 			Local $return = ["Loot", $face]
 	EndSelect
 	Return $return
@@ -509,4 +505,30 @@ Func Dbg_print_mean($x1, $y1, $x2, $y2)
 				GUICtrlSetData($display,"Red" & $mean[0] & " G" & $mean[1] & " B" &  $mean[2])
         EndSelect
     WEnd
+EndFunc
+
+#cs
+Debug mode for search() function
+#ce
+Func Dbg_search($area,$object)
+	If Go_to_area($area) == -1 Then
+		MsgBox(0, "Error", "Area can't be decided")
+		Exit
+	EndIf
+	Duel_world_exclude_area($area)
+
+	Local $found
+	Local $hObject = Object_color($object)
+	FFAddColor($hObject[1])
+	Local $pos  = FFBestSpot(10,7,16,632, 488,-1,2)
+
+	If Not @error Then
+		Move($pos[0], $pos[1])
+		MsgBox(0,"", $hObject[0] & " at " & $pos[0] & ", " & $pos[1] &" " &$pos[2]  & " pixel detected." )
+	Else
+		MsgBox(0,"", "Not found" )
+	EndIf
+	FFResetColors()
+	FFResetExcludedAreas()
+	Exit
 EndFunc
