@@ -4,6 +4,7 @@
 #include "FastFind.au3"
 Global $title    = "[TITLE:Yu-Gi-Oh! DUEL LINKS]"
 Global $world = 0
+Global $timer = TimerInit()
 $FFWnd = _WinAPI_GetDesktopWindow()
 $winPos = WinGetPos($title)
 FFSetWnd($FFWnd)
@@ -21,13 +22,14 @@ Func Gate_duel($amount)
 	For $i = 0 To $amount Step 1
 		Do
 			Click(727, 341)
-			Wait_pixel(626, 743, 0xFFFFFF, 5000, "Legendary Duelist list")
+			Wait_pixel(626, 743, 0xFFFFFF, 10000, "Legendary Duelist list")
 			If Compare_pixel(607, 648, 0xFFFFFF) == 0 Then
 				Switch duel()
 					Case -1
 						Return
 				EndSwitch
 			EndIf
+			Sleep(200)
 		Until Compare_pixel(607, 648, 0xFFFFFF) == 1
 		Click(902, 372)
 	Next
@@ -112,7 +114,6 @@ EndFunc   ;==>Street_duel
 	Duel with Autowin Skipped duel cheat. Precondition is starting duel dialog.
 #ce
 Func duel()
-	Local $timer
 	Local $massage
 	Local $time_out
 
@@ -127,7 +128,7 @@ Func duel()
 		Write_log("Time out!")
 		Return -1
 	Else
-		Write_log(Round(TimerDiff($timer) / 1000, 1) & " s")
+		Write_log(time_s(TimerDiff($timer)) & " s")
 	EndIf
 
 	$massage = "Skipping duel and reward"
@@ -145,7 +146,7 @@ Func duel()
 		Sleep($time_out)
 		Exit
 	Else
-		Write_log(Round(TimerDiff($timer) / 1000, 1) & " s")
+		Write_log(time_s(TimerDiff($timer)) & " s")
 	EndIf
 
 	$massage = "Exit Dialouge"
@@ -164,7 +165,7 @@ Func duel()
 		Sleep($time_out)
 		Exit
 	Else
-		Write_log(Round(TimerDiff($timer) / 1000, 1) & " s")
+		Write_log(time_s(TimerDiff($timer)) & " s")
 	EndIf
 EndFunc   ;==>duel
 
@@ -410,7 +411,7 @@ EndFunc   ;==>Compare_pixel
 	with $massage text
 #ce
 Func Wait_pixel($x, $y, $color, $time_out, $massage)
-	Local $timer = TimerInit()
+	$timer = TimerInit()
 	While Compare_pixel($x, $y, $color) == 0 And (TimerDiff($timer) < $time_out)
 	WEnd
 	If TimerDiff($timer) >= $time_out Then
@@ -452,6 +453,13 @@ Func Duel_world_exclude_area($area)
 			AddExcludedArea(757, 428, 912, 648) ;left
 	EndSwitch
 EndFunc   ;==>Duel_world_exclude_area
+
+#cs
+	Return timer variabel in milisecond into second unit
+#ce
+Func time_s($time)
+	Return Round($time / 1000,1)
+EndFunc
 
 #cs
 	Check if point ($x,$y) in $area is excluded from search zone.

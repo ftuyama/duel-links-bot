@@ -35,9 +35,9 @@ Func gui()
 				Global $rad_gd = GUICtrlCreateRadio("Gate duel", 300, 90)
 				GUICtrlSetState($rad_sd, $GUI_CHECKED)
 
-			Global $but_duel = GUICtrlCreateButton("    It's time To DUEL    ", 10, 370)
+			Global $but_duel = GUICtrlCreateButton("    It's time To DUEL    ", 4, 370)
 
-			Global $l_status = GUICtrlCreateLabel("Duellink status: Stopped",270, 371)
+			Global $l_status = GUICtrlCreateLabel("Duellink status: Stopped",270, 383)
 
 		GUICtrlCreateTabItem("Hotkey")
 			GUICtrlCreateLabel("F9  : Pause/resume",5,25)
@@ -124,6 +124,7 @@ Func Hot_key()
 			$sPaused = Not $sPaused
 			Local $Informed = False
 			While $sPaused
+				$timer = TimerInit()
 				If Not $Informed Then
 					Write_log("Bot Paused.")
 					$Informed = True
