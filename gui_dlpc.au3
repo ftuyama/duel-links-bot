@@ -10,7 +10,6 @@
 
 Global $nMsg = ""
 Global $duel_mode = 0
-Global $sPaused = False
 
 gui()
 
@@ -45,7 +44,12 @@ Func gui()
 
 		GUICtrlCreateTabItem("Setting")
 			GUICtrlCreateGroup("Street Duel",5, 25,170,40)
+				GUIStartGroup()
+				Global $cLoop = GUICtrlCreateCheckbox("Loop area", 13,40)
+				GUICtrlSetState($cLoop, $GUI_CHECKED)
+
 			GUICtrlCreateGroup("Gate Duel",5, 75,170,40)
+				GUIStartGroup()
 
 		GUICtrlCreateTabItem("Help")
 			Local $nHelp = "\help.txt"
@@ -78,6 +82,8 @@ Func gui()
 				$world = 0
 			Case $rad_world1
 				$world = 1
+			Case $cLoop
+				$Loop = True
 		EndSwitch
 
 		If WinExists($title) Then

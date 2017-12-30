@@ -2,9 +2,11 @@
 #include <AutoItConstants.au3>
 #include <WinAPI.au3>
 #include "FastFind.au3"
-Global $title    = "[TITLE:Yu-Gi-Oh! DUEL LINKS]"
+Global $title = "[TITLE:Yu-Gi-Oh! DUEL LINKS]"
 Global $world = 0
 Global $timer = TimerInit()
+Global $Loop = True
+Global $sPaused = False
 $FFWnd = _WinAPI_GetDesktopWindow()
 $winPos = WinGetPos($title)
 FFSetWnd($FFWnd)
@@ -49,7 +51,6 @@ Func Street_duel($world, $start_area)
 			Write_log("Yu-Gi-Oh Gx World selected")
 	EndSelect
 
-	Local $area_loop = 0
 	For $area = $start_area To 3 Step 1
 		Do
 			Switch Search($area, 99)
@@ -84,27 +85,17 @@ Func Street_duel($world, $start_area)
 
 					Sleep(700)
 					If Compare_pixel(638, 600, 0xFFFFFF) == 1 Then
-						Write_log('Duel beacon, its over')
+						Write_log('Duel beacon, Standard duelist depleted.')
 						Click(646, 575)
 						Sleep(500)
-						Return
 					EndIf
 					$char = 0
 			EndSwitch
 		Next
 		Write_log("No one here.")
 
-		If (Compare_pixel(436, 72, 0xFFFFFF) == 1) And ($area == 3) Then
-			Write_log("There is still standard duelist.")
-			Write_log("Go back to gate area")
-			$area = -1 ; next iteration(Foor loop in 55) will make $area = $area+1 = -1+1 =0
-			$area_loop += 1
-			If $area_loop == 2 Then
-				Write_log("Already done " & $area_loop & " loop(s), ")
-				Write_log("But can't find last standard duelist.")
-				Write_log("Terminating Street Duel Function.")
-				Return
-			EndIf
+		If $Loop And $area == 3 Then
+			$area = 0
 		EndIf
 	Next
 	Return
@@ -458,8 +449,8 @@ EndFunc   ;==>Duel_world_exclude_area
 	Return timer variabel in milisecond into second unit
 #ce
 Func time_s($time)
-	Return Round($time / 1000,1)
-EndFunc
+	Return Round($time / 1000, 1)
+EndFunc   ;==>time_s
 
 #cs
 	Check if point ($x,$y) in $area is excluded from search zone.

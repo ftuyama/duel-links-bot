@@ -1,1 +1,4 @@
 https://github.com/AchmadFathoni/Duellink-PC-Bot
+
+Street Duel
+-Loop area: Bot will back to Gate Area after Studio Area
