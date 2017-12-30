@@ -27,7 +27,10 @@ Func Gate_duel($amount)
 			Click(727, 341)
 			Wait_pixel(626, 743, 0xFFFFFF, 5000, "Legendary Duelist list")
 			if  Compare_pixel(607, 648,0xFFFFFF) == 0 Then
-				duel()
+				Switch duel()
+					Case -1
+						Return
+				EndSwitch
 			EndIf
 		Until Compare_pixel(607, 648,0xFFFFFF) == 1
 		Click(902, 372)
@@ -81,7 +84,7 @@ Func Street_duel($world,$start_area)
 						EndIf
 					EndIf
 
-					Sleep(1000)
+					Sleep(700)
 					If Compare_pixel(638, 600, 0xFFFFFF) == 1 Then
 						Write_log('Duel beacon, its over')
 						Click(646, 575)
@@ -96,7 +99,7 @@ Func Street_duel($world,$start_area)
 		If (Compare_pixel(436, 72, 0xFFFFFF) == 1) And ($area == 3) Then
 			Write_log("There is still standard duelist.")
 			Write_log("Go back to gate area")
-			$area = -1 ; next iteration will make $area == 0 true.
+			$area = -1 ; next iteration(Foor loop in 55) will make $area = $area+1 = -1+1 =0
 			$area_loop += 1
 			If $area_loop == 2 Then
 				Write_log("Can't Find last standard duelist.")
@@ -117,20 +120,16 @@ Func duel()
 
 	$massage = "Starting duel"
 	Write_log($massage)
-	$time_out = 5000
+	$time_out = 10000
 	$timer =  TimerInit()
 	While Compare_pixel(640, 103,0x0) == 0 And (TimerDiff($timer)<$time_out)
 		Click(600, 653);
 	WEnd
 	If TimerDiff($timer) >= $time_out Then
-		$time_out = 5000
 		Write_log("Time out!")
-		Write_log("Exit in " & $time_out/1000 & " s")
-		Sleep($time_out)
-		Exit
+		Return -1
 	Else
-		Write_log(Round(TimerDiff($timer)/1000,1) & " s")
-	EndIf
+		Write_log(Round(TimerDiff($timer)/1000,1) & " s")\	EndIf
 
 	$massage = "Skipping duel and reward"
 	Write_log($massage)

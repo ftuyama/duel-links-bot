@@ -73,3 +73,12 @@ Func duel_bot()
 			Gate_duel(10)
 	EndSwitch
 EndFunc
+
+Func Create_log()
+	$log  = GUICtrlCreateEdit("",10, 10, 200, 330)
+EndFunc
+
+Func Clear_log()
+	GUICtrlDelete($log)
+	Create_log()
+EndFunc
