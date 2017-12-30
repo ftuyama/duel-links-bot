@@ -105,6 +105,7 @@ Func Street_duel($world, $start_area)
 			EndIf
 		EndIf
 	Next
+	Return
 EndFunc   ;==>Street_duel
 
 #cs

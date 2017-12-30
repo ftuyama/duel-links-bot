@@ -10,6 +10,7 @@
 
 Global $nMsg = ""
 Global $duel_mode = 0
+Global $sPaused = False
 
 gui()
 
@@ -43,6 +44,8 @@ Func gui()
 			GUICtrlCreateLabel("F10: Terminate",5,40)
 
 		GUICtrlCreateTabItem("Setting")
+			GUICtrlCreateGroup("Street Duel",5, 25,170,40)
+			GUICtrlCreateGroup("Gate Duel",5, 75,170,40)
 
 		GUICtrlCreateTabItem("Help")
 			Local $nHelp = "\help.txt"
@@ -54,6 +57,9 @@ Func gui()
 			EndIf
 
 	GUICtrlCreateTabItem("")
+
+	HotKeySet("{F9}", "Hot_key")
+	HotKeySet("{F10}", "Hot_key")
 
 	GUISetState(@SW_SHOW)
 	WinSetOnTop($hGui,'',$WINDOWS_ONTOP)
@@ -110,4 +116,26 @@ EndFunc
 Func Clear_log()
 	GUICtrlDelete($log)
 	Create_log()
+EndFunc
+
+Func Hot_key()
+	Switch @HotKeyPressed
+		Case "{F9}"
+			$sPaused = Not $sPaused
+			Local $Informed = False
+			While $sPaused
+				If Not $Informed Then
+					Write_log("Bot Paused.")
+					$Informed = True
+				EndIf
+				Sleep(100)
+			WEnd
+			If Not $sPaused  And $Informed Then
+				Write_log("Bot resume.")
+			EndIf
+		Case "{F10}"
+			Write_log("Bot terminated.")
+			Sleep(1000)
+			Exit
+	EndSwitch
 EndFunc
