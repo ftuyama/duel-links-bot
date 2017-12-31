@@ -241,7 +241,7 @@ Func Object_color($n)
 			Local $face = [0xEECCBB]
 			Local $return = ["Ashley", $face]
 		Case $n = 7
-			Local $face = [0xE5C399, 0x8B312C, 0xBE4545, 0xE8C699, 0xBD4545] ;
+			Local $face = [0xE5C399, 0xDFC599, 0xE6C399, 0xE8C699, 0xE5C499,0xE5BEA1] ;
 			Local $return = ["Vagabond", $face]
 		Case $n = 8
 			Local $face = [0xEECA9B, 0xEEC3A4, 0xEEC3A1, 0xEBC6A0, 0xEECB9D, 0xEEBE9E, 0x664744]
