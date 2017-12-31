@@ -74,7 +74,7 @@ Func Street_duel($world, $start_area)
 					Return
 				Case 1
 					duel()
-					Sleep(500)
+					Sleep(200)
 					If Compare_pixel(637, 394, 0xFFFFFF) == 1 Then
 						Write_log('Collect fragments')
 						Click(642, 425)
@@ -207,7 +207,7 @@ Func Search($area, $object)
 	Local $found
 	If Not @error Then
 		Write_log("Seems like " & $hObject[0] & ", " & $pos[2] & " pixel detected.")
-		MouseClick($MOUSE_CLICK_LEFT, $pos[0], $pos[1])
+		MouseClick($MOUSE_CLICK_LEFT, $pos[0], $pos[1],2)
 		$found = 1
 	Else
 		$found = 0
@@ -292,7 +292,7 @@ EndFunc   ;==>Object_color
 #ce
 Func Move($x, $y)
 	$winPos = WinGetPos($title)
-	MouseMove($x + $winPos[0], $y + $winPos[1])
+	MouseMove($x + $winPos[0], $y + $winPos[1],0)
 EndFunc   ;==>Move
 
 #cs
@@ -300,7 +300,7 @@ EndFunc   ;==>Move
 #ce
 Func Click($x, $y)
 	$winPos = WinGetPos($title)
-	MouseClick($MOUSE_CLICK_LEFT, $x + $winPos[0], $y + $winPos[1], 1, 5)
+	MouseClick($MOUSE_CLICK_LEFT, $x + $winPos[0], $y + $winPos[1], 1, 0)
 EndFunc   ;==>Click
 
 #cs
