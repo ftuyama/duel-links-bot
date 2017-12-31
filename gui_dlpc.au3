@@ -11,6 +11,7 @@
 
 Global $nMsg = ""
 Global $duel_mode = 0
+Global $OnTop = True
 
 gui()
 
@@ -44,12 +45,17 @@ Func gui()
 			GUICtrlCreateLabel("F10: Terminate",5,40)
 
 		GUICtrlCreateTabItem("Setting")
-			GUICtrlCreateGroup("Street Duel",5, 25,170,40)
+			GUICtrlCreateGroup("General",5, 25,170,40)
 				GUIStartGroup()
-				Global $cLoop = GUICtrlCreateCheckbox("Loop area", 13,40)
+				Global $cOnTop = GUICtrlCreateCheckbox("Always on top", 13,40)
+				GUICtrlSetState($cOnTop, $GUI_CHECKED)
+
+			GUICtrlCreateGroup("Street Duel",5, 75,170,40)
+				GUIStartGroup()
+				Global $cLoop = GUICtrlCreateCheckbox("Loop area", 13,90)
 				GUICtrlSetState($cLoop, $GUI_CHECKED)
 
-			GUICtrlCreateGroup("Gate Duel",5, 75,170,40)
+			GUICtrlCreateGroup("Gate Duel",5, 125,170,40)
 				GUIStartGroup()
 
 		GUICtrlCreateTabItem("Help")
@@ -67,10 +73,15 @@ Func gui()
 	HotKeySet("{F10}", "Hot_key")
 
 	GUISetState(@SW_SHOW)
-	WinSetOnTop($hGui,'',$WINDOWS_ONTOP)
 	While 1
 		If Control_gui(GUIGetMsg()) == -1 Then
 			ExitLoop
+		EndIf
+
+		If $OnTop Then
+			WinSetOnTop($hGui,'',  $WINDOWS_ONTOP)
+		Else
+			WinSetOnTop($hGui,'',  $WINDOWS_NOONTOP)
 		EndIf
 
 		If WinExists($title) Then
@@ -155,6 +166,12 @@ Func Control_gui($nMsg)
 					$Loop = True
 				Else
 					$Loop = false
+				EndIf
+			Case $cOnTop
+				if _IsChecked($cOnTop) Then
+					$OnTop = True
+				Else
+					$OnTop = false
 				EndIf
 		EndSwitch
 EndFunc

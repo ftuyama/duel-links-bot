@@ -5,7 +5,7 @@
 Global $title = "[TITLE:Yu-Gi-Oh! DUEL LINKS]"
 Global $world = 0
 Global $timer = TimerInit()
-Global $Loop = True
+Global $Loop  = True
 Global $sPaused = False
 $FFWnd = _WinAPI_GetDesktopWindow()
 $winPos = WinGetPos($title)
