@@ -53,7 +53,8 @@ Func Street_duel($world, $start_area)
 
 	For $area = $start_area To 3 Step 1
 		Do
-			Switch Search($area, 99)
+			Local $hSearch = Search($area, 99)
+			Switch $hSearch
 				Case -1
 					Return
 				Case 1
@@ -62,9 +63,9 @@ Func Street_duel($world, $start_area)
 					Wait_pixel(469, 303, 0xFFFFFF, 5000, $massage)
 					Write_log($massage)
 					Click(640, 470)
-					Sleep(1000)
+					Sleep(500)
 			EndSwitch
-		Until Search($area, 99) == 0
+		Until $hSearch == 0
 		Write_log("Area is clear from loot")
 
 		For $char = 0 To UBound($duelist) - 1 Step 1
@@ -374,18 +375,21 @@ Func Go_to_area($des_area)
 			Case $des_area = 0
 				Click(463, 722)
 				$massage = "Go to Gate area"
+				Sleep(1000)
 			Case $des_area = 1
 				Click(592, 721)
 				$massage = "Go to Duel area"
+				Sleep(1000)
 			Case $des_area = 2
 				Click(710, 722)
 				$massage = "Go to Shop area"
+				Sleep(1000)
 			Case $des_area = 3
 				Click(835, 722)
 				$massage = "Go to Studio area"
+				Sleep(1000)
 		EndSelect
 		Write_log($massage)
-		Sleep(1000)
 	EndIf
 EndFunc   ;==>Go_to_area
 
