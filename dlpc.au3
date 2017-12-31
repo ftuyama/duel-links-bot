@@ -2,6 +2,7 @@
 #include <AutoItConstants.au3>
 #include <WinAPI.au3>
 #include "FastFind.au3"
+
 Global $title = "[TITLE:Yu-Gi-Oh! DUEL LINKS]"
 Global $world = 0
 Global $timer = TimerInit()
@@ -11,11 +12,7 @@ $FFWnd = _WinAPI_GetDesktopWindow()
 $winPos = WinGetPos($title)
 FFSetWnd($FFWnd)
 
-;Street_duel(0,0)
-;Dbg_print_color(759,439)
-;Dbg_excluded(504, 522,0)
-;Gate_duel(10)
-;--------------------------------------------------------------
+
 #cs
 	Duel as many as $amount Legendary duelists
 #ce
@@ -375,20 +372,21 @@ Func Go_to_area($des_area)
 			Case $des_area = 0
 				Click(463, 722)
 				$massage = "Go to Gate area"
-				Sleep(1000)
+				Sleep(800)
 			Case $des_area = 1
 				Click(592, 721)
 				$massage = "Go to Duel area"
-				Sleep(1000)
+				Sleep(800)
 			Case $des_area = 2
 				Click(710, 722)
 				$massage = "Go to Shop area"
-				Sleep(1000)
+				Sleep(800)
 			Case $des_area = 3
 				Click(835, 722)
 				$massage = "Go to Studio area"
-				Sleep(1000)
+				Sleep(800)
 		EndSelect
+		Sleep(200)
 		Write_log($massage)
 	EndIf
 EndFunc   ;==>Go_to_area
@@ -442,6 +440,10 @@ Func Duel_world_exclude_area($area)
 			AddExcludedArea(716, 549, 669, 648) ;card trader
 			AddExcludedArea(371, 358, 469, 687) ;left
 			AddExcludedArea(445, 521, 501, 687) ;bottom left flower
+			Switch $world
+				Case 1
+					AddExcludedArea(460, 426,570, 461)
+			EndSwitch
 		Case 3
 			Switch $world
 				Case 0
@@ -512,7 +514,8 @@ EndFunc   ;==>Dbg_print_mean
 #cs
 	Debug mode for search() function
 #ce
-Func Dbg_search($area, $object)
+Func Dbg_search($world_in, $area, $object)
+	$world = $world_in
 	If Go_to_area($area) == -1 Then
 		MsgBox(0, "Error", "Area can't be decided")
 		Exit
@@ -525,7 +528,7 @@ Func Dbg_search($area, $object)
 	Local $pos = FFBestSpot(10, 7, 16, 632, 488, -1, 2)
 
 	If Not @error Then
-		Move($pos[0], $pos[1])
+		MouseClick($MOUSE_CLICK_LEFT, $pos[0], $pos[1],2)
 		MsgBox(0, "", $hObject[0] & " at " & $pos[0] & ", " & $pos[1] & " " & $pos[2] & " pixel detected.")
 	Else
 		MsgBox(0, "", "Not found")

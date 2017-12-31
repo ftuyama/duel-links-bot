@@ -14,7 +14,12 @@ Global $duel_mode = 0
 Global $OnTop = True
 
 gui()
-
+;Dbg_search(1,1,6)
+;Street_duel(0,0)
+;Dbg_print_color(759,439)
+;Dbg_excluded(504, 522,0)
+;Gate_duel(10)
+;-------------------------------------------------------------------
 Func gui()
 	Local $window_status = 0
 	Global $hGui = GUICreate("Duellink Bot For PC",400, 400, 10, 20)
