@@ -1,5 +1,5 @@
 # Duellink-PC-Bot
-Simple bot with GUI using Autoit languange for farming Duellink PC. This is active project and I check it daily.
+Simple bot with GUI using Autoit languange for farming Duellink PC. 
 
 **Feature**  
   - Gate duel: duel any available legendary duelist in the gate. You must set key amount manually
