@@ -428,7 +428,7 @@ Func Duel_world_exclude_area($area)
 	AddExcludedArea(913, 0, 1286, 749) ;right pane
 	AddExcludedArea(372, 0, 914, 405) ;top pane
 	AddExcludedArea(372, 653, 914, 749) ;bottom pane
-	AddExcludedArea(764, 490, 914, 653) ;character pane
+	AddExcludedArea(764, 480, 914, 653) ;character pane
 	Switch $area
 		Case 0
 			AddExcludedArea(371, 357, 565, 506) ;duel school
@@ -507,7 +507,7 @@ Func Dbg_print_mean($x1, $y1, $x2, $y2)
 				SnapShot($x1, $y1, $x2, $y2)
 				$mean = FFComputeMeanValues()
 				GUICtrlSetData($display, "Red" & $mean[0] & " G" & $mean[1] & " B" & $mean[2])
-		EndSelect
+		 EndSelect
 	WEnd
 EndFunc   ;==>Dbg_print_mean
 

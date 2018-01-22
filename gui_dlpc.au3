@@ -14,7 +14,7 @@ Global $duel_mode = 0
 Global $OnTop = True
 
 gui()
-;Dbg_search(1,1,6)
+;Dbg_search(0,0,16)
 ;Street_duel(0,0)
 ;Dbg_print_color(759,439)
 ;Dbg_excluded(504, 522,0)
