@@ -9,15 +9,13 @@ Simple bot with GUI using Autoit languange for farming Duellink PC.
 
 1. Install
   - Install Duellink PC from Steam
-  - Download Autowin cheat  
-    for now, this farm bot only compatible with Autowin  and skip PVE cheat for Duellink PC via Steam from [conom.org](http://conom.org/). Read carefully
+  - Download Autowin cheat from [here](https://ex.in.th)
+    for now, this farm bot only compatible with Autowin  and skip PVE cheat for Duellink PC via Steam from that site. Read carefully
     and follow necessary step on that link
   - Install Autoit with full installation mode. You can get it in [here](https://www.autoitscript.com/site/autoit/downloads/)
-  - Donwload and install Advanced Pixel Search Library for Autoit from [here](https://www.autoitscript.com/forum/topic/126430-advanced-pixel-search-library/), put all files inside your repository. There is a help file in there in case you are
-    interested.
 2. Configuration
   - Open *DuelLinksConfiguration.exe* in `C:\Program Files (x86)\Steam\steamapps\common\Yu-Gi-Oh! Duel Links`. Disable fullscreen and set resolution
-    to 800x450
+    to 1280x720
   - Make sure four area tabs in lower Duellink screen that lead to four different areas(gate, duel, card shop, card studio) is clearly visible. In my case
     I must hide the Windows Taskbar because its block Duellink's tab.
 
