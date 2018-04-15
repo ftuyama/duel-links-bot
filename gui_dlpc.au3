@@ -128,7 +128,7 @@ EndFunc
 Func duel_bot()
 	Switch $duel_mode
 		 Case 0
-			Street_duel($world, Get_area())
+			Street_duel($world, get_area(1))
 		 Case 1
 			Gate_duel(10)
 		 Case 2

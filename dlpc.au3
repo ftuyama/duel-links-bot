@@ -93,7 +93,6 @@ EndFunc
 #ce
 Func Gate_duel($amount)
    Go_to_area(0)
-   Write_log("Go to gate area.")
    For $i = 0 To $amount Step 1
 	  Click(727, 341)
 	  Write_log("Click duel gate.")
@@ -103,11 +102,11 @@ Func Gate_duel($amount)
 			Case -1
 			   Return
 		 EndSwitch
-		 Sleep(200)
 	  Else
 		 Write_log("Color key depleted")
 		 Click(902, 372);next legendary duelist
 	  EndIf
+	  Sleep(200)
    Next
 EndFunc   ;==>Gate_duel
 
@@ -221,7 +220,7 @@ Func duel()
 	Write_log($massage)
 	$time_out = 20000
 	$timer = TimerInit()
-	While Compare_pixel(897, 666, 0xFFFFFF) == 0 And (TimerDiff($timer) < $time_out)
+	While (TimerDiff($timer) < $time_out) And (get_area(0) == -1)
 		Click(644, 708) ;
 		Sleep(500)
 	WEnd
@@ -409,7 +408,7 @@ EndFunc   ;==>AddExcludedArea
 	2:Shop
 	3:Studio
 #ce
-Func Get_area()
+Func get_area($mode)
 	SnapShot(372, 698, 914, 745)
 	Local $pos = FFBestSpot(7, 4, 9, 655 + $winPos[0], 721 + $winPos[1], 0x001AFF, 10, False)
 	If Not @error Then
@@ -428,17 +427,21 @@ Func Get_area()
 		Return $area
 		;MsgBox(0, "Area", $area & " at " &$pos[0]&", "&$pos[1])
 	Else
-		Write_log("Area can't be decided.")
-		Write_log("Make sure four area tab is visible")
+		Switch $mode
+			Case 0
+			Case 1
+				Write_log("Area can't be decided.")
+				Write_log("Make sure four area tab is visible.")
+		EndSwitch
 		Return -1
 	EndIf
-EndFunc   ;==>Get_area
+EndFunc   ;==>get_area
 
 #cs
 	Go to $des_area
 #ce
 Func Go_to_area($des_area)
-	Local $cur_area = Get_area()
+	Local $cur_area = get_area(1)
 	If $cur_area <> $des_area Then
 		If $cur_area == -1 Then
 			Return -1
