@@ -92,21 +92,23 @@ EndFunc
 	Duel as many as $amount Legendary duelists
 #ce
 Func Gate_duel($amount)
-	Go_to_area(0)
-	For $i = 0 To $amount Step 1
-		Do
-			Click(727, 341)
-			Wait_pixel(626, 743, 0xFFFFFF, 10000, "Legendary Duelist list")
-			If Compare_pixel(607, 648, 0xFFFFFF) == 0 Then
-				Switch duel()
-					Case -1
-						Return
-				EndSwitch
-			EndIf
-			Sleep(200)
-		Until Compare_pixel(607, 648, 0xFFFFFF) == 1
-		Click(902, 372)
-	Next
+   Go_to_area(0)
+   Write_log("Go to gate area.")
+   For $i = 0 To $amount Step 1
+	  Click(727, 341)
+	  Write_log("Click duel gate.")
+	  Wait_pixel(626, 743, 0xFFFFFF, 10000, "Legendary Duelist list")
+	  If Compare_pixel(498, 646, 0xFFFFFF) == 0 Then
+		 Switch duel()
+			Case -1
+			   Return
+		 EndSwitch
+		 Sleep(200)
+	  Else
+		 Write_log("Color key depleted")
+		 Click(902, 372);next legendary duelist
+	  EndIf
+   Next
 EndFunc   ;==>Gate_duel
 
 #cs
@@ -132,9 +134,9 @@ Func Street_duel($world, $start_area)
 				Case 1
 					Write_log("Loot detected")
 					$massage = "Recieve Rewards"
-					Wait_pixel(645, 272, 0xFFFFFF, 5000, $massage)
+					Wait_pixel(640, 262, 0xFFFFFF, 5000, $massage)
 					Write_log($massage)
-					Sleep(500)
+					Sleep(200)
 					Click(640, 470)
 					Sleep(500)
 			EndSwitch
@@ -371,7 +373,7 @@ EndFunc   ;==>Move
 #ce
 Func Click($x, $y)
 	$winPos = WinGetPos($title)
-	MouseClick($MOUSE_CLICK_LEFT, $x + $winPos[0], $y + $winPos[1], 1, 1)
+	MouseClick($MOUSE_CLICK_LEFT, $x + $winPos[0], $y + $winPos[1], 1, 5)
 EndFunc   ;==>Click
 
 #cs

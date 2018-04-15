@@ -15,6 +15,7 @@ Global $coin = 1000
 Global $OnTop = True
 
 gui()
+;Move(498, 646)
 ;Dbg_search(0,0,16)
 ;Street_duel(0,0)
 ;Dbg_print_color(759,439)
