@@ -84,7 +84,7 @@ Func Street_duel($world, $start_area)
 					Sleep(700)
 					If Compare_pixel(638, 600, 0xFFFFFF) == 1 Then
 						Write_log('Duel beacon, Standard duelist depleted.')
-						Click(646, 575)
+						Click(646, 625)
 						Sleep(500)
 					EndIf
 					$char = 0
@@ -435,7 +435,6 @@ Func Duel_world_exclude_area($area)
 		Case 1
 			AddExcludedArea(369, 389, 506, 684) ;left
 			AddExcludedArea(679, 394, 914, 665) ;right
-			AddExcludedArea(668, 465, 716, 549) ;street repaly
 		Case 2
 			AddExcludedArea(716, 549, 669, 648) ;card trader
 			AddExcludedArea(371, 358, 469, 687) ;left
