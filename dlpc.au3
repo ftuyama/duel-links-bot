@@ -84,7 +84,17 @@ Func Street_duel($world, $start_area)
 					Sleep(700)
 					If Compare_pixel(638, 600, 0xFFFFFF) == 1 Then
 						Write_log('Duel beacon, Standard duelist depleted.')
-						Click(646, 625)
+						Click(694, 472)
+
+						$massage = "Use Duel beacon"
+						Write_log($massage)
+						Wait_pixel(678, 347, 0xFFFFFF, 10000, $massage)
+						Click(745, 413)
+
+						$massage = "Confirm"
+						Write_log($massage)
+						Wait_pixel(488, 297, 0xFFFFFF, 10000, $massage)
+						Click(643, 443)
 						Sleep(500)
 					EndIf
 					$char = 0
@@ -428,6 +438,7 @@ Func Duel_world_exclude_area($area)
 	AddExcludedArea(913, 0, 1286, 749) ;right pane
 	AddExcludedArea(372, 0, 914, 405) ;top pane
 	AddExcludedArea(372, 653, 914, 749) ;bottom pane
+	AddExcludedArea(525, 626, 752, 689);Event fragment
 	AddExcludedArea(764, 480, 914, 653) ;character pane
 	Switch $area
 		Case 0
@@ -441,7 +452,7 @@ Func Duel_world_exclude_area($area)
 			AddExcludedArea(445, 521, 501, 687) ;bottom left flower
 			Switch $world
 				Case 1
-					AddExcludedArea(460, 426,570, 461)
+					AddExcludedArea(460, 426,570, 461);river maybe
 			EndSwitch
 		Case 3
 			Switch $world
