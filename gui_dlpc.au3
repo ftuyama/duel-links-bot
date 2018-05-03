@@ -25,24 +25,32 @@ Func gui()
 	Global $hGui = GUICreate("Duellink Bot For PC",400, 400, 10, 20)
 
 	GUICtrlCreateTab(0,0,400,400)
-		GUICtrlCreateTabItem("Duel")
+		GUICtrlCreateTabItem("Bot")
 			Global $log  = GUICtrlCreateEdit("",5, 25, 210, 340)
 				write_log("Make sure you are already log in.")
 
-			GUICtrlCreateGroup("World",220, 25,170,40)
-				GUIStartGroup()
-				Global $rad_world0 = GUICtrlCreateRadio("Yu-Gi-Oh", 225,40)
-				Global $rad_world1 = GUICtrlCreateRadio("Yu-Gi-Oh GX", 300, 40)
-				GUICtrlSetState($rad_world0, $GUI_CHECKED)
+			Local $x = 225
+			Local $y= 60
+			GUICtrlCreateGroup("Duel",$x-5, 25,170,80)
 
-			GUICtrlCreateGroup("Duel Mode",220, 75,170,40)
-				GUIStartGroup()
-				Global $rad_sd = GUICtrlCreateRadio("Street duel", 225, 90)
-				Global $rad_gd = GUICtrlCreateRadio("Gate duel", 300, 90)
-				GUICtrlSetState($rad_sd, $GUI_CHECKED)
+			   GUIStartGroup()
+			   Global $duel_enable = GUICtrlCreateCheckbox("Enable",$x,$y-20)
+			   GUICtrlSetState($duel_enable, $GUI_CHECKED )
+			   Global $rad_world0 = GUICtrlCreateRadio("Yu-Gi-Oh", $x,$y)
+			   GUICtrlSetState($rad_world0, $GUI_CHECKED )
+			   Global $rad_world1 = GUICtrlCreateRadio("Yu-Gi-Oh GX", $x+75, $y)
 
-			Global $but_duel = GUICtrlCreateButton("    It's time To DUEL    ", 4, 370)
+			   GUIStartGroup()
+			   Global $rad_sd = GUICtrlCreateRadio("Street duel", $x, $y+20)
+			   GUICtrlSetState($rad_sd, $GUI_CHECKED )
+			   Global $rad_gd = GUICtrlCreateRadio("Gate duel", $x+75, $y+20)
 
+			GUICtrlCreateGroup("Battle City Showdown",$x-5, 125,170,60)
+			   GUIStartGroup()
+			   Global $event_enable = GUICtrlCreateCheckbox("Enable",$x,$y+80)
+			   Global $rad_dt = GUICtrlCreateRadio("Devine trial", $x, $y+100)
+
+			Global $but_duel = GUICtrlCreateButton("It's time to DUEL", 4, 370)
 			Global $l_status = GUICtrlCreateLabel("Duellink status: Stopped",270, 383)
 
 		GUICtrlCreateTabItem("Hotkey")
@@ -71,7 +79,6 @@ Func gui()
 			Else
 				Local $lHelp = GUICtrlCreateLabel(FileRead($hFileOpen),5,25,Default,Default,0x0000)
 			EndIf
-
 	GUICtrlCreateTabItem("")
 
 	HotKeySet("{F9}", "Hot_key")
@@ -116,6 +123,8 @@ Func duel_bot()
 			Street_duel($world, 0)
 		Case 1
 			Gate_duel(10)
+	    Case 2
+			devine_trial()
 	EndSwitch
 EndFunc
 
@@ -156,15 +165,31 @@ Func Control_gui($nMsg)
 		Switch $nMsg
 			Case $GUI_EVENT_CLOSE
 				Return -1
+			Case $duel_enable
+			   GUICtrlSetState($rad_sd, $GUI_ENABLE)
+			   GUICtrlSetState($rad_gd, $GUI_ENABLE)
+			   GUICtrlSetState($rad_world0, $GUI_ENABLE)
+			   GUICtrlSetState($rad_world1, $GUI_ENABLE)
+
+			   GUICtrlSetState($rad_dt, $GUI_DISABLE)
+			Case $event_enable
+			   GUICtrlSetState($rad_sd, $GUI_DISABLE)
+			   GUICtrlSetState($rad_gd, $GUI_DISABLE)
+			   GUICtrlSetState($rad_world0, $GUI_DISABLE)
+			   GUICtrlSetState($rad_world1, $GUI_DISABLE)
+
+			   GUICtrlSetState($rad_dt, $GUI_ENABLE)
 			Case $but_duel
 				duel_bot()
 			Case $rad_sd
 				$duel_mode = 0
 			Case $rad_gd
 				$duel_mode = 1
+			 Case $rad_dt
+			   $duel_mode = 2
 			Case $rad_world0
 				$world = 0
-			Case $rad_world1
+			 Case $rad_world1
 				$world = 1
 			Case $cLoop
 				if _IsChecked($cLoop) Then

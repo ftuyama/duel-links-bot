@@ -12,6 +12,50 @@ $FFWnd = _WinAPI_GetDesktopWindow()
 $winPos = WinGetPos($title)
 FFSetWnd($FFWnd)
 
+#cs
+   Devine Trial
+#ce
+Func devine_trial()
+   $massage = "Go to battle city"
+   Click(650, 672)
+   Wait_pixel(812, 652, 0x9056D0, 5000, $massage)
+   Write_log($massage)
+
+   while 1
+	  Local $massage = "Click support item"
+
+	  Write_log($massage)
+	  $time_out = 50000
+	  $timer = TimerInit()
+	  While Compare_pixel(752, 236, 0x083280) == 0 And (TimerDiff($timer) < $time_out)
+		 Click(807, 650)
+		 Sleep(500)
+	  WEnd
+	  If TimerDiff($timer) >= $time_out Then
+		 $time_out = 5000
+		 Write_log("Time out!")
+		 Write_log("Exit in " & $time_out / 1000 & " s")
+		 Sleep($time_out)
+		 Exit
+	  Else
+		 Write_log(time_s(TimerDiff($timer)) & " s")
+	  EndIf
+
+	  $massage = "Use define offering"
+	  Write_log($massage)
+	  Click(752, 236)
+	  Wait_pixel(731, 416, 0x052256, 5000, $massage)
+	  Write_log($massage)
+	  Click(731, 416)
+
+	  duel()
+
+	  $massage = "Collect Reward"
+	  Wait_pixel(641, 350, 0xA65200, 5000, $massage)
+	  Write_log($massage)
+	  Click(639, 492)
+   Wend
+EndFunc
 
 #cs
 	Duel as many as $amount Legendary duelists
@@ -76,7 +120,7 @@ Func Street_duel($world, $start_area)
 						Write_log('Collect fragments')
 						Click(642, 425)
 					Else
-						If Compare_pixel(646, 212, 0x042744) == 1 Then
+						If Compare_pixel(596, 427, 0x8C0606) == 1 Then
 							vagabond_challange()
 						EndIf
 					EndIf
@@ -173,28 +217,8 @@ EndFunc   ;==>duel
 	Vagabond introduce. Set second name in the list and choose one opening hand as challange
 #ce
 Func vagabond_challange()
-	Write_log('Vagabond Introduce')
-	Click(629, 319)
-
-	$massage = "Set Challenge"
-	Wait_pixel(681, 251, 0xFFFFFF, 2000, $massage)
-	Write_log($massage)
-	Click(638, 418)
-
-	$massage = "Choose One Opening Hand"
-	Wait_pixel(629, 403, 0x001118, 2000, $massage)
-	Write_log($massage)
-	Click(602, 516)
-
-	$massage = "Confirm"
-	Wait_pixel(681, 251, 0xFFFFFF, 2000, $massage)
-	Write_log($massage)
-	Click(733, 488)
-
-	$massage = "Exit extra dialouge"
-	Wait_pixel(823, 593, 0xFFFFFF, 2000, $massage)
-	Write_log($massage)
-	Click(634, 703)
+	Write_log('Decline to check oponent deck')
+	Click(552, 422)
 EndFunc   ;==>vagabond_challange
 
 #cs
@@ -307,7 +331,7 @@ EndFunc   ;==>Move
 #ce
 Func Click($x, $y)
 	$winPos = WinGetPos($title)
-	MouseClick($MOUSE_CLICK_LEFT, $x + $winPos[0], $y + $winPos[1], 1, 0)
+	MouseClick($MOUSE_CLICK_LEFT, $x + $winPos[0], $y + $winPos[1], 1, 2)
 EndFunc   ;==>Click
 
 #cs
@@ -445,7 +469,7 @@ Func Duel_world_exclude_area($area)
 			AddExcludedArea(371, 357, 565, 506) ;duel school
 		Case 1
 			AddExcludedArea(369, 389, 506, 684) ;left
-			AddExcludedArea(679, 394, 914, 665) ;right
+			AddExcludedArea(708, 394, 914, 665) ;right
 		Case 2
 			AddExcludedArea(716, 549, 669, 648) ;card trader
 			AddExcludedArea(371, 358, 469, 687) ;left
