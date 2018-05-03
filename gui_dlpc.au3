@@ -172,6 +172,9 @@ Func Control_gui($nMsg)
 			   GUICtrlSetState($rad_world1, $GUI_ENABLE)
 
 			   GUICtrlSetState($rad_dt, $GUI_DISABLE)
+
+			   GUICtrlSetState($event_enable, $GUI_UNCHECKED)
+			   GUICtrlSetState($rad_dt, $GUI_UNCHECKED)
 			Case $event_enable
 			   GUICtrlSetState($rad_sd, $GUI_DISABLE)
 			   GUICtrlSetState($rad_gd, $GUI_DISABLE)
@@ -179,6 +182,12 @@ Func Control_gui($nMsg)
 			   GUICtrlSetState($rad_world1, $GUI_DISABLE)
 
 			   GUICtrlSetState($rad_dt, $GUI_ENABLE)
+
+			   GUICtrlSetState($duel_enable, $GUI_UNCHECKED)
+			   GUICtrlSetState($rad_sd, $GUI_UNCHECKED)
+			   GUICtrlSetState($rad_gd, $GUI_UNCHECKED)
+			   GUICtrlSetState($rad_world0, $GUI_UNCHECKED)
+			   GUICtrlSetState($rad_world1, $GUI_UNCHECKED)
 			Case $but_duel
 				duel_bot()
 			Case $rad_sd
