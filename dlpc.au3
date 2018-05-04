@@ -12,10 +12,37 @@ $FFWnd = _WinAPI_GetDesktopWindow()
 $winPos = WinGetPos($title)
 FFSetWnd($FFWnd)
 
+
+#cs
+#ce
+Func card_lottery($coin)
+	$massage = "Go to battle city"
+	Click(650, 672)
+	Wait_pixel(812, 652, 0x9056D0, 5000, $massage)
+	Write_log($massage)
+	Sleep(500)
+
+	Click(470, 630)
+	$massage = "Wait black box in Coin lottery"
+	Write_log($massage)
+	Wait_pixel(767, 623, 0x000000, 5000 ,$massage)
+   Sleep(500)
+
+   While Compare_pixel(808, 577, 0x6643DD) == 1 And Compare_pixel(804, 574, 0x4A4A4F) == 0
+	  Write_log("Draw")
+	  While Compare_pixel(500, 132, 0x112233) == 0
+		 Click(878, 585)
+	  Wend
+	  Sleep(100)
+	  Write_log("Claim reward")
+	  $coin = $coin - 300
+   Wend
+   Write_log("Coin depleted")
+EndFunc
 #cs
    Devine Trial
 #ce
-Func devine_trial()
+Func divine_trial()
    $massage = "Go to battle city"
    Click(650, 672)
    Wait_pixel(812, 652, 0x9056D0, 5000, $massage)
@@ -27,9 +54,8 @@ Func devine_trial()
 	  Write_log($massage)
 	  $time_out = 50000
 	  $timer = TimerInit()
-	  While Compare_pixel(752, 236, 0x083280) == 0 And (TimerDiff($timer) < $time_out)
+	  While Compare_pixel(644, 126, 0xFFFFFF) == 0 And (TimerDiff($timer) < $time_out)
 		 Click(807, 650)
-		 Sleep(500)
 	  WEnd
 	  If TimerDiff($timer) >= $time_out Then
 		 $time_out = 5000
@@ -41,12 +67,16 @@ Func devine_trial()
 		 Write_log(time_s(TimerDiff($timer)) & " s")
 	  EndIf
 
-	  $massage = "Use define offering"
+	  $massage = "Use divine offering"
 	  Write_log($massage)
+	  Sleep(300)
 	  Click(752, 236)
-	  Wait_pixel(731, 416, 0x052256, 5000, $massage)
+
+	  $massage = "Ok!"
+	  Wait_pixel(630, 306, 0xFFFFFF, 5000, $massage)
 	  Write_log($massage)
-	  Click(731, 416)
+	  Sleep(500)
+	  Click(732, 433)
 
 	  duel()
 
@@ -101,10 +131,9 @@ Func Street_duel($world, $start_area)
 				Case 1
 					Write_log("Loot detected")
 					$massage = "Recieve Rewards"
-					Wait_pixel(469, 303, 0xFFFFFF, 5000, $massage)
+					Wait_pixel(645, 272, 0xFFFFFF, 5000, $massage)
 					Write_log($massage)
 					Click(640, 470)
-					Sleep(500)
 			EndSwitch
 		Until $hSearch == 0
 		Write_log("Area is clear from loot")
@@ -331,7 +360,7 @@ EndFunc   ;==>Move
 #ce
 Func Click($x, $y)
 	$winPos = WinGetPos($title)
-	MouseClick($MOUSE_CLICK_LEFT, $x + $winPos[0], $y + $winPos[1], 1, 2)
+	MouseClick($MOUSE_CLICK_LEFT, $x + $winPos[0], $y + $winPos[1], 1, 0)
 EndFunc   ;==>Click
 
 #cs
@@ -449,7 +478,6 @@ Func Wait_pixel($x, $y, $color, $time_out, $massage)
 		MsgBox($MB_ICONERROR, "Error", "Timeout " & $massage)
 		Exit
 	EndIf
-	Sleep(500)
 EndFunc   ;==>Wait_pixel
 
 #cs

@@ -11,6 +11,7 @@
 
 Global $nMsg = ""
 Global $duel_mode = 0
+Global $coin = 1000
 Global $OnTop = True
 
 gui()
@@ -45,10 +46,13 @@ Func gui()
 			   GUICtrlSetState($rad_sd, $GUI_CHECKED )
 			   Global $rad_gd = GUICtrlCreateRadio("Gate duel", $x+75, $y+20)
 
-			GUICtrlCreateGroup("Battle City Showdown",$x-5, 125,170,60)
+			GUICtrlCreateGroup("Battle City Showdown",$x-5, $y+45,170,80)
 			   GUIStartGroup()
-			   Global $event_enable = GUICtrlCreateCheckbox("Enable",$x,$y+80)
-			   Global $rad_dt = GUICtrlCreateRadio("Devine trial", $x, $y+100)
+			   Global $event_enable = GUICtrlCreateCheckbox("Enable",$x,$y+60)
+			   Global $rad_dt = GUICtrlCreateRadio("Devine trial", $x, $y+80)
+			   GUICtrlSetState($rad_dt, $GUI_DISABLE)
+			   Global $rad_lo = GUICtrlCreateRadio("Card Lottery", $x, $y+100)
+			   GUICtrlSetState($rad_lo, $GUI_DISABLE)
 
 			Global $but_duel = GUICtrlCreateButton("It's time to DUEL", 4, 370)
 			Global $l_status = GUICtrlCreateLabel("Duellink status: Stopped",270, 383)
@@ -119,12 +123,14 @@ EndFunc
 
 Func duel_bot()
 	Switch $duel_mode
-		Case 0
+		 Case 0
 			Street_duel($world, 0)
-		Case 1
+		 Case 1
 			Gate_duel(10)
-	    Case 2
-			devine_trial()
+		 Case 2
+			divine_trial()
+		 Case 3
+			card_lottery($coin)
 	EndSwitch
 EndFunc
 
@@ -172,6 +178,7 @@ Func Control_gui($nMsg)
 			   GUICtrlSetState($rad_world1, $GUI_ENABLE)
 
 			   GUICtrlSetState($rad_dt, $GUI_DISABLE)
+			   GUICtrlSetState($rad_lo, $GUI_DISABLE)
 
 			   GUICtrlSetState($event_enable, $GUI_UNCHECKED)
 			   GUICtrlSetState($rad_dt, $GUI_UNCHECKED)
@@ -182,6 +189,7 @@ Func Control_gui($nMsg)
 			   GUICtrlSetState($rad_world1, $GUI_DISABLE)
 
 			   GUICtrlSetState($rad_dt, $GUI_ENABLE)
+			   GUICtrlSetState($rad_lo, $GUI_ENABLE)
 
 			   GUICtrlSetState($duel_enable, $GUI_UNCHECKED)
 			   GUICtrlSetState($rad_sd, $GUI_UNCHECKED)
@@ -189,16 +197,18 @@ Func Control_gui($nMsg)
 			   GUICtrlSetState($rad_world0, $GUI_UNCHECKED)
 			   GUICtrlSetState($rad_world1, $GUI_UNCHECKED)
 			Case $but_duel
-				duel_bot()
+			   duel_bot()
 			Case $rad_sd
-				$duel_mode = 0
+			   $duel_mode = 0
 			Case $rad_gd
-				$duel_mode = 1
-			 Case $rad_dt
+			   $duel_mode = 1
+			Case $rad_dt
 			   $duel_mode = 2
+			Case $rad_lo
+			   $duel_mode = 3
 			Case $rad_world0
 				$world = 0
-			 Case $rad_world1
+			Case $rad_world1
 				$world = 1
 			Case $cLoop
 				if _IsChecked($cLoop) Then
