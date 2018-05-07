@@ -2,9 +2,12 @@
 Simple bot with GUI using Autoit languange for farming Duel Link/ Duellink PC Steam. Join [discord](https://discord.gg/hfg5jC)
 
 **Feature**  
-  - Gate duel: duel any available legendary duelist in the gate. You must set key amount manually
+  - Gate duel: duel any available legendary duelist in the gate.
   - Street duel: duel any duelist in the street and pickup loot
-
+  - Event Specific
+	- Battle City Showdown
+		- Auto pick Card Lottery untill
+		- Bot farm Devine Trial Yami Yugi Lv. 50
 **Tutorial**
 
 1. Install

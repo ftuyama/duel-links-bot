@@ -14,8 +14,6 @@ $FFWnd = _WinAPI_GetDesktopWindow()
 $winPos = WinGetPos($title)
 FFSetWnd($FFWnd)
 
-Dbg_excluded(517, 423, 2, 1)
-
 #cs
 #ce
 Func card_lottery($coin)
@@ -188,7 +186,7 @@ Func Street_duel($world, $start_area)
 		Next
 		Write_log("No one here.")
 
-		If ($Loop And $area == 3) Or $orb_depleted Then
+		If $Loop And $area == 3 Then
 			$area = -1
 		EndIf
 	Next
