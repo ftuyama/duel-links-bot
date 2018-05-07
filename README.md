@@ -10,7 +10,7 @@ Simple bot with GUI using Autoit languange for farming Duel Link/ Duellink PC St
 1. Install
   - Install Duellink PC from Steam
   - Download Autowin cheat from [here](https://ex.in.th)
-    for now, this farm bot only compatible with Autowin  and skip PVE cheat for Duellink PC via Steam from that site. Read carefully
+    for now, this farm bot only compatible with __Instan Win__ and for Duellink PC via Steam from that site. Read carefully
     and follow necessary step on that link
   - Install Autoit with full installation mode. You can get it in [here](https://www.autoitscript.com/site/autoit/downloads/)
 2. Configuration
@@ -28,6 +28,5 @@ Simple bot with GUI using Autoit languange for farming Duel Link/ Duellink PC St
   
 **Caution**
   - Read help.txt file 
-  
 **Next Update**
   - Fix Vagabond
