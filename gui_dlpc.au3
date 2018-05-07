@@ -62,14 +62,17 @@ Func gui()
 			GUICtrlCreateLabel("F10: Terminate",5,40)
 
 		GUICtrlCreateTabItem("Setting")
-			GUICtrlCreateGroup("General",5, 25,170,40)
+			$x = 5
+			$y = 25
+			GUICtrlCreateGroup("General",$x, $y,170,40)
 				GUIStartGroup()
-				Global $cOnTop = GUICtrlCreateCheckbox("Always on top", 13,40)
+				Global $cOnTop = GUICtrlCreateCheckbox("Always on top", $x+5,40)
 				GUICtrlSetState($cOnTop, $GUI_CHECKED)
 
-			GUICtrlCreateGroup("Street Duel",5, 75,170,40)
+			GUICtrlCreateGroup("Street Duel",$x, $y+50 ,170,40)
 				GUIStartGroup()
-				Global $cLoop = GUICtrlCreateCheckbox("Loop area", 13,90)
+				Global $cLoop = GUICtrlCreateCheckbox("Loop area", $x+5,90)
+				Global $cOrb  = GUICtrlCreateCheckbox("Auto use orb", $x+80,90)
 				GUICtrlSetState($cLoop, $GUI_CHECKED)
 
 			GUICtrlCreateGroup("Gate Duel",5, 125,170,40)
@@ -124,7 +127,7 @@ EndFunc
 Func duel_bot()
 	Switch $duel_mode
 		 Case 0
-			Street_duel($world, 0)
+			Street_duel($world, Get_area())
 		 Case 1
 			Gate_duel(10)
 		 Case 2
@@ -209,6 +212,12 @@ Func Control_gui($nMsg)
 					$Loop = True
 				Else
 					$Loop = false
+				EndIf
+			 Case $cOrb
+				if _IsChecked($cOrb) Then
+					$auto_orb_reload = True
+				Else
+					$auto_orb_reload = false
 				EndIf
 			Case $cOnTop
 				if _IsChecked($cOnTop) Then

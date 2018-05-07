@@ -7,6 +7,8 @@ Global $title = "[TITLE:Yu-Gi-Oh! DUEL LINKS]"
 Global $world = 0
 Global $timer = TimerInit()
 Global $Loop  = True
+Global $auto_orb_reload = False
+Global $orb_depleted = False
 Global $sPaused = False
 $FFWnd = _WinAPI_GetDesktopWindow()
 $winPos = WinGetPos($title)
@@ -135,6 +137,7 @@ Func Street_duel($world, $start_area)
 					Write_log($massage)
 					Sleep(500)
 					Click(640, 470)
+					Sleep(500)
 			EndSwitch
 		Until $hSearch == 0
 		Write_log("Area is clear from loot")
@@ -157,26 +160,34 @@ Func Street_duel($world, $start_area)
 
 					Sleep(700)
 					If Compare_pixel(638, 600, 0xFFFFFF) == 1 Then
-						Write_log('Duel beacon, Standard duelist depleted.')
-						Click(694, 472)
+					    Write_log('Duel beacon, Standard duelist depleted.')
+						$orb_depleted = True
+					    If $auto_orb_reload Then
+						   Click(694, 472)
 
-						$massage = "Use Duel beacon"
-						Write_log($massage)
-						Wait_pixel(678, 347, 0xFFFFFF, 10000, $massage)
-						Click(745, 413)
+						   $massage = "Use Duel beacon"
+						   Write_log($massage)
+						   Wait_pixel(678, 347, 0xFFFFFF, 10000, $massage)
+						   Click(745, 413)
 
-						$massage = "Confirm"
-						Write_log($massage)
-						Wait_pixel(488, 297, 0xFFFFFF, 10000, $massage)
-						Click(643, 443)
-						Sleep(500)
+						   $massage = "Confirm"
+						   Write_log($massage)
+						   Wait_pixel(488, 297, 0xFFFFFF, 10000, $massage)
+						   Click(643, 443)
+						   $orb_depleted = False
+						   Sleep(500)
+						Else
+						   Write_log('Orb auto reload disabled.')
+						   Click(632, 630)
+						   Sleep(500)
+						EndIf
 					EndIf
 					$char = 0
 			EndSwitch
 		Next
 		Write_log("No one here.")
 
-		If $Loop And $area == 3 Then
+		If ($Loop And $area == 3) Or $orb_depleted Then
 			$area = -1
 		EndIf
 	Next
@@ -361,7 +372,7 @@ EndFunc   ;==>Move
 #ce
 Func Click($x, $y)
 	$winPos = WinGetPos($title)
-	MouseClick($MOUSE_CLICK_LEFT, $x + $winPos[0], $y + $winPos[1], 1, 5)
+	MouseClick($MOUSE_CLICK_LEFT, $x + $winPos[0], $y + $winPos[1], 1, 1)
 EndFunc   ;==>Click
 
 #cs
