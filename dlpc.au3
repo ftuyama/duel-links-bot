@@ -28,12 +28,12 @@ Func card_lottery($coin)
 	Wait_pixel(767, 623, 0x000000, 5000 ,$massage)
    Sleep(500)
 
-   While Compare_pixel(808, 577, 0x6643DD) == 1 And Compare_pixel(804, 574, 0x4A4A4F) == 0
+   While Compare_pixel(801, 573, 0x4A4A46) == 0
 	  Write_log("Draw")
 	  While Compare_pixel(500, 132, 0x112233) == 0
 		 Click(878, 585)
 	  Wend
-	  Sleep(100)
+	  Sleep(300)
 	  Write_log("Claim reward")
 	  $coin = $coin - 300
    Wend
@@ -54,7 +54,7 @@ Func divine_trial()
 	  Write_log($massage)
 	  $time_out = 50000
 	  $timer = TimerInit()
-	  While Compare_pixel(644, 126, 0xFFFFFF) == 0 And (TimerDiff($timer) < $time_out)
+	  While Compare_pixel(639, 596, 0x052155) == 0 And (TimerDiff($timer) < $time_out)
 		 Click(807, 650)
 	  WEnd
 	  If TimerDiff($timer) >= $time_out Then
@@ -133,6 +133,7 @@ Func Street_duel($world, $start_area)
 					$massage = "Recieve Rewards"
 					Wait_pixel(645, 272, 0xFFFFFF, 5000, $massage)
 					Write_log($massage)
+					Sleep(500)
 					Click(640, 470)
 			EndSwitch
 		Until $hSearch == 0
@@ -360,7 +361,7 @@ EndFunc   ;==>Move
 #ce
 Func Click($x, $y)
 	$winPos = WinGetPos($title)
-	MouseClick($MOUSE_CLICK_LEFT, $x + $winPos[0], $y + $winPos[1], 1, 0)
+	MouseClick($MOUSE_CLICK_LEFT, $x + $winPos[0], $y + $winPos[1], 1, 5)
 EndFunc   ;==>Click
 
 #cs
