@@ -1,5 +1,5 @@
 # Duellink-PC-Bot
-Simple bot with GUI using Autoit languange for farming Duellink PC. 
+Simple bot with GUI using Autoit languange for farming Duel Link/ Duellink PC Steam. 
 
 **Feature**  
   - Gate duel: duel any available legendary duelist in the gate. You must set key amount manually
@@ -27,7 +27,7 @@ Simple bot with GUI using Autoit languange for farming Duellink PC.
   - Make sure Duellink main(middle) windows section is visible
   
 **Caution**
-  - If Bot stuck at some point please wait for less than 20 secons. The GUI will detect unexpected result and exit automatically.
+  - Read help.txt file 
   
 **Next Update**
-  - Option to non-cheater player
+  - Fix Vagabond

@@ -172,30 +172,24 @@ Func Control_gui($nMsg)
 			Case $GUI_EVENT_CLOSE
 				Return -1
 			Case $duel_enable
-			   GUICtrlSetState($rad_sd, $GUI_ENABLE)
-			   GUICtrlSetState($rad_gd, $GUI_ENABLE)
-			   GUICtrlSetState($rad_world0, $GUI_ENABLE)
-			   GUICtrlSetState($rad_world1, $GUI_ENABLE)
+			   if GUICtrlRead($duel_enable) == $GUI_UNCHECKED Then
+				  disable_duel_menu()
+			   Else
+				  GUICtrlSetState($rad_sd, $GUI_ENABLE)
+				  GUICtrlSetState($rad_gd, $GUI_ENABLE)
+				  GUICtrlSetState($rad_world0, $GUI_ENABLE)
+				  GUICtrlSetState($rad_world1, $GUI_ENABLE)
 
-			   GUICtrlSetState($rad_dt, $GUI_DISABLE)
-			   GUICtrlSetState($rad_lo, $GUI_DISABLE)
-
-			   GUICtrlSetState($event_enable, $GUI_UNCHECKED)
-			   GUICtrlSetState($rad_dt, $GUI_UNCHECKED)
+				  disalbe_bcd_menu()
+			   EndIf
 			Case $event_enable
-			   GUICtrlSetState($rad_sd, $GUI_DISABLE)
-			   GUICtrlSetState($rad_gd, $GUI_DISABLE)
-			   GUICtrlSetState($rad_world0, $GUI_DISABLE)
-			   GUICtrlSetState($rad_world1, $GUI_DISABLE)
-
-			   GUICtrlSetState($rad_dt, $GUI_ENABLE)
-			   GUICtrlSetState($rad_lo, $GUI_ENABLE)
-
-			   GUICtrlSetState($duel_enable, $GUI_UNCHECKED)
-			   GUICtrlSetState($rad_sd, $GUI_UNCHECKED)
-			   GUICtrlSetState($rad_gd, $GUI_UNCHECKED)
-			   GUICtrlSetState($rad_world0, $GUI_UNCHECKED)
-			   GUICtrlSetState($rad_world1, $GUI_UNCHECKED)
+			   If GUICtrlRead($event_enable) == $GUI_UNCHECKED Then
+				  disalbe_bcd_menu()
+			   Else
+				  disable_duel_menu()
+				  GUICtrlSetState($rad_dt, $GUI_ENABLE)
+				  GUICtrlSetState($rad_lo, $GUI_ENABLE)
+			   EndIf
 			Case $but_duel
 			   duel_bot()
 			Case $rad_sd
@@ -223,6 +217,32 @@ Func Control_gui($nMsg)
 					$OnTop = false
 				EndIf
 		EndSwitch
+EndFunc
+
+Func disable_duel_menu()
+   GUICtrlSetState($duel_enable, $GUI_UNCHECKED)
+
+   GUICtrlSetState($rad_sd, $GUI_UNCHECKED)
+   GUICtrlSetState($rad_sd, $GUI_DISABLE)
+
+   GUICtrlSetState($rad_gd, $GUI_UNCHECKED)
+   GUICtrlSetState($rad_gd, $GUI_DISABLE)
+
+   GUICtrlSetState($rad_world0, $GUI_UNCHECKED)
+   GUICtrlSetState($rad_world0, $GUI_DISABLE)
+
+   GUICtrlSetState($rad_world1, $GUI_UNCHECKED)
+   GUICtrlSetState($rad_world1, $GUI_DISABLE)
+EndFunc
+
+Func disalbe_bcd_menu()
+   GUICtrlSetState($event_enable, $GUI_UNCHECKED)
+
+   GUICtrlSetState($rad_dt, $GUI_UNCHECKED)
+   GUICtrlSetState($rad_dt, $GUI_DISABLE)
+
+   GUICtrlSetState($rad_lo, $GUI_UNCHECKED)
+   GUICtrlSetState($rad_lo, $GUI_DISABLE)
 EndFunc
 
 Func _IsChecked($idControlID)

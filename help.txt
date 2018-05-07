@@ -1,8 +1,8 @@
 https://github.com/AchmadFathoni/Duellink-PC-Bot
 
+-All bot function assume you are in street area
+-If bot stuck just press F10 and if you want pause the
+ bot press F9 and press it again to continue
+
 Street Duel
 -Loop area: Bot will back to Gate Area after Studio Area
-
-Warning
--Don't change the GUI setting when bot paused. If you want
- use another function please restart the bot.
