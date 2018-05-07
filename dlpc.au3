@@ -14,6 +14,7 @@ $FFWnd = _WinAPI_GetDesktopWindow()
 $winPos = WinGetPos($title)
 FFSetWnd($FFWnd)
 
+Dbg_excluded(517, 423, 2, 1)
 
 #cs
 #ce
@@ -539,10 +540,13 @@ EndFunc   ;==>time_s
 #cs
 	Check if point ($x,$y) in $area is excluded from search zone.
 #ce
-Func Dbg_excluded($x, $y, $area)
+Func Dbg_excluded($x, $y, $area, $in_world)
+	$world = $in_world
 	Duel_world_exclude_area($area)
 	If IsExcluded($x, $y) Then
 		MsgBox(0, "", "Excluded")
+	Else
+		MsgBox(0, "", "Clear")
 	EndIf
 EndFunc   ;==>Dbg_excluded
 
