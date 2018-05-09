@@ -79,7 +79,7 @@ Func divine_trial()
 	  Sleep(500)
 	  Click(732, 433)
 
-	  duel()
+	  duel(0)
 
 	  $massage = "Collect Reward"
 	  Wait_pixel(641, 350, 0xA65200, 5000, $massage)
@@ -98,7 +98,7 @@ Func Gate_duel($amount)
 			Click(727, 341)
 			Wait_pixel(626, 743, 0xFFFFFF, 10000, "Legendary Duelist list")
 			If Compare_pixel(607, 648, 0xFFFFFF) == 0 Then
-				Switch duel()
+				Switch duel(1)
 					Case -1
 						Return
 				EndSwitch
@@ -146,7 +146,7 @@ Func Street_duel($world, $start_area)
 				Case -1
 					Return
 				Case 1
-					duel()
+					duel(0)
 					Sleep(200)
 					If Compare_pixel(637, 394, 0xFFFFFF) == 1 Then
 						Write_log('Collect fragments')
@@ -197,7 +197,7 @@ EndFunc   ;==>Street_duel
 #cs
 	Duel with Autowin Skipped duel cheat. Precondition is starting duel dialog.
 #ce
-Func duel()
+Func duel($type)
 	Local $massage
 	Local $time_out
 
@@ -219,33 +219,43 @@ Func duel()
 	Write_log($massage)
 	$time_out = 20000
 	$timer = TimerInit()
-	While Compare_pixel(897, 666, 0xFFFFFF) == 0 And (TimerDiff($timer) < $time_out)
-		Click(644, 708) ;
-		Sleep(500)
-	WEnd
+	
+	Switch $type
+	case 0:
+		While Compare_pixel(897, 666, 0xFFFFFF) == 0 And (TimerDiff($timer) < $time_out)
+			Click(644, 708)
+			Sleep(500)
+		WEnd
+		
+		$massage = "Exit Dialouge"
+		Write_log($massage)
+		Sleep(1000)
+		$time_out = 5000
+		$timer = TimerInit()
+		While Compare_pixel(640, 736, 0xFFFFFF) == 1 And (TimerDiff($timer) < $time_out)
+			Click(644, 708)
+			Sleep(500)
+		WEnd
+		If TimerDiff($timer) >= $time_out Then
+			$time_out = 5000
+			Write_log("Time out!")
+			Write_log("Exit in " & $time_out / 1000 & " s")
+			Sleep($time_out)
+			Exit
+		Else
+			Write_log(time_s(TimerDiff($timer)) & " s")
+		EndIf
+	case 1:
+		While get_area() == -1 And (TimerDiff($timer) < $time_out)
+			Click(644, 708)
+			Sleep(500)
+		WEnd
+	EndSwitch
+	
 	If TimerDiff($timer) >= $time_out Then
 		$time_out = 5000
 		Write_log("Time out!")
 		Write_log("Exit in " & $time_out & " s")
-		Sleep($time_out)
-		Exit
-	Else
-		Write_log(time_s(TimerDiff($timer)) & " s")
-	EndIf
-
-	$massage = "Exit Dialouge"
-	Write_log($massage)
-	Sleep(1000)
-	$time_out = 5000
-	$timer = TimerInit()
-	While Compare_pixel(640, 736, 0xFFFFFF) == 1 And (TimerDiff($timer) < $time_out)
-		Click(644, 708)
-		Sleep(500)
-	WEnd
-	If TimerDiff($timer) >= $time_out Then
-		$time_out = 5000
-		Write_log("Time out!")
-		Write_log("Exit in " & $time_out / 1000 & " s")
 		Sleep($time_out)
 		Exit
 	Else
@@ -371,7 +381,7 @@ EndFunc   ;==>Move
 #ce
 Func Click($x, $y)
 	$winPos = WinGetPos($title)
-	MouseClick($MOUSE_CLICK_LEFT, $x + $winPos[0], $y + $winPos[1], 1, 1)
+	MouseClick($MOUSE_CLICK_LEFT, $x + $winPos[0], $y + $winPos[1], 1, 5)
 EndFunc   ;==>Click
 
 #cs
@@ -426,8 +436,6 @@ Func Get_area()
 		Return $area
 		;MsgBox(0, "Area", $area & " at " &$pos[0]&", "&$pos[1])
 	Else
-		Write_log("Area can't be decided.")
-		Write_log("Make sure four area tab is visible")
 		Return -1
 	EndIf
 EndFunc   ;==>Get_area
@@ -439,6 +447,7 @@ Func Go_to_area($des_area)
 	Local $cur_area = Get_area()
 	If $cur_area <> $des_area Then
 		If $cur_area == -1 Then
+			Write_log("Area can't be decided.")
 			Return -1
 		EndIf
 		Local $massage = ""
