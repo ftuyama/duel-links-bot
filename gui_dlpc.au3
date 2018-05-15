@@ -130,7 +130,7 @@ Func duel_bot()
 		 Case 0
 			Street_duel($world, get_area(1))
 		 Case 1
-			Gate_duel(10)
+			Gate_duel(1176/24)
 		 Case 2
 			divine_trial()
 		 Case 3
