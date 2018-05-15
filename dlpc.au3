@@ -79,7 +79,7 @@ Func divine_trial()
 	  Sleep(500)
 	  Click(732, 433)
 
-	  duel(0)
+	  duel()
 
 	  $massage = "Collect Reward"
 	  Wait_pixel(641, 350, 0xA65200, 5000, $massage)
@@ -92,21 +92,22 @@ EndFunc
 	Duel as many as $amount Legendary duelists
 #ce
 Func Gate_duel($amount)
-	Go_to_area(0)
-	For $i = 0 To $amount Step 1
-		Do
-			Click(727, 341)
-			Wait_pixel(626, 743, 0xFFFFFF, 10000, "Legendary Duelist list")
-			If Compare_pixel(607, 648, 0xFFFFFF) == 0 Then
-				Switch duel(1)
-					Case -1
-						Return
-				EndSwitch
-			EndIf
-			Sleep(200)
-		Until Compare_pixel(607, 648, 0xFFFFFF) == 1
-		Click(902, 372)
-	Next
+   Go_to_area(0)
+   For $i = 0 To $amount Step 1
+	  Click(727, 341)
+	  Write_log("Click duel gate.")
+	  Wait_pixel(626, 743, 0xFFFFFF, 10000, "Legendary Duelist list")
+	  If Compare_pixel(498, 646, 0xFFFFFF) == 0 Then
+		 Switch duel()
+			Case -1
+			   Return
+		 EndSwitch
+	  Else
+		 Write_log("Color key depleted")
+		 Click(902, 372);next legendary duelist
+	  EndIf
+	  Sleep(200)
+   Next
 EndFunc   ;==>Gate_duel
 
 #cs
@@ -132,9 +133,9 @@ Func Street_duel($world, $start_area)
 				Case 1
 					Write_log("Loot detected")
 					$massage = "Recieve Rewards"
-					Wait_pixel(645, 272, 0xFFFFFF, 5000, $massage)
+					Wait_pixel(640, 262, 0xFFFFFF, 5000, $massage)
 					Write_log($massage)
-					Sleep(500)
+					Sleep(200)
 					Click(640, 470)
 					Sleep(500)
 			EndSwitch
@@ -146,7 +147,7 @@ Func Street_duel($world, $start_area)
 				Case -1
 					Return
 				Case 1
-					duel(0)
+					duel()
 					Sleep(200)
 					If Compare_pixel(637, 394, 0xFFFFFF) == 1 Then
 						Write_log('Collect fragments')
@@ -197,7 +198,7 @@ EndFunc   ;==>Street_duel
 #cs
 	Duel with Autowin Skipped duel cheat. Precondition is starting duel dialog.
 #ce
-Func duel($type)
+Func duel()
 	Local $massage
 	Local $time_out
 
@@ -219,43 +220,33 @@ Func duel($type)
 	Write_log($massage)
 	$time_out = 20000
 	$timer = TimerInit()
-	
-	Switch $type
-	case 0:
-		While Compare_pixel(897, 666, 0xFFFFFF) == 0 And (TimerDiff($timer) < $time_out)
-			Click(644, 708)
-			Sleep(500)
-		WEnd
-		
-		$massage = "Exit Dialouge"
-		Write_log($massage)
-		Sleep(1000)
-		$time_out = 5000
-		$timer = TimerInit()
-		While Compare_pixel(640, 736, 0xFFFFFF) == 1 And (TimerDiff($timer) < $time_out)
-			Click(644, 708)
-			Sleep(500)
-		WEnd
-		If TimerDiff($timer) >= $time_out Then
-			$time_out = 5000
-			Write_log("Time out!")
-			Write_log("Exit in " & $time_out / 1000 & " s")
-			Sleep($time_out)
-			Exit
-		Else
-			Write_log(time_s(TimerDiff($timer)) & " s")
-		EndIf
-	case 1:
-		While get_area() == -1 And (TimerDiff($timer) < $time_out)
-			Click(644, 708)
-			Sleep(500)
-		WEnd
-	EndSwitch
-	
+	While (TimerDiff($timer) < $time_out) And (get_area(0) == -1)
+		Click(644, 708) ;
+		Sleep(500)
+	WEnd
 	If TimerDiff($timer) >= $time_out Then
 		$time_out = 5000
 		Write_log("Time out!")
 		Write_log("Exit in " & $time_out & " s")
+		Sleep($time_out)
+		Exit
+	Else
+		Write_log(time_s(TimerDiff($timer)) & " s")
+	EndIf
+
+	$massage = "Exit Dialouge"
+	Write_log($massage)
+	Sleep(1000)
+	$time_out = 5000
+	$timer = TimerInit()
+	While Compare_pixel(640, 736, 0xFFFFFF) == 1 And (TimerDiff($timer) < $time_out)
+		Click(644, 708)
+		Sleep(500)
+	WEnd
+	If TimerDiff($timer) >= $time_out Then
+		$time_out = 5000
+		Write_log("Time out!")
+		Write_log("Exit in " & $time_out / 1000 & " s")
 		Sleep($time_out)
 		Exit
 	Else
@@ -417,7 +408,7 @@ EndFunc   ;==>AddExcludedArea
 	2:Shop
 	3:Studio
 #ce
-Func Get_area()
+Func get_area($mode)
 	SnapShot(372, 698, 914, 745)
 	Local $pos = FFBestSpot(7, 4, 9, 655 + $winPos[0], 721 + $winPos[1], 0x001AFF, 10, False)
 	If Not @error Then
@@ -436,18 +427,23 @@ Func Get_area()
 		Return $area
 		;MsgBox(0, "Area", $area & " at " &$pos[0]&", "&$pos[1])
 	Else
+		Switch $mode
+			Case 0
+			Case 1
+				Write_log("Area can't be decided.")
+				Write_log("Make sure four area tab is visible.")
+		EndSwitch
 		Return -1
 	EndIf
-EndFunc   ;==>Get_area
+EndFunc   ;==>get_area
 
 #cs
 	Go to $des_area
 #ce
 Func Go_to_area($des_area)
-	Local $cur_area = Get_area()
+	Local $cur_area = get_area(1)
 	If $cur_area <> $des_area Then
 		If $cur_area == -1 Then
-			Write_log("Area can't be decided.")
 			Return -1
 		EndIf
 		Local $massage = ""

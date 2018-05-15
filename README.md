@@ -28,11 +28,11 @@ Simple bot with GUI using Autoit languange for farming Duel Link/ Duellink PC St
   - Open Duellink PC via Steam
   - Open *dlpc_gui.au3* whith SciTE Script editor that included form Autoit Installation.
   - Run by pressing F5 or build by press F7 then open dlpc.ex at your repository
-  
   - Make sure Duellink main(middle) windows section is visible
   
 **Caution**
   - Read help.txt file 
+  - If mod dll demand update just change your computer date to any time before 10 May 2018
 **Next Update**
   - Fix Vagabond, it will be slow because Vagabond is not always in Duel World
   - Event that include roaming Legendary Duelist

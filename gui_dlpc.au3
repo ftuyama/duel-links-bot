@@ -15,6 +15,7 @@ Global $coin = 1000
 Global $OnTop = True
 
 gui()
+;Move(498, 646)
 ;Dbg_search(0,0,16)
 ;Street_duel(0,0)
 ;Dbg_print_color(759,439)
@@ -127,9 +128,9 @@ EndFunc
 Func duel_bot()
 	Switch $duel_mode
 		 Case 0
-			Street_duel($world, Get_area())
+			Street_duel($world, get_area(1))
 		 Case 1
-			Gate_duel(10)
+			Gate_duel(1176/24)
 		 Case 2
 			divine_trial()
 		 Case 3
