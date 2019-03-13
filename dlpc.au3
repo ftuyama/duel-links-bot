@@ -207,22 +207,23 @@ Func duel()
 	$time_out = 10000
 	$timer = TimerInit()
 	While Compare_pixel(640, 103, 0x0) == 0 And (TimerDiff($timer) < $time_out)
-		Click(600, 653) ;
+		Click(700, 653) ;
 	WEnd
 	If TimerDiff($timer) >= $time_out Then
 		Write_log("Time out!")
 		Return -1
 	Else
 		Write_log(time_s(TimerDiff($timer)) & " s")
-	EndIf
+    EndIf
 
-	$massage = "Skipping duel and reward"
+	$massage = "Waiting duel and reward"
 	Write_log($massage)
-	$time_out = 20000
+	$time_out = 200000
 	$timer = TimerInit()
 	While (TimerDiff($timer) < $time_out) And (get_area(0) == -1)
 		Click(644, 708) ;
-		Sleep(500)
+		Sleep(1000)
+	    Write_log("Waiting Duel")
 	WEnd
 	If TimerDiff($timer) >= $time_out Then
 		$time_out = 5000
