@@ -14,8 +14,6 @@ $FFWnd = _WinAPI_GetDesktopWindow()
 $winPos = WinGetPos($title)
 FFSetWnd($FFWnd)
 
-#cs
-#ce
 Func card_lottery($coin)
 	$massage = "Go to battle city"
 	Click(650, 672)
@@ -40,12 +38,70 @@ Func card_lottery($coin)
    Wend
    Write_log("Coin depleted")
 EndFunc
-#cs
-   Devine Trial
-#ce
+
+
+Func Battle_city()
+	Write_log("Go to battle city")
+	Click(670, 670)
+	Click(420, 725)
+	Wait_pixel(420, 725, 0xFFFFFF, 5000, "Waiting Battle City")
+	Sleep(500)
+
+   While 1
+	  click_dice()
+	  Sleep(500)
+
+	  Click(700, 660)
+	  If has_white_dialog() Then
+		 Write_log("Start a battle")
+
+		 Click(700, 660)
+		 Sleep(1000)
+		 Click(875, 520)
+		 Sleep(1000)
+
+		 Write_log("LvL 40")
+		 Click(700, 400)
+		 Sleep(1500)
+
+		 Write_log("Duel!")
+		 Click(700, 653) ;
+		 Sleep(3000)
+
+		 Write_log("Starting Duel!")
+		 While Not has_white_dialog()
+			While Not has_white_dialog()
+			  Click(644, 708);
+			  Sleep(1000)
+			  Write_log("Waiting Duel")
+			WEnd
+			Sleep(3000)
+		 WEnd
+
+		 While has_white_dialog()
+		   Click(700, 660)
+		   Sleep(1000)
+		   Write_log("Finishing Duel")
+		 WEnd
+	  Else
+		 Write_log("Not a battle")
+		 Sleep(500)
+	  EndIf
+   WEnd
+EndFunc
+
+Func click_dice()
+   Write_log("Run dices")
+   Click(720, 540)
+EndFunc
+
+Func has_white_dialog()
+   Return Compare_pixel(700, 700, 0xFFFFFF) == 1 AND Compare_pixel(700, 750, 0xFFFFFF) == 1
+EndFunc
+
 Func divine_trial()
    $massage = "Go to battle city"
-   Click(650, 672)
+   Click(65	0, 672)
    Wait_pixel(812, 652, 0x9056D0, 5000, $massage)
    Write_log($massage)
 
@@ -88,9 +144,6 @@ Func divine_trial()
    Wend
 EndFunc
 
-#cs
-	Duel as many as $amount Legendary duelists
-#ce
 Func Gate_duel($amount)
    Go_to_area(0)
    For $i = 0 To $amount Step 1
@@ -111,7 +164,7 @@ Func Gate_duel($amount)
 EndFunc   ;==>Gate_duel
 
 #cs
-	Duel any steet duelist availbae at $world(0 for Yu-Gi-Oh and 1 for
+Duel any steet duelist availbae at $world(0 for Yu-Gi-Oh and 1 for
 	Yu-Gi-Oh GX) starting from $start_area
 #ce
 Func Street_duel($world, $start_area)
@@ -133,10 +186,10 @@ Func Street_duel($world, $start_area)
 				Case 1
 					Write_log("Loot detected")
 					$massage = "Recieve Rewards"
-					Wait_pixel(640, 262, 0xFFFFFF, 5000, $massage)
+					Wait_pixel(500, 460, 0xFFFFFF, 5000, $massage)
 					Write_log($massage)
-					Sleep(200)
-					Click(640, 470)
+					Sleep(1000)
+					Click(640, 460)
 					Sleep(500)
 			EndSwitch
 		Until $hSearch == 0
@@ -196,7 +249,7 @@ Func Street_duel($world, $start_area)
 EndFunc   ;==>Street_duel
 
 #cs
-	Duel with Autowin Skipped duel cheat. Precondition is starting duel dialog.
+Duel with Autowin Skipped duel cheat. Precondition is starting duel dialog.
 #ce
 Func duel()
 	Local $massage
@@ -218,10 +271,10 @@ Func duel()
 
 	$massage = "Waiting duel and reward"
 	Write_log($massage)
-	$time_out = 200000
+	$time_out = 300000
 	$timer = TimerInit()
 	While (TimerDiff($timer) < $time_out) And (get_area(0) == -1)
-		Click(644, 708) ;
+		Click(644, 708);
 		Sleep(1000)
 	    Write_log("Waiting Duel")
 	WEnd
@@ -260,7 +313,7 @@ EndFunc   ;==>duel
 #ce
 Func vagabond_challange()
 	Write_log('Decline to check oponent deck')
-	Click(552, 422)
+	Click(550, 400)
 EndFunc   ;==>vagabond_challange
 
 #cs
@@ -360,9 +413,6 @@ Func Object_color($n)
 	Return $return
 EndFunc   ;==>Object_color
 
-#cs
-	Move cursor to ($x,$y)
-#ce
 Func Move($x, $y)
 	$winPos = WinGetPos($title)
 	MouseMove($x + $winPos[0], $y + $winPos[1],0)
