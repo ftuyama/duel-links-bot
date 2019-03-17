@@ -132,7 +132,9 @@ Func duel_bot()
 		 Case 1
 			Gate_duel(1176/24)
 		 Case 2
-			divine_trial()
+			#comments-start divine_trial()
+			#comments-end
+			Battle_city()
 		 Case 3
 			card_lottery($coin)
 	EndSwitch
