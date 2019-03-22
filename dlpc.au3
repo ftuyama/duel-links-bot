@@ -14,136 +14,6 @@ $FFWnd = _WinAPI_GetDesktopWindow()
 $winPos = WinGetPos($title)
 FFSetWnd($FFWnd)
 
-Func card_lottery($coin)
-	$massage = "Go to battle city"
-	Click(650, 672)
-	Wait_pixel(812, 652, 0x9056D0, 5000, $massage)
-	Write_log($massage)
-	Sleep(500)
-
-	Click(470, 630)
-	$massage = "Wait black box in Coin lottery"
-	Write_log($massage)
-	Wait_pixel(767, 623, 0x000000, 5000 ,$massage)
-   Sleep(500)
-
-   While Compare_pixel(801, 573, 0x4A4A46) == 0
-	  Write_log("Draw")
-	  While Compare_pixel(500, 132, 0x112233) == 0
-		 Click(878, 585)
-	  Wend
-	  Sleep(300)
-	  Write_log("Claim reward")
-	  $coin = $coin - 300
-   Wend
-   Write_log("Coin depleted")
-EndFunc
-
-
-Func Battle_city()
-	Write_log("Go to battle city")
-	Click(670, 670)
-	Click(420, 725)
-	Wait_pixel(420, 725, 0xFFFFFF, 5000, "Waiting Battle City")
-	Sleep(500)
-
-   While 1
-	  click_dice()
-	  Sleep(500)
-
-	  Click(700, 660)
-	  If has_white_dialog() Then
-		 Write_log("Start a battle")
-
-		 Click(700, 660)
-		 Sleep(1000)
-		 Click(875, 520)
-		 Sleep(1000)
-
-		 Write_log("LvL 40")
-		 Click(700, 400)
-		 Sleep(1500)
-
-		 Write_log("Duel!")
-		 Click(700, 653) ;
-		 Sleep(3000)
-
-		 Write_log("Starting Duel!")
-		 While Not has_white_dialog()
-			While Not has_white_dialog()
-			  Click(644, 708);
-			  Sleep(1000)
-			  Write_log("Waiting Duel")
-			WEnd
-			Sleep(3000)
-		 WEnd
-
-		 While has_white_dialog()
-		   Click(700, 660)
-		   Sleep(1000)
-		   Write_log("Finishing Duel")
-		 WEnd
-	  Else
-		 Write_log("Not a battle")
-		 Sleep(500)
-	  EndIf
-   WEnd
-EndFunc
-
-Func click_dice()
-   Write_log("Run dices")
-   Click(720, 540)
-EndFunc
-
-Func has_white_dialog()
-   Return Compare_pixel(700, 700, 0xFFFFFF) == 1 AND Compare_pixel(700, 750, 0xFFFFFF) == 1
-EndFunc
-
-Func divine_trial()
-   $massage = "Go to battle city"
-   Click(65	0, 672)
-   Wait_pixel(812, 652, 0x9056D0, 5000, $massage)
-   Write_log($massage)
-
-   while 1
-	  Local $massage = "Click support item"
-
-	  Write_log($massage)
-	  $time_out = 50000
-	  $timer = TimerInit()
-	  While Compare_pixel(639, 596, 0x052155) == 0 And (TimerDiff($timer) < $time_out)
-		 Click(807, 650)
-	  WEnd
-	  If TimerDiff($timer) >= $time_out Then
-		 $time_out = 5000
-		 Write_log("Time out!")
-		 Write_log("Exit in " & $time_out / 1000 & " s")
-		 Sleep($time_out)
-		 Exit
-	  Else
-		 Write_log(time_s(TimerDiff($timer)) & " s")
-	  EndIf
-
-	  $massage = "Use divine offering"
-	  Write_log($massage)
-	  Sleep(300)
-	  Click(752, 236)
-
-	  $massage = "Ok!"
-	  Wait_pixel(630, 306, 0xFFFFFF, 5000, $massage)
-	  Write_log($massage)
-	  Sleep(500)
-	  Click(732, 433)
-
-	  duel()
-
-	  $massage = "Collect Reward"
-	  Wait_pixel(641, 350, 0xA65200, 5000, $massage)
-	  Write_log($massage)
-	  Click(639, 492)
-   Wend
-EndFunc
-
 Func Gate_duel($amount)
    Go_to_area(0)
    For $i = 0 To $amount Step 1
@@ -200,45 +70,25 @@ Func Street_duel($world, $start_area)
 				Case -1
 					Return
 				Case 1
-					duel()
-					Sleep(200)
-					If Compare_pixel(637, 394, 0xFFFFFF) == 1 Then
-						Write_log('Collect fragments')
-						Click(642, 425)
-					Else
-						If Compare_pixel(596, 427, 0x8C0606) == 1 Then
-							vagabond_challange()
-						EndIf
-					EndIf
+					 If duel() == 1 Then
+					   Sleep(200)
+					   If Compare_pixel(637, 394, 0xFFFFFF) == 1 Then
+						   Write_log('Collect fragments')
+						   Click(642, 425)
+					   Else
+						   If Compare_pixel(596, 427, 0x8C0606) == 1 Then
+							   vagabond_challange()
+						   EndIf
+					   EndIf
 
-					Sleep(700)
-					If Compare_pixel(638, 600, 0xFFFFFF) == 1 Then
-					    Write_log('Duel beacon, Standard duelist depleted.')
-						$orb_depleted = True
-					    If $auto_orb_reload Then
-						   Click(694, 472)
-
-						   $massage = "Use Duel beacon"
-						   Write_log($massage)
-						   Wait_pixel(678, 347, 0xFFFFFF, 10000, $massage)
-						   Click(745, 413)
-
-						   $massage = "Confirm"
-						   Write_log($massage)
-						   Wait_pixel(488, 297, 0xFFFFFF, 10000, $massage)
-						   Click(643, 443)
-						   $orb_depleted = False
-						   Sleep(500)
-						Else
-						   Write_log('Orb auto reload disabled.')
-						   Click(632, 630)
-						   Sleep(500)
-						EndIf
-					EndIf
-					$char = 0
+					   Sleep(700)
+						Auto_orb()
+					   $char = 0
+					 EndIf
 			EndSwitch
 		Next
 		Write_log("No one here.")
+		Grant_gems($area)
 
 		If $Loop And $area == 3 Then
 			$area = -1
@@ -246,57 +96,141 @@ Func Street_duel($world, $start_area)
 	Next
 	Write_log("Street duel over")
 	Return
-EndFunc   ;==>Street_duel
+ EndFunc   ;==>Street_duel
+
+Func Auto_orb()
+   If Compare_pixel(638, 600, 0xFFFFFF) == 1 Then
+	  Write_log('Duel beacon, Standard duelist depleted.')
+	  $orb_depleted = True
+	  If $auto_orb_reload Then
+		 Click(694, 472)
+
+		 $massage = "Use Duel beacon"
+		 Write_log($massage)
+		 Wait_pixel(678, 347, 0xFFFFFF, 10000, $massage)
+		 Click(745, 413)
+
+		 $massage = "Confirm"
+		 Write_log($massage)
+		 Wait_pixel(488, 297, 0xFFFFFF, 10000, $massage)
+		 Click(643, 443)
+		 $orb_depleted = False
+		 Sleep(500)
+	  Else
+		 Write_log('Orb auto reload disabled.')
+		 Click(632, 630)
+		 Sleep(500)
+	  EndIf
+   EndIf
+EndFunc
+
+Func Grant_gems($area)
+	Write_log("Granting gems")
+	Switch $area
+	  Case 0
+		 Click(650, 360)
+		 Handle_gems_dialog()
+	  Case 1
+		 Click(725, 450)
+		 Handle_gems_dialog()
+	  Case 2
+		 Click(600, 300)
+		 Handle_gems_dialog()
+	  Case 3
+		 Click(560, 580)
+		 Handle_gems_dialog()
+	EndSwitch
+ EndFunc
+
+Func Handle_gems_dialog()
+    $time_out = 6000
+	$timer = TimerInit()
+
+   While (TimerDiff($timer) < $time_out) AND NOT Has_gems_dialog()
+	  Write_log("Waiting dialog")
+	  Sleep(1000)
+   WEnd
+
+   If Has_gems_dialog() Then
+	  Sleep(500)
+	  Click(650, 480)
+	  Sleep(2000)
+   EndIf
+EndFunc
+
+Func Has_gems_dialog()
+   Return (Compare_pixel(500, 400, 0xFFFFFF) == 1 AND Compare_pixel(780, 400, 0xFFFFFF) == 1)
+EndFunc
+
 
 #cs
 Duel with Autowin Skipped duel cheat. Precondition is starting duel dialog.
+
+                 ___====-_  _-====___
+           _--^^^#####//      \\#####^^^--_
+        _-^##########// (    ) \\##########^-_
+       -############//  |\^^/|  \\############-
+     _/############//   (@::@)   \\############\_
+    /#############((     \\//     ))#############\
+   -###############\\    (oo)    //###############-
+  -#################\\  / VV \  //#################-
+ -###################\\/      \//###################-
+_#/|##########/\######(   /\   )######/\##########|\#_
+|/ |#/\#/\#/\/  \#/\##\  |  |  /##/\#/  \/\#/\#/\#| \|
+`  |/  V  V  `   V  \#\| |  | |/#/  V   '  V  V  \|  '
+   `   `  `      `   / | |  | | \   '      '  '   '
+                    (  | |  | |  )
+                   __\ | |  | | /__
+                  (vvv(VVV)(VVV)vvv)
+
+
+Lalalalala
 #ce
 Func duel()
 	Local $massage
 	Local $time_out
 
-	$massage = "Starting duel"
-	Write_log($massage)
-	$time_out = 10000
-	$timer = TimerInit()
-	While Compare_pixel(640, 103, 0x0) == 0 And (TimerDiff($timer) < $time_out)
-		Click(700, 653) ;
-	WEnd
-	If TimerDiff($timer) >= $time_out Then
-		Write_log("Time out!")
-		Return -1
-	Else
-		Write_log(time_s(TimerDiff($timer)) & " s")
-    EndIf
+   Sleep(1000)
+   If has_white_dialog() Then
+	  While has_white_dialog()
+		 Write_log("Reading dialog")
+		 Click(700, 653)
+		 Sleep(1000)
+	  WEnd
+   Else
+	  Return 0;
+   EndIf
 
-	$massage = "Waiting duel and reward"
-	Write_log($massage)
-	$time_out = 300000
+   Click(700, 653)
+   Sleep(1000)
+   Click(700, 653)
+   Write_log("Waiting Duel")
+   Sleep(10000)
+
+    $time_out = 300000
 	$timer = TimerInit()
 	While (TimerDiff($timer) < $time_out) And (get_area(0) == -1)
 		Click(644, 708);
-		Sleep(1000)
 	    Write_log("Waiting Duel")
+		vagabond_challange()
+		Sleep(1000)
 	WEnd
-	If TimerDiff($timer) >= $time_out Then
-		$time_out = 5000
-		Write_log("Time out!")
-		Write_log("Exit in " & $time_out & " s")
-		Sleep($time_out)
-		Exit
-	Else
-		Write_log(time_s(TimerDiff($timer)) & " s")
-	EndIf
+	WriteTimeout($timer, $time_out)
 
-	$massage = "Exit Dialouge"
-	Write_log($massage)
+	Write_log("Exit Dialouge")
 	Sleep(1000)
+
 	$time_out = 5000
 	$timer = TimerInit()
 	While Compare_pixel(640, 736, 0xFFFFFF) == 1 And (TimerDiff($timer) < $time_out)
 		Click(644, 708)
-		Sleep(500)
+		Sleep(1000)
 	WEnd
+	WriteTimeout($timer, $time_out)
+	Return 1;
+ EndFunc   ;==>duel
+
+Func WriteTimeout($timer, $time_out)
 	If TimerDiff($timer) >= $time_out Then
 		$time_out = 5000
 		Write_log("Time out!")
@@ -306,14 +240,19 @@ Func duel()
 	Else
 		Write_log(time_s(TimerDiff($timer)) & " s")
 	EndIf
-EndFunc   ;==>duel
+EndFunc
 
 #cs
 	Vagabond introduce. Set second name in the list and choose one opening hand as challange
 #ce
 Func vagabond_challange()
-	Write_log('Decline to check oponent deck')
-	Click(550, 400)
+   If Compare_pixel(520, 380, 0xFFFFFF) == 1 AND Compare_pixel(780, 380, 0xFFFFFF) == 1 Then
+	  Sleep(1000)
+	  If Compare_pixel(520, 380, 0xFFFFFF) == 1 AND Compare_pixel(780, 380, 0xFFFFFF) == 1 Then
+		  Write_log('Decline to check oponent deck')
+		  Click(550, 430)
+	  EndIf
+	EndIf
 EndFunc   ;==>vagabond_challange
 
 #cs
@@ -411,7 +350,12 @@ Func Object_color($n)
 			Local $return = ["Loot", $face]
 	EndSelect
 	Return $return
-EndFunc   ;==>Object_color
+ EndFunc   ;==>Object_color
+
+
+		;Case $n = 20
+		;	Local $face = [0xB2BBC3, 0xCCCFD5, 0x555599, 0x614550, 0xADB5BC, 0xCC9AAA, 0x997787, 0xFDFBB5, 0xF2E59D]
+		;	Local $return = ["Yubel", $face]
 
 Func Move($x, $y)
 	$winPos = WinGetPos($title)
@@ -669,3 +613,148 @@ Func Dbg_search($world_in, $area, $object)
 	FFResetExcludedAreas()
 	Exit
 EndFunc   ;==>Dbg_search
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Func card_lottery($coin)
+	$massage = "Go to battle city"
+	Click(650, 672)
+	Wait_pixel(812, 652, 0x9056D0, 5000, $massage)
+	Write_log($massage)
+	Sleep(500)
+
+	Click(470, 630)
+	$massage = "Wait black box in Coin lottery"
+	Write_log($massage)
+	Wait_pixel(767, 623, 0x000000, 5000 ,$massage)
+   Sleep(500)
+
+   While Compare_pixel(801, 573, 0x4A4A46) == 0
+	  Write_log("Draw")
+	  While Compare_pixel(500, 132, 0x112233) == 0
+		 Click(878, 585)
+	  Wend
+	  Sleep(300)
+	  Write_log("Claim reward")
+	  $coin = $coin - 300
+   Wend
+   Write_log("Coin depleted")
+EndFunc
+
+
+Func Battle_city()
+	Write_log("Go to battle city")
+	Click(670, 670)
+	Click(420, 725)
+	Wait_pixel(420, 725, 0xFFFFFF, 5000, "Waiting Battle City")
+	Sleep(500)
+
+   While 1
+	  click_dice()
+	  Sleep(500)
+
+	  Click(700, 660)
+	  If has_white_dialog() Then
+		 Write_log("Start a battle")
+
+		 Click(700, 660)
+		 Sleep(1000)
+		 Click(875, 520)
+		 Sleep(1000)
+
+		 Write_log("LvL 40")
+		 Click(700, 400)
+		 Sleep(1500)
+
+		 Write_log("Duel!")
+		 Click(700, 653) ;
+		 Sleep(3000)
+
+		 Write_log("Starting Duel!")
+		 While Not has_white_dialog()
+			While Not has_white_dialog()
+			  Click(644, 708);
+			  Sleep(1000)
+			  Write_log("Waiting Duel")
+			WEnd
+			Sleep(3000)
+		 WEnd
+
+		 While has_white_dialog()
+		   Click(700, 660)
+		   Sleep(1000)
+		   Write_log("Finishing Duel")
+		 WEnd
+	  Else
+		 Write_log("Not a battle")
+		 Sleep(500)
+	  EndIf
+   WEnd
+EndFunc
+
+Func click_dice()
+   Write_log("Run dices")
+   Click(720, 540)
+EndFunc
+
+Func has_white_dialog()
+   Return Compare_pixel(700, 700, 0xFFFFFF) == 1 AND Compare_pixel(700, 750, 0xFFFFFF) == 1
+EndFunc
+
+Func divine_trial()
+   $massage = "Go to battle city"
+   Click(65	0, 672)
+   Wait_pixel(812, 652, 0x9056D0, 5000, $massage)
+   Write_log($massage)
+
+   while 1
+	  Local $massage = "Click support item"
+
+	  Write_log($massage)
+	  $time_out = 50000
+	  $timer = TimerInit()
+	  While Compare_pixel(639, 596, 0x052155) == 0 And (TimerDiff($timer) < $time_out)
+		 Click(807, 650)
+	  WEnd
+	  If TimerDiff($timer) >= $time_out Then
+		 $time_out = 5000
+		 Write_log("Time out!")
+		 Write_log("Exit in " & $time_out / 1000 & " s")
+		 Sleep($time_out)
+		 Exit
+	  Else
+		 Write_log(time_s(TimerDiff($timer)) & " s")
+	  EndIf
+
+	  $massage = "Use divine offering"
+	  Write_log($massage)
+	  Sleep(300)
+	  Click(752, 236)
+
+	  $massage = "Ok!"
+	  Wait_pixel(630, 306, 0xFFFFFF, 5000, $massage)
+	  Write_log($massage)
+	  Sleep(500)
+	  Click(732, 433)
+
+	  duel()
+
+	  $massage = "Collect Reward"
+	  Wait_pixel(641, 350, 0xA65200, 5000, $massage)
+	  Write_log($massage)
+	  Click(639, 492)
+   Wend
+EndFunc
