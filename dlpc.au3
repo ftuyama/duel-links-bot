@@ -131,7 +131,7 @@ Func Grant_gems($area)
 		 Click(650, 360)
 		 Handle_gems_dialog()
 	  Case 1
-		 Click(725, 450)
+		 Click(800, 455)
 		 Handle_gems_dialog()
 	  Case 2
 		 Click(600, 300)
@@ -210,11 +210,14 @@ Func duel()
     $time_out = 300000
 	$timer = TimerInit()
 	While (TimerDiff($timer) < $time_out) And (get_area(0) == -1)
-		Click(644, 708);
-	    Write_log("Waiting Duel")
-		vagabond_challange()
-		Sleep(1000)
-	WEnd
+	   While (TimerDiff($timer) < $time_out) And (get_area(0) == -1)
+		   Click(644, 708);
+		   Write_log("Waiting Duel")
+		   vagabond_challange()
+		   Sleep(1000)
+	   WEnd
+	   Sleep(1500)
+    WEnd
 	WriteTimeout($timer, $time_out)
 
 	Write_log("Exit Dialouge")
@@ -632,7 +635,7 @@ EndFunc   ;==>Dbg_search
 Func card_lottery($coin)
 	$massage = "Go to battle city"
 	Click(650, 672)
-	Wait_pixel(812, 652, 0x9056D0, 5000, $massage)
+	Wait_pixel(812, 652, 0x0A0D0C, 5000, $massage)
 	Write_log($massage)
 	Sleep(500)
 
@@ -654,6 +657,25 @@ Func card_lottery($coin)
    Write_log("Coin depleted")
 EndFunc
 
+#cs
+Battle City
+
+                           ,===:'.,            `-._
+                                `:.`---.__         `-._
+                                  `:.     `--.         `.
+                                    \.        `.         `.
+                            (,,(,    \.         `.   ____,-`.,
+                         (,'     `/   \.   ,--.___`.'
+                     ,  ,'  ,--.  `,   \.;'         `
+                      `{D, {    \  :    \;
+                        V,,'    /  /    //
+                        j;;    /  ,' ,-//.    ,---.      ,
+                        \;'   /  ,' /  _  \  /  _  \   ,'/
+                              \   `'  / \  `'  / \  `.' /
+                               `.___,'   `.__,'   `.__,'
+
+Lalalalala
+#ce
 
 Func Battle_city()
 	Write_log("Go to battle city")
@@ -670,10 +692,22 @@ Func Battle_city()
 	  If has_white_dialog() Then
 		 Write_log("Start a battle")
 
-		 Click(700, 660)
-		 Sleep(1000)
+		 $time_out = 5000
+		 $timer = TimerInit()
+		 While Compare_pixel(875, 52, 0x062868) == 0 And (TimerDiff($timer) < $time_out)
+			Click(700, 660)
+			Sleep(500)
+		 WEnd
+
+		 Write_log("Skipping dialog")
 		 Click(875, 520)
 		 Sleep(1000)
+
+		 Write_log("Skipping Sirius")
+		 Click(700, 660)
+		 Sleep(500)
+		 Click(700, 660)
+		 Sleep(500)
 
 		 Write_log("LvL 40")
 		 Click(700, 400)
