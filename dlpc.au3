@@ -694,7 +694,7 @@ Func Battle_city()
 
 		 $time_out = 5000
 		 $timer = TimerInit()
-		 While Compare_pixel(875, 52, 0x062868) == 0 And (TimerDiff($timer) < $time_out)
+		 While Compare_pixel(875, 520, 0x062868) == 0 And (TimerDiff($timer) < $time_out)
 			Click(700, 660)
 			Sleep(500)
 		 WEnd
