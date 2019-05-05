@@ -678,17 +678,26 @@ Lalalalala
 #ce
 
 Func Battle_city()
-	Write_log("Go to battle city")
-	Click(670, 670)
-	Click(420, 725)
-	Wait_pixel(420, 725, 0xFFFFFF, 5000, "Waiting Battle City")
-	Sleep(500)
+   If Compare_pixel(420, 725, 0xFFFFFF) == 1 Then
+	  Write_log("Already on battle city")
+   Else
+	  Write_log("Go to battle city")
+	  Click(670, 670)
+	  Click(420, 725)
+	  Wait_pixel(420, 725, 0xFFFFFF, 5000, "Waiting Battle City")
+	  Sleep(500)
+   EndIf
 
    While 1
 	  click_dice()
 	  Sleep(500)
 
 	  Click(700, 660)
+
+	  If has_white_dialog() Then
+		 Click(700, 660)
+	  EndIf
+
 	  If has_white_dialog() Then
 		 Write_log("Start a battle")
 
@@ -718,8 +727,8 @@ Func Battle_city()
 		 Sleep(3000)
 
 		 Write_log("Starting Duel!")
-		 While Not has_white_dialog()
-			While Not has_white_dialog()
+		 While Not (has_white_dialog() OR duel_over())
+			While Not (has_white_dialog() OR duel_over())
 			  Click(644, 708);
 			  Sleep(1000)
 			  Write_log("Waiting Duel")
@@ -742,6 +751,10 @@ EndFunc
 Func click_dice()
    Write_log("Run dices")
    Click(720, 540)
+EndFunc
+
+Func duel_over()
+   Return Compare_pixel(420, 725, 0xFFFFFF) == 1 AND Compare_pixel(800, 150, 0x001E52) == 1
 EndFunc
 
 Func has_white_dialog()

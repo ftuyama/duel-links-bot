@@ -14,8 +14,8 @@ Global $duel_mode = 0
 Global $coin = 1000
 Global $OnTop = True
 
-;Move(875, 52)
-;Dbg_print_color(500,330)
+;Move(800, 150)
+;Dbg_print_color(800, 150)
 gui()
 ;Move(498, 646)
 ;Dbg_search(0,0,16)
