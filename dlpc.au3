@@ -658,6 +658,56 @@ Func card_lottery($coin)
 EndFunc
 
 #cs
+TAG DUEL
+          _____
+         |A .  | _____
+         | /.\ ||A ^  | _____
+         |(_._)|| / \ ||A _  | _____
+         |  |  || \ / || ( ) ||A_ _ |
+         |____V||  .  ||(_'_)||( v )|
+                |____V||  |  || \ / |
+                       |____V||  .  |
+                              |____V|
+#ce
+
+Func Tag_duel()
+   If On_tag_duel() Then
+	  While True
+		 Write_log("Tag Duel initial screen")
+		 While Not has_white_dialog()
+			Click(650, 520)
+		 WEnd
+
+		 While Not (Compare_pixel(650, 520, 0xFFFFFF) == 1 And Compare_pixel(680, 500, 0x001133) == 1)
+			Click(700, 660)
+		 WEnd
+
+		 Write_log("LvL 40")
+		 Click(750, 450)
+		 Sleep(1000)
+
+		 Write_log("Duel!")
+		 Click(700, 653) ;
+		 Sleep(3000)
+
+		 Write_log("Starting Duel!")
+		 While Not (has_white_dialog() OR On_tag_duel())
+			While Not (has_white_dialog() OR On_tag_duel())
+			  Click(644, 708);
+			  Sleep(1000)
+			  Write_log("Waiting Duel")
+			WEnd
+			Sleep(3000)
+		 WEnd
+	  WEnd
+   EndIf
+EndFunc
+
+Func On_tag_duel()
+   Return (Compare_pixel(400, 520, 0x091B3D) == 1 AND Compare_pixel(650, 480, 0xA5ABB6) == 1 AND Compare_pixel(650, 550, 0x0A1838) == 1)
+EndFunc
+
+#cs
 Battle City
 
                            ,===:'.,            `-._

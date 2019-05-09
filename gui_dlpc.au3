@@ -14,8 +14,10 @@ Global $duel_mode = 0
 Global $coin = 1000
 Global $OnTop = True
 
-;Move(800, 150)
-;Dbg_print_color(800, 150)
+;Move(650, 550)
+;Dbg_print_color(400, 520)
+;Dbg_print_color(650, 480)
+;Dbg_print_color(650, 550)
 gui()
 ;Move(498, 646)
 ;Dbg_search(0,0,16)
@@ -56,6 +58,10 @@ Func gui()
 			   GUICtrlSetState($rad_dt, $GUI_DISABLE)
 			   Global $rad_lo = GUICtrlCreateRadio("Card Lottery", $x, $y+100)
 			   GUICtrlSetState($rad_lo, $GUI_DISABLE)
+
+			GUICtrlCreateGroup("Other Events",$x-5, $y+130,170,70)
+			   Global $rad_td = GUICtrlCreateRadio("Tag Duel", $x, $y+150)
+			   GUICtrlSetState($rad_td, $GUI_ENABLE)
 
 			Global $but_duel = GUICtrlCreateButton("It's time to DUEL", 4, 370)
 			Global $l_status = GUICtrlCreateLabel("Duellink status: Stopped",270, 383)
@@ -139,6 +145,8 @@ Func duel_bot()
 			Battle_city()
 		 Case 3
 			card_lottery($coin)
+		 Case 4
+			Tag_duel()
 	EndSwitch
 EndFunc
 
@@ -208,6 +216,8 @@ Func Control_gui($nMsg)
 			   $duel_mode = 2
 			Case $rad_lo
 			   $duel_mode = 3
+			Case $rad_td
+			   $duel_mode = 4
 			Case $rad_world0
 				$world = 0
 			Case $rad_world1
