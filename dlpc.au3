@@ -675,11 +675,16 @@ Func Tag_duel()
 	  While True
 		 Write_log("Tag Duel initial screen")
 		 While Not has_white_dialog()
+		    Write_log("Start!")
 			Click(650, 520)
+		    Sleep(1000)
 		 WEnd
 
 		 While Not (Compare_pixel(650, 520, 0xFFFFFF) == 1 And Compare_pixel(680, 500, 0x001133) == 1)
+		    Write_log("White Dialog")
 			Click(700, 660)
+			Click(650, 520)
+		    Sleep(1000)
 		 WEnd
 
 		 Write_log("LvL 40")
