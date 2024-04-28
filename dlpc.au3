@@ -818,7 +818,7 @@ EndFunc
 
 Func divine_trial()
    $massage = "Go to battle city"
-   Click(65	0, 672)
+   Click(650, 672)
    Wait_pixel(812, 652, 0x9056D0, 5000, $massage)
    Write_log($massage)
 
