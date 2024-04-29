@@ -14,11 +14,14 @@ Global $duel_mode = 0
 Global $coin = 1000
 Global $OnTop = True
 
+;---------------------------- Start GUI --------------------------
+gui()
+
+;-------------------------- DEBUG commands -------------------------
 ;Move(650, 550)
 ;Dbg_print_color(400, 520)
 ;Dbg_print_color(650, 480)
 ;Dbg_print_color(650, 550)
-gui()
 ;Move(498, 646)
 ;Dbg_search(0,0,16)
 ;Street_duel(0,0)
@@ -45,12 +48,12 @@ Func gui()
 			   Global $rad_world0 = GUICtrlCreateRadio("Yu-Gi-Oh", $x,$y)
 			   GUICtrlSetState($rad_world0, $GUI_CHECKED )
 			   Global $rad_world1 = GUICtrlCreateRadio("GX", 	 $x+75, $y)
-			   Global $rad_world1 = GUICtrlCreateRadio("5DS", 	 $x,    $y + 20)
-			   Global $rad_world1 = GUICtrlCreateRadio("Zexal",  $x+75, $y + 20)
-			   Global $rad_world1 = GUICtrlCreateRadio("ARCV",   $x,    $y + 40)
-			   Global $rad_world1 = GUICtrlCreateRadio("Vrains", $x+75, $y + 40)
-			   Global $rad_world1 = GUICtrlCreateRadio("OLDN",   $x,    $y + 60)
-			   Global $rad_world1 = GUICtrlCreateRadio("Seven",  $x+75, $y + 60)
+			   Global $rad_world2 = GUICtrlCreateRadio("5DS", 	 $x,    $y + 20)
+			   Global $rad_world3 = GUICtrlCreateRadio("Zexal",  $x+75, $y + 20)
+			   Global $rad_world4 = GUICtrlCreateRadio("ARCV",   $x,    $y + 40)
+			   Global $rad_world5 = GUICtrlCreateRadio("Vrains", $x+75, $y + 40)
+			   Global $rad_world6 = GUICtrlCreateRadio("OLDN",   $x,    $y + 60)
+			   Global $rad_world7 = GUICtrlCreateRadio("Seven",  $x+75, $y + 60)
 
 			   GUIStartGroup()
 			   Global $rad_sd = GUICtrlCreateRadio("Street duel", $x, $y+100)
@@ -228,6 +231,18 @@ Func Control_gui($nMsg)
 				$world = 0
 			Case $rad_world1
 				$world = 1
+			Case $rad_world2
+				$world = 2
+			Case $rad_world3
+				$world = 3
+			Case $rad_world4
+				$world = 4
+			Case $rad_world5
+				$world = 5
+			Case $rad_world6
+				$world = 6
+			Case $rad_world7
+				$world = 7
 			Case $cLoop
 				if _IsChecked($cLoop) Then
 					$Loop = True

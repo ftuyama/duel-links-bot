@@ -45,6 +45,12 @@ Func Street_duel($world, $start_area)
 		Case $world = 1
 			Local $duelist = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
 			Write_log("Yu-Gi-Oh Gx World selected")
+		Case $world = 7
+			Local $duelist = [1, 2, 3, 6, 7, 8, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22]
+			Write_log("Yu-Gi-Oh Seven selected")
+		Case Else
+			Local $duelist = [1, 2, 3, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
+			Write_log("Not implemented, but let's try")
 	EndSelect
 
 	For $area = $start_area To 3 Step 1
@@ -348,6 +354,15 @@ Func Object_color($n)
 		Case $n = 19
 			Local $face = [0xBD9A67, 0xC19977, 0xBD9977, 0xC49970,0xBB906C,0xBB996B,0xBB966B]
 			Local $return = ["Anzu", $face]
+		Case $n = 20
+			Local $face = [0xBBE089, 0xF7FFE3, 0xBFDD8C, 0xEFDDBC,0xF2E3CF,0xFEFEFA,0x81A153, 0xD4AF9A]
+			Local $return = ["Roa", $face]
+		Case $n = 21
+			Local $face = [0xBD9A67, 0xC19977, 0xBD9977, 0xC49970,0xBB906C,0xBB996B,0xBB966B]
+			Local $return = ["Celestia", $face]
+		Case $n = 22
+			Local $face = [0xBD9A67, 0xC19977, 0xBD9977, 0xC49970,0xBB906C,0xBB996B,0xBB966B]
+			Local $return = ["Nail", $face]
 		Case $n = 99
 			Local $face = [0xFF6600, 0xFF7700, 0xFF8700, 0xFF5700]
 			Local $return = ["Loot", $face]
