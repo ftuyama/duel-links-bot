@@ -7,11 +7,13 @@
 
 Global $log
 Global $text = ""
+Global $last_text = ""
 
 Func Helper()
     Local $hGUI = GUICreate("Cursor Info Logger", 400, 200, -1, -1)
     Local $LabelInstructions = GUICtrlCreateLabel("F10 to log the cursor position and color. F11 to clear", 10, 10, 380, 20)
-    Local $Label = GUICtrlCreateLabel("", 10, 40, 380, 30)
+    Local $Label = GUICtrlCreateLabel("", 10, 40, 280, 30)
+	Local $coordinates = GUICtrlCreateCheckbox("Coordinates", 300, 40)
 	$log = GUICtrlCreateEdit("", 10, 70, 380, 120)
     GUISetState(@SW_SHOW, $hGUI)
     HotKeySet("{F10}", "Hot_key")
@@ -28,10 +30,17 @@ Func Helper()
         ; Get cursor position and color
         Global $aPos = MouseGetPos()
         Global $iColor = PixelGetColor($aPos[0], $aPos[1])
-        $text = "X: " & $aPos[0] & " Y: " & $aPos[1] & " Color: 0x" & Hex($iColor, 6)
+		If GUICtrlRead($coordinates) == $GUI_CHECKED Then
+			$text = "X: " & $aPos[0] & " Y: " & $aPos[1] & " Color: 0x" & Hex($iColor, 6)
+		Else
+			$text = "0x" & Hex($iColor, 6)
+		EndIf
 
         ; Update edit control with coordinates and color
-        _GUICtrlEdit_SetText($Label, $text)
+		If $text <> $last_text Then
+			_GUICtrlEdit_SetText($Label, $text)
+			$last_text = $text
+		EndIf
     WEnd
 EndFunc   ;==>Helper
 
