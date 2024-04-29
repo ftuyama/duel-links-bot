@@ -46,7 +46,7 @@ Func Street_duel($world, $start_area)
 			Local $duelist = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
 			Write_log("Yu-Gi-Oh Gx World selected")
 		Case $world = 7
-			Local $duelist = [1, 2, 3, 6, 7, 8, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22]
+			Local $duelist = [1, 2, 3, 6, 7, 8, 13, 14, 15, 16, 17, 18, 19, 21, 22]
 			Write_log("Yu-Gi-Oh Seven selected")
 		Case Else
 			Local $duelist = [1, 2, 3, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
@@ -61,7 +61,7 @@ Func Street_duel($world, $start_area)
 					Return
 				Case 1
 					Write_log("Loot detected")
-					$massage = "Recieve Rewards"
+					$massage = "Receive Rewards"
 					Wait_pixel(500, 460, 0xFFFFFF, 5000, $massage)
 					Write_log($massage)
 					Sleep(1000)
@@ -358,10 +358,10 @@ Func Object_color($n)
 			Local $face = [0xBBE089, 0xF7FFE3, 0xBFDD8C, 0xEFDDBC,0xF2E3CF,0xFEFEFA,0x81A153, 0xD4AF9A]
 			Local $return = ["Roa", $face]
 		Case $n = 21
-			Local $face = [0xBD9A67, 0xC19977, 0xBD9977, 0xC49970,0xBB906C,0xBB996B,0xBB966B]
+			Local $face = [0xF0EEA8, 0xFBFBE1, 0x1EAC9D, 0xFFFF8D, 0xF1EEDC,0xBBAB54,0xF2F2AA,0xF4F1AA, 0x121313]
 			Local $return = ["Celestia", $face]
 		Case $n = 22
-			Local $face = [0xBD9A67, 0xC19977, 0xBD9977, 0xC49970,0xBB906C,0xBB996B,0xBB966B]
+			Local $face = [0x6EB1DA, 0x73CDD7, 0x73CCCD, 0x142429,0x74CDCC,0x77CCD6]
 			Local $return = ["Nail", $face]
 		Case $n = 99
 			Local $face = [0xFF6600, 0xFF7700, 0xFF8700, 0xFF5700]
