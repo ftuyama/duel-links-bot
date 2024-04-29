@@ -1,8 +1,8 @@
 #include <Misc.au3>
 #include <MsgBoxConstants.au3>
-#include <GUIConstantsEx.au3>
 #include <WindowsConstants.au3>
 #include <String.au3>
+#include <GUIConstantsEx.au3>
 #include <GuiEdit.au3>
 
 Global $log
@@ -13,6 +13,7 @@ Func Helper()
     Local $LabelInstructions = GUICtrlCreateLabel("F10 to log the cursor position and color. F11 to clear", 10, 10, 380, 20)
     Local $Label = GUICtrlCreateLabel("", 10, 40, 380, 30)
 	$log = GUICtrlCreateEdit("", 10, 70, 380, 120)
+    GUISetState(@SW_SHOW, $hGUI)
     HotKeySet("{F10}", "Hot_key")
     HotKeySet("{F11}", "Hot_key")
 
@@ -20,6 +21,7 @@ Func Helper()
         Local $nMsg = GUIGetMsg()
         Switch $nMsg
             Case $GUI_EVENT_CLOSE
+				GUIDelete($hGui)
                 Exit
         EndSwitch
 
@@ -30,7 +32,6 @@ Func Helper()
 
         ; Update edit control with coordinates and color
         _GUICtrlEdit_SetText($Label, $text)
-
     WEnd
 EndFunc   ;==>Helper
 
