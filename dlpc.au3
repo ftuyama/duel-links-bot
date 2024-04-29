@@ -21,7 +21,7 @@ Func Gate_duel($amount)
 	  Write_log("Click duel gate.")
 	  Wait_pixel(626, 743, 0xFFFFFF, 10000, "Legendary Duelist list")
 	  If Compare_pixel(498, 646, 0xFFFFFF) == 0 Then
-		 Switch duel()
+		 Switch letsDuel()
 			Case -1
 			   Return
 		 EndSwitch
@@ -46,7 +46,7 @@ Func Street_duel($world, $start_area)
 			Local $duelist = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
 			Write_log("Yu-Gi-Oh Gx World selected")
 		Case $world = 7
-			Local $duelist = [1, 2, 3, 6, 7, 8, 13, 14, 15, 16, 17, 18, 19, 21, 22]
+			Local $duelist = [2, 3, 6, 7, 8, 13, 14, 15, 16, 17, 18, 22]
 			Write_log("Yu-Gi-Oh Seven selected")
 		Case Else
 			Local $duelist = [1, 2, 3, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
@@ -76,7 +76,7 @@ Func Street_duel($world, $start_area)
 				Case -1
 					Return
 				Case 1
-					 If duel() == 1 Then
+					 If letsDuel() == 1 Then
 					   Sleep(200)
 					   If Compare_pixel(637, 394, 0xFFFFFF) == 1 Then
 						   Write_log('Collect fragments')
@@ -192,7 +192,7 @@ _#/|##########/\######(   /\   )######/\##########|\#_
 
 Lalalalala
 #ce
-Func duel()
+Func letsDuel()
 	Local $massage
 	Local $time_out
 
@@ -204,7 +204,18 @@ Func duel()
 		 Sleep(1000)
 	  WEnd
    Else
-	  Return 0;
+	  Write_log("No white dialog")
+	  If $world = 7 Then
+		Sleep(7000) ; Yu-gi-oh Sevens is so damn slow
+	  Else
+		Sleep(3000)
+	  EndIf
+	  If has_duel_screen() Then
+		 Write_log("Duel screen found")
+	  Else
+	    Write_log("No duel screen, skipping")
+		Return 0;
+	  EndIf
    EndIf
 
    Click(700, 653)
@@ -445,6 +456,8 @@ Func get_area($mode)
 			Case 1
 				Write_log("Area can't be decided.")
 				Write_log("Make sure four area tab is visible.")
+				Sleep(2000)
+				Return get_area($mode)
 		EndSwitch
 		Return -1
 	EndIf
@@ -827,6 +840,10 @@ Func duel_over()
    Return Compare_pixel(420, 725, 0xFFFFFF) == 1 AND Compare_pixel(800, 150, 0x001E52) == 1
 EndFunc
 
+Func has_duel_screen()
+   Return Compare_pixel(700, 700, 0x000000) == 1 AND Compare_pixel(700, 750, 0x000000) == 1
+EndFunc
+
 Func has_white_dialog()
    Return Compare_pixel(700, 700, 0xFFFFFF) == 1 AND Compare_pixel(700, 750, 0xFFFFFF) == 1
 EndFunc
@@ -867,7 +884,7 @@ Func divine_trial()
 	  Sleep(500)
 	  Click(732, 433)
 
-	  duel()
+	  letsDuel()
 
 	  $massage = "Collect Reward"
 	  Wait_pixel(641, 350, 0xA65200, 5000, $massage)
