@@ -4,17 +4,22 @@
 #include <String.au3>
 #include <GUIConstantsEx.au3>
 #include <GuiEdit.au3>
+#include <FontConstants.au3>
 
-Global $log
 Global $text = ""
 Global $last_text = ""
+Global $title = "[TITLE:Yu-Gi-Oh! DUEL LINKS]"
 
 Func Helper()
-    Local $hGUI = GUICreate("Cursor Info Logger", 400, 200, -1, -1)
+    Local $hGUI = GUICreate("Cursor Logger", 400, 230, -1, -1)
+	GUISetFont(9,  $FW_NORMAL, $GUI_FONTNORMAL, "Courier New")
+
     Local $LabelInstructions = GUICtrlCreateLabel("F10 to log the cursor position and color. F11 to clear", 10, 10, 380, 20)
-    Local $Label = GUICtrlCreateLabel("", 10, 40, 280, 30)
-	Local $coordinates = GUICtrlCreateCheckbox("Coordinates", 300, 40)
-	$log = GUICtrlCreateEdit("", 10, 70, 380, 120)
+    Local $WindowLabel = GUICtrlCreateLabel("Window", 10, 30, 280, 20)
+    Local $CursorLabel = GUICtrlCreateLabel("", 10, 50, 280, 20)
+    Local $ColorLabel = GUICtrlCreateLabel("", 10, 70, 280, 20)
+	Global $log = GUICtrlCreateEdit("", 10, 100, 380, 120)
+
     GUISetState(@SW_SHOW, $hGUI)
     HotKeySet("{F10}", "Hot_key")
     HotKeySet("{F11}", "Hot_key")
@@ -28,19 +33,15 @@ Func Helper()
         EndSwitch
 
         ; Get cursor position and color
+		Global $winPos = WinGetPos($title)
         Global $aPos = MouseGetPos()
         Global $iColor = PixelGetColor($aPos[0], $aPos[1])
-		If GUICtrlRead($coordinates) == $GUI_CHECKED Then
-			$text = "X: " & $aPos[0] & " Y: " & $aPos[1] & " Color: 0x" & Hex($iColor, 6)
-		Else
-			$text = "0x" & Hex($iColor, 6)
-		EndIf
 
-        ; Update edit control with coordinates and color
-		If $text <> $last_text Then
-			_GUICtrlEdit_SetText($Label, $text)
-			$last_text = $text
-		EndIf
+		; Update GUI
+		$text = "0x" & Hex($iColor, 6)
+		_GUICtrlEdit_SetText($WindowLabel, "Window | X: " & $winPos[0] & " Y: " & $winPos[1] & " (window)")
+		_GUICtrlEdit_SetText($CursorLabel, "Cursor | X: " & $aPos[0] - $winPos[0] & " Y: " & $aPos[1] - $winPos[1])
+		_GUICtrlEdit_SetText($ColorLabel,  "Color  | " & $text)
     WEnd
 EndFunc   ;==>Helper
 
