@@ -1,6 +1,3 @@
-
-
-
 #cs
 Get list of dueslists from $world(0 for Yu-Gi-Oh and 1 for
 	Yu-Gi-Oh GX) starting from $start_area
