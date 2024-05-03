@@ -50,9 +50,9 @@ Func Street_duel($world, $start_area)
 					Return
 				Case 1
 					Write_log("Loot detected")
-					$massage = "Receive Rewards"
-					Wait_pixel(500, 460, 0xFFFFFF, 5000, $massage)
-					Write_log($massage)
+					$message = "Receive Rewards"
+					Wait_pixel(500, 460, 0xFFFFFF, 5000, $message)
+					Write_log($message)
 					Sleep(1000)
 					Click(640, 460)
 					Sleep(500)
@@ -143,7 +143,7 @@ Func Handle_gems_dialog()
 
    While (TimerDiff($timer) < $time_out) AND NOT Has_gems_dialog()
 	  Write_log("Waiting dialog")
-	  Sleep(2000)
+	  Sleep(3000)
    WEnd
 
    If Has_gems_dialog() Then
@@ -153,8 +153,14 @@ Func Handle_gems_dialog()
    EndIf
 EndFunc
 
+; Checks if dialog is open
 Func Has_gems_dialog()
    Return (Compare_pixel(500, 400, 0xFFFFFF) == 1 AND Compare_pixel(780, 400, 0xFFFFFF) == 1)
+EndFunc
+
+; Checks if gems balance is visible at the top
+Func Has_gems_balance_visible()
+	Return Compare_pixel(855, 76, 0x9453AB) == 1 And Compare_pixel(861, 69, 0x09F7F0) == 1
 EndFunc
 
 
@@ -184,6 +190,7 @@ Lalalalala
 Func letsDuel()
 	Local $massage
 	Local $time_out
+	Local $count = 0
 
    Sleep(1000)
    If has_white_dialog() Then
@@ -222,14 +229,17 @@ Func letsDuel()
 	While (TimerDiff($timer) < $time_out) And (get_area(0) == -1)
 	   While (TimerDiff($timer) < $time_out) And (get_area(0) == -1)
 		   Click(644, 708);
-		   Write_log("Waiting Duel")
 		   vagabond_challange()
-		   Sleep(2000)
+		   $count += 1
+		   If Mod($count, 10) = 0 Then
+				Write_log("Waiting Duel")
+		   EndIf
+		   Sleep(1000)
 	   WEnd
 	   Sleep(3000)
     WEnd
-	WriteTimeout($timer, $time_out)
     Write_log("Duel Finished")
+	WriteTimeout($timer, $time_out)
 	CloseDialogue()
 
 	Return 1;
@@ -345,39 +355,65 @@ EndFunc   ;==>AddExcludedArea
 	1:Duel
 	2:Shop
 	3:Studio
+#ce
+Func get_area($force)
+	; If gems balance is visible, check which tab is active
+	If Has_gems_balance_visible() Then
+		$active_tab = get_active_tab()
+
+		If $active_tab <> - 1 Then
+			Return $active_tab
+		EndIf
+	EndIf
+
+	If $force == 1 Then
+		; Keep searching, Bot is lost
+		If Has_gems_balance_visible() Then
+			Write_log("Gems balance is visible, but Bot is lost...")
+		EndIf
+		Write_log("Area can't be decided.")
+		Write_log("Make sure four area tab is visible.")
+		Sleep(3000)
+		Return get_area($force)
+	EndIf
+
+	Return -1
+EndFunc   ;==>get_area
+
+
+#cs
+	Return current area code
+	0:Gate
+	1:Duel
+	2:Shop
+	3:Studio
 
 	Debug:
 		Write_log("Area1 " & $area1 & " at " &$pos1[0]&" & "&$pos1[1])
 		Write_log("Area2 " & $area2 & " at " &$pos2[0]&" & "&$pos2[1])
 #ce
-Func get_area($force)
+Func get_active_tab()
+	; Screenshot screen
 	SnapShot(372, 698, 914, 745)
 	; Use two points colors to identify active tab
 	Local $pos1 = FFBestSpot(7, 4, 9, 655 + $winPos[0], 721 + $winPos[1], 0x001AFF, 10, False)
 	Local $pos2 = FFBestSpot(7, 4, 9, 655 + $winPos[0], 721 + $winPos[1], 0x0012FF, 10, False)
+
 	If Not @error Then
 		$area1 = get_identified_area($pos1, $winPos)
 		$area2 = get_identified_area($pos2, $winPos)
 
 		If $area1 == $area2 Then
-			Write_log("Area1 " & $area1 & " at " &$pos1[0]&" & "&$pos1[1])
-			Write_log("Area2 " & $area2 & " at " &$pos2[0]&" & "&$pos2[1])
+			;Write_log("Area1 " & $area1 & " at " &$pos1[0]&" & "&$pos1[1])
+			;Write_log("Area2 " & $area2 & " at " &$pos2[0]&" & "&$pos2[1])
 			Return $area1
 		Else
 			Write_log("Area can't be decided. Conflict.")
 		EndIf
 	EndIf
 
-	If $force == 1 Then
-		; Keep searching, Bot is lost
-		Write_log("Area can't be decided.")
-		Write_log("Make sure four area tab is visible.")
-		Sleep(2000)
-		Return get_area($force)
-	Else
-		Return -1
-	EndIf
-EndFunc   ;==>get_area
+	Return -1
+EndFunc
 
 #cs
 	Return current area code
