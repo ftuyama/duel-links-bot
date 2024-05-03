@@ -16,23 +16,22 @@ $FFWnd = _WinAPI_GetDesktopWindow()
 $winPos = WinGetPos($title)
 FFSetWnd($FFWnd)
 
+#cs
+	Gate duel using the first character that appears
+	; Click(902, 372) ;next legendary duelist
+#ce
 Func Gate_duel($amount)
    Go_to_area(0)
    For $i = 0 To $amount Step 1
-	  Click(727, 341)
-	  Write_log("Click duel gate.")
-	  Wait_pixel(626, 743, 0xFFFFFF, 10000, "Legendary Duelist list")
-	  If Compare_pixel(498, 646, 0xFFFFFF) == 0 Then
-		 Switch letsDuel()
-			Case -1
-			   Return
-		 EndSwitch
-	  Else
-		 Write_log("Color key depleted")
-		 Click(902, 372);next legendary duelist
-	  EndIf
-	  Sleep(200)
-   Next
+		Click(727, 341)
+		Write_log("Click duel gate.")
+		Wait_pixel(626, 743, 0xFFFFFF, 10000, "Legendary Duelist list")
+		Wait_pixel(632, 654, 0xF8D627, 10000, "Duel text golden color")
+		Click(632, 654)
+		Write_log("Du-du-du-el")
+		letsDuel()
+		Sleep(200)
+	Next
 EndFunc   ;==>Gate_duel
 
 #cs

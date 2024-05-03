@@ -16,7 +16,8 @@ Func Helper()
     Local $LabelInstructions = GUICtrlCreateLabel("F10 to log the cursor position and color. F11 to clear", 10, 10, 380, 20)
     Local $WindowLabel = GUICtrlCreateLabel("Window", 10, 30, 280, 20)
     Local $CursorLabel = GUICtrlCreateLabel("", 10, 50, 280, 20)
-    Local $ColorLabel = GUICtrlCreateLabel("", 10, 70, 280, 20)
+    Local $ColorLabel = GUICtrlCreateLabel("", 10, 70, 200, 20)
+    Local $ColorPallet = GUICtrlCreateLabel("colour", 230, 70, 50, 20)
 	Local $coordinates = GUICtrlCreateCheckbox("Coordinates", 300, 40)
 	Global $log = GUICtrlCreateEdit("", 10, 100, 380, 120)
 
@@ -45,6 +46,8 @@ Func Helper()
 		_GUICtrlEdit_SetText($WindowLabel, "Window | " & $win_position)
 		_GUICtrlEdit_SetText($CursorLabel, "Cursor | " & $position)
 		_GUICtrlEdit_SetText($ColorLabel,  "Color  | " & $color)
+		_GUICtrlEdit_SetText($ColorPallet, $color)
+		GUICtrlSetBkColor($ColorPallet, $color)
 
 		If GUICtrlRead($coordinates) == $GUI_CHECKED Then
 			$text = $position & " " & $color & @CRLF
