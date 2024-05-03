@@ -245,7 +245,7 @@ Func CloseDialogue()
 		Click(644, 708)
 		Sleep(1000)
 	WEnd
-	WriteTimeout($timer, $time_out)
+	;WriteTimeout($timer, $time_out)
 EndFunc  ;==>CloseDialogue
 
 Func WriteTimeout($timer, $time_out)
@@ -345,37 +345,61 @@ EndFunc   ;==>AddExcludedArea
 	1:Duel
 	2:Shop
 	3:Studio
+
+	Debug:
+		Write_log("Area1 " & $area1 & " at " &$pos1[0]&" & "&$pos1[1])
+		Write_log("Area2 " & $area2 & " at " &$pos2[0]&" & "&$pos2[1])
 #ce
-Func get_area($mode)
+Func get_area($force)
 	SnapShot(372, 698, 914, 745)
-	Local $pos = FFBestSpot(7, 4, 9, 655 + $winPos[0], 721 + $winPos[1], 0x001AFF, 10, False)
+	; Use two points colors to identify active tab
+	Local $pos1 = FFBestSpot(7, 4, 9, 655 + $winPos[0], 721 + $winPos[1], 0x001AFF, 10, False)
+	Local $pos2 = FFBestSpot(7, 4, 9, 655 + $winPos[0], 721 + $winPos[1], 0x0012FF, 10, False)
 	If Not @error Then
-		;MouseMove($pos[0], $pos[1])
-		Local $area = 0
-		Switch $pos[0] - $winPos[0]
-			Case 392 To 500
-				$area = 0
-			Case 519 To 634
-				$area = 1
-			Case 647 To 741
-				$area = 2
-			Case 764 To 868
-				$area = 3
-		EndSwitch
-		Return $area
-		;MsgBox(0, "Area", $area & " at " &$pos[0]&", "&$pos[1])
+		$area1 = get_identified_area($pos1, $winPos)
+		$area2 = get_identified_area($pos2, $winPos)
+
+		If $area1 == $area2 Then
+			Write_log("Area1 " & $area1 & " at " &$pos1[0]&" & "&$pos1[1])
+			Write_log("Area2 " & $area2 & " at " &$pos2[0]&" & "&$pos2[1])
+			Return $area1
+		Else
+			Write_log("Area can't be decided. Conflict.")
+		EndIf
+	EndIf
+
+	If $force == 1 Then
+		; Keep searching, Bot is lost
+		Write_log("Area can't be decided.")
+		Write_log("Make sure four area tab is visible.")
+		Sleep(2000)
+		Return get_area($force)
 	Else
-		Switch $mode
-			Case 0
-			Case 1
-				Write_log("Area can't be decided.")
-				Write_log("Make sure four area tab is visible.")
-				Sleep(2000)
-				Return get_area($mode)
-		EndSwitch
 		Return -1
 	EndIf
 EndFunc   ;==>get_area
+
+#cs
+	Return current area code
+	0:Gate
+	1:Duel
+	2:Shop
+	3:Studio
+#ce
+Func get_identified_area($pos, $winPos)
+	Local $area = 0
+	Switch $pos[0] - $winPos[0]
+		Case 392 To 500
+			$area = 0
+		Case 519 To 634
+			$area = 1
+		Case 647 To 741
+			$area = 2
+		Case 764 To 868
+			$area = 3
+	EndSwitch
+	Return $area
+EndFunc   ;==>get_identified_area
 
 #cs
 	Go to $des_area
@@ -549,8 +573,17 @@ Func Dbg_search($world_in, $area, $object)
 	Local $pos = FFBestSpot(10, 7, 16, 632, 488, -1, 2)
 
 	If Not @error Then
-		MouseClick($MOUSE_CLICK_LEFT, $pos[0], $pos[1],2)
+
+	AddExcludedArea(0, 0, 372, 749) ;left pane
+	AddExcludedArea(913, 0, 1286, 749) ;right pane
+	AddExcludedArea(372, 0, 914, 405) ;top pane
+	AddExcludedArea(372, 653, 914, 749) ;bottom pane
 		MsgBox(0, "", $hObject[0] & " at " & $pos[0] & ", " & $pos[1] & " " & $pos[2] & " pixel detected.")
+		If $pos[0] > 372 And $pos[0] < 913 And $pos[1] > 54 And $pos[1] < 749 Then
+			MouseClick($MOUSE_CLICK_LEFT, $pos[0], $pos[1],2)
+		Else
+			MsgBox(0, "Error", "What the heck! Don't click outside the game!")
+		EndIf
 	Else
 		MsgBox(0, "", "Not found")
 	EndIf
