@@ -55,7 +55,8 @@ Func Hot_key()
 EndFunc   ;==>Hot_key
 
 Func Write_log($log_text)
-    $log_text = $log_text & @CRLF
+    ;$log_text = $log_text & @CRLF
+    $log_text = $log_text & ','
     _GUICtrlEdit_AppendText($log, $log_text)
 EndFunc
 

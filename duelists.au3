@@ -13,9 +13,9 @@ Func Get_duelists($world)
 		Case $world = 1
 			Local $duelist = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
 			Write_log("Yu-Gi-Oh Gx World selected")
-		Case $world = 5
-			Local $duelist = [1, 2, 6, 7, 8, 13, 14, 15, 16, 17, 18, 19, 23, 24, 25]
-			Write_log("Yu-Gi-Oh Vrains selected")
+		Case $world = 4
+			Local $duelist = [1, 2, 6, 7, 8, 13, 14, 15, 16, 17, 18, 19, 23, 24, 25, 26, 27, 28]
+			Write_log("Yu-Gi-Oh ARCV selected")
 		Case $world = 7
 			Local $duelist = [2, 3, 6, 7, 8, 13, 14, 15, 16, 17, 18, 22]
 			Write_log("Yu-Gi-Oh Seven selected")
@@ -103,11 +103,24 @@ Func Object_color($n)
 			Local $face = [0x336944, 0x48BF72, 0xEECCAA, 0xB56533,0x74B6CE]
 			Local $return = ["Yuya", $face]
 		Case $n = 24
-			Local $face = [0xDD7766, 0xB64446, 0xE3D7BB, 0xECECEC]
-			Local $return = ["Dennis", $face]
+			Local $face = [0xC66A59, 0xD55151, 0xE5DDBB, 0xBB4444,0xC4B3AA]
+			Local $return = ["Dennis Event", $face]
 		Case $n = 25
 			Local $face = [0xEED0BB, 0x2A0B0B, 0x4D6FA8, 0x2C4466]
 			Local $return = ["Emmeline", $face]
+		Case $n = 26
+			Local $face = [0x873533, 0xE3BB99, 0x3B4647, 0x8F979A,0xCF8B7A]
+			Local $return = ["Gong Strong", $face]
+		Case $n = 27
+			Local $face = [0x55472D,0xD7C3B5,0x34476E,0x8D8585,0x574C34,0x89794E]
+			Local $return = ["Margareth", $face]
+		Case $n = 28
+			Local $face = [0x294295,0x2A4495,0x6EA89E,0x599BDF,0x142135]
+			Local $return = ["Yuto Event", $face]
+		Case $n = 28
+			;Local $face = [0x558888,0xDDB596,0x558888,0x2F4C5D,0x1D2A32]
+			Local $face = [0xDDB596,0x558894,0x2B4752,0x222C3C,0x812B33,0x725E4B,0xCEBBAA,0x33445D]
+			Local $return = ["Shay", $face]
 		Case $n = 99
 			Local $face = [0xFF6600, 0xFF7700, 0xFF8700, 0xFF5700]
 			Local $return = ["Loot", $face]
