@@ -595,11 +595,6 @@ Func Dbg_search($world_in, $area, $object)
 	Local $pos = FFBestSpot(10, 7, 16, 632, 488, -1, 2)
 
 	If Not @error Then
-
-	AddExcludedArea(0, 0, 372, 749) ;left pane
-	AddExcludedArea(913, 0, 1286, 749) ;right pane
-	AddExcludedArea(372, 0, 914, 405) ;top pane
-	AddExcludedArea(372, 653, 914, 749) ;bottom pane
 		MsgBox(0, "", $hObject[0] & " at " & $pos[0] & ", " & $pos[1] & " " & $pos[2] & " pixel detected.")
 		If $pos[0] > 372 And $pos[0] < 913 And $pos[1] > 54 And $pos[1] < 749 Then
 			MouseClick($MOUSE_CLICK_LEFT, $pos[0], $pos[1],2)
