@@ -137,24 +137,10 @@ Func Grant_gems($area)
  EndFunc
 
 Func Handle_gems_dialog()
-    $time_out = 7000
-	$timer = TimerInit()
-
-   While (TimerDiff($timer) < $time_out) AND NOT Has_gems_dialog()
-	  Write_log("Waiting dialog")
-	  Sleep(3000)
-   WEnd
-
-   If Has_gems_dialog() Then
-	  Sleep(500)
-	  Click(650, 480)
-	  Sleep(2000)
-   EndIf
-EndFunc
-
-; Checks if dialog is open
-Func Has_gems_dialog()
-   Return (Compare_pixel(500, 400, 0xFFFFFF) == 1 AND Compare_pixel(780, 400, 0xFFFFFF) == 1)
+   	If Wait_pixel(500, 400, 0xFFFFFF, 8000, 'Waiting gems') == 0 And Wait_pixel(780, 400, 0xFFFFFF, 500, 'Waiting gems') == 0 Then
+		Click(650, 480)
+		Sleep(2000)
+	EndIf
 EndFunc
 
 ; Checks if gems balance is visible at the top
@@ -490,9 +476,10 @@ Func Wait_pixel($x, $y, $color, $time_out, $massage)
 	While Compare_pixel($x, $y, $color) == 0 And (TimerDiff($timer) < $time_out)
 	WEnd
 	If TimerDiff($timer) >= $time_out Then
-		MsgBox($MB_ICONERROR, "Error", "Timeout " & $massage)
-		Exit
+		Write_log("Timeout " & $massage)
+		Return -1
 	EndIf
+	Return 0
 EndFunc   ;==>Wait_pixel
 
 #cs
