@@ -285,7 +285,7 @@ Func Search($area, $object)
 	Local $found
 	If Not @error Then
 		Write_log("Seems like " & $hObject[0] & ", " & $pos[2] & " pixel detected.")
-		MouseClick($MOUSE_CLICK_LEFT, $pos[0], $pos[1],2)
+		ClickOn($pos[0], $pos[1], 2)
 		$found = 1
 	Else
 		$found = 0
@@ -305,7 +305,19 @@ EndFunc   ;==>Move
 #ce
 Func Click($x, $y)
 	$winPos = WinGetPos($title)
-	MouseClick($MOUSE_CLICK_LEFT, $x + $winPos[0], $y + $winPos[1], 1, 5)
+	ClickOn($x + $winPos[0], $y + $winPos[1], 1)
+EndFunc   ;==>Click
+
+
+#cs
+	Wrap MouseClick
+#ce
+Func ClickOn($x, $y, $clicks)
+	If $x > 372 And $x < 913 And $y > 54 And $y < 749 Then
+		MouseClick($MOUSE_CLICK_LEFT, $x, $y, $clicks)
+	Else
+		MsgBox(0, "Error", "What the heck! Don't click outside the game!")
+	EndIf
 EndFunc   ;==>Click
 
 #cs
@@ -596,11 +608,7 @@ Func Dbg_search($world_in, $area, $object)
 
 	If Not @error Then
 		MsgBox(0, "", $hObject[0] & " at " & $pos[0] & ", " & $pos[1] & " " & $pos[2] & " pixel detected.")
-		If $pos[0] > 372 And $pos[0] < 913 And $pos[1] > 54 And $pos[1] < 749 Then
-			MouseClick($MOUSE_CLICK_LEFT, $pos[0], $pos[1],2)
-		Else
-			MsgBox(0, "Error", "What the heck! Don't click outside the game!")
-		EndIf
+		ClickOn($pos[0], $pos[1], 2)
 	Else
 		MsgBox(0, "", "Not found")
 	EndIf
