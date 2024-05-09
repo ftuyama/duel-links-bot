@@ -11,7 +11,6 @@ Global $timer = TimerInit()
 Global $Loop  = True
 Global $CheckGems = True
 Global $auto_orb_reload = False
-Global $orb_depleted = False
 Global $sPaused = False
 $FFWnd = _WinAPI_GetDesktopWindow()
 $winPos = WinGetPos($title)
@@ -83,8 +82,13 @@ Func Street_duel($world, $start_area)
 			EndSwitch
 		Next
 		Write_log("No one here.")
+
+		; Additional routines
 		If $CheckGems Then
 			Grant_gems($area)
+		EndIf
+		If $auto_orb_reload Then
+			Auto_orb()
 		EndIf
 
 		If $Loop And $area == 3 Then
@@ -96,27 +100,25 @@ Func Street_duel($world, $start_area)
  EndFunc   ;==>Street_duel
 
 Func Auto_orb()
-   If Compare_pixel(638, 600, 0xFFFFFF) == 1 Then
+   If Compare_pixel(456, 68, 0x6666AA) == 1 And Compare_pixel(456, 77, 0x6666AA) == 1 Then
 	  Write_log('Duel beacon, Standard duelist depleted.')
-	  $orb_depleted = True
 	  If $auto_orb_reload Then
-		 Click(694, 472)
+		 Click(400, 75)
 
 		 $massage = "Use Duel beacon"
 		 Write_log($massage)
-		 Wait_pixel(678, 347, 0xFFFFFF, 10000, $massage)
-		 Click(745, 413)
+		 Wait_pixel(569, 179, 0xFFCC00, 10000, $massage)
+		 Click(600, 240)
 
 		 $massage = "Confirm"
 		 Write_log($massage)
-		 Wait_pixel(488, 297, 0xFFFFFF, 10000, $massage)
-		 Click(643, 443)
-		 $orb_depleted = False
-		 Sleep(500)
+		 Wait_pixel(515, 430, 0x870505, 10000, $massage)
+		 Click(700, 430)
+		 Sleep(2000)
+		 Click(700, 430)
+		 Sleep(1000)
 	  Else
 		 Write_log('Orb auto reload disabled.')
-		 Click(632, 630)
-		 Sleep(500)
 	  EndIf
    EndIf
 EndFunc
@@ -283,7 +285,7 @@ Func Search($area, $object)
 	Local $found
 	Local $hObject = Object_color($object)
 	FFAddColor($hObject[1])
-	Local $pos = FFBestSpot(10, 7, 16, 632, 488, -1, 2)
+	Local $pos = FFBestSpot(10, 7, 16, 632, 488, -1, 2, True, 372, 54, 913, 749)
 
 	Local $found
 	If Not @error Then
@@ -307,8 +309,12 @@ EndFunc   ;==>Move
 	Do a single mouse click at ($x,$y)
 #ce
 Func Click($x, $y)
-	$winPos = WinGetPos($title)
-	ClickOn($x + $winPos[0], $y + $winPos[1], 1)
+	If $x > 372 And $x < 913 And $y > 54 And $y < 749 Then
+		$winPos = WinGetPos($title)
+		ClickOn($x + $winPos[0], $y + $winPos[1], 1)
+	Else
+		MsgBox(0, "Error", "What the heck! Don't click outside the game!" + $x + ', ' + $y)
+	EndIf
 EndFunc   ;==>Click
 
 
@@ -316,10 +322,11 @@ EndFunc   ;==>Click
 	Wrap MouseClick
 #ce
 Func ClickOn($x, $y, $clicks)
-	If $x > 372 And $x < 913 And $y > 54 And $y < 749 Then
+	$winPos = WinGetPos($title)
+	If $x - $winPos[0] > 372 And $x - $winPos[0] < 913 And $y + $winPos[1] > 54 And $y + $winPos[1] < 749 Then
 		MouseClick($MOUSE_CLICK_LEFT, $x, $y, $clicks)
 	Else
-		MsgBox(0, "Error", "What the heck! Don't click outside the game!")
+		MsgBox(0, "Error", "What the heck! Don't click outside the game!" + $x + ', ' + $y)
 	EndIf
 EndFunc   ;==>Click
 
@@ -355,6 +362,7 @@ EndFunc   ;==>AddExcludedArea
 	1:Duel
 	2:Shop
 	3:Studio
+	4:Initial Screen
 #ce
 Func get_area($force)
 	; If gems balance is visible, check which tab is active
@@ -366,6 +374,14 @@ Func get_area($force)
 		EndIf
 	EndIf
 
+	; Check if we are in the initial screen
+	If initial_screen() Then
+		Write_log("Initial screen, starting game")
+		Click(650, 470)
+		Sleep(10000)
+		Return 4
+	EndIf
+
 	If $force == 1 Then
 		; Keep searching, Bot is lost
 		If Has_gems_balance_visible() Then
@@ -373,6 +389,7 @@ Func get_area($force)
 		EndIf
 		Write_log("Area can't be decided.")
 		Write_log("Make sure four area tab is visible.")
+		Close_open_menu()
 		Sleep(3000)
 		Return get_area($force)
 	EndIf
@@ -387,6 +404,7 @@ EndFunc   ;==>get_area
 	1:Duel
 	2:Shop
 	3:Studio
+	-1:Not found
 
 	Debug:
 		Write_log("Area1 " & $area1 & " at " &$pos1[0]&" & "&$pos1[1])
@@ -413,6 +431,22 @@ Func get_active_tab()
 	EndIf
 
 	Return -1
+EndFunc
+
+Func initial_screen()
+	Local $initial_screen_pixels[26][3] = [[441, 121, 0xE20011], [455, 121, 0xEE0011], [446, 150, 0xD70000], [447, 170, 0xDD0000], [486, 193, 0xEE0011], [502, 158, 0xFFFFFF], [491, 126, 0xFFFFFF], [500, 137, 0xFFFFFF], [513, 128, 0xFFFFFF], [522, 108, 0x333333], [530, 146, 0xFFFFFF], [559, 151, 0xFFFFFF], [597, 129, 0xFFFFFF], [612, 165, 0xFFFFFF], [641, 147, 0xFFFFFF], [663, 133, 0xFFFFFF], [661, 115, 0xFFFFFF], [686, 97, 0xEE0011], [697, 172, 0xEE0011], [709, 156, 0xFFFFFF], [741, 142, 0xFFFFFF], [767, 125, 0xFFFFFF], [797, 150, 0xFFFFFF], [790, 104, 0xDE0011], [778, 73, 0xE7E7E7], [778, 84, 0xEE0011]]
+
+	Return Compare_pixels($initial_screen_pixels)
+EndFunc
+
+Func Close_open_menu()
+	; Check for back and home button
+	Local $pixels[10][3] = [[403, 726, 0xFFFFFF], [417, 725, 0xFFFFFF], [424, 726, 0xFFFFFF], [398, 724, 0xFFFFFF], [403, 719, 0xFFFFFF], [403, 730, 0xFFFFFF], [396, 732, 0x02338D], [395, 714, 0x002264], [422, 714, 0x002264], [422, 732, 0x003396]]
+
+	If Compare_pixels($pixels) Then
+		Write_log("Going back home")
+		Click(400, 725) ;home button
+	EndIf
 EndFunc
 
 #cs
@@ -481,6 +515,21 @@ Func Compare_pixel($x, $y, $color)
 		Return 1
 	EndIf
 EndFunc   ;==>Compare_pixel
+
+#cs
+	Loop Compare_pixel
+#ce
+Func Compare_pixels($pixels)
+    For $i = 0 To UBound($pixels) - 1
+        $x = $pixels[$i][0]
+        $y = $pixels[$i][1]
+        $color = $pixels[$i][2]
+        If GetPixel($x, $y) <> $color Then
+            Return 0
+        EndIf
+    Next
+    Return 1
+EndFunc   ;==>Compare_pixels
 
 #cs
 	wait for $color show at ($x, $y). When $time_out pass it will show error

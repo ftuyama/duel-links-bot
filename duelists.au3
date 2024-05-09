@@ -121,8 +121,8 @@ Func Object_color($n)
 			Local $face = [0xDDB596,0x558894,0x2B4752,0x222C3C,0x812B33,0x725E4B,0xCEBBAA,0x33445D]
 			Local $return = ["Shay", $face]
 		Case $n = 29
-			Local $face = [0xE8E9EC,0x475773,0x653C43,0xE9B887,0x8899A0,0xC54447,0xD7CE5C]
-			Local $return = ["Hanoi", $face]
+			Local $face = [0x7FC25E,0xC7C7C8,0xDEBD57,0xE5426B,0x453E3D,0xEECCB4,0x23889F]
+			Local $return = ["Bravo", $face]
 		Case $n = 99
 			Local $face = [0xFF6600, 0xFF7700, 0xFF8700, 0xFF5700]
 			Local $return = ["Loot", $face]
