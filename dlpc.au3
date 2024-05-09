@@ -9,6 +9,7 @@ Global $title = "[TITLE:Yu-Gi-Oh! DUEL LINKS]"
 Global $world = 0
 Global $timer = TimerInit()
 Global $Loop  = True
+Global $CheckGems = True
 Global $auto_orb_reload = False
 Global $orb_depleted = False
 Global $sPaused = False
@@ -82,7 +83,9 @@ Func Street_duel($world, $start_area)
 			EndSwitch
 		Next
 		Write_log("No one here.")
-		Grant_gems($area)
+		If $CheckGems Then
+			Grant_gems($area)
+		EndIf
 
 		If $Loop And $area == 3 Then
 			$area = -1

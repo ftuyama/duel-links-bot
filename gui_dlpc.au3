@@ -87,11 +87,13 @@ Func gui()
 				Global $cOnTop = GUICtrlCreateCheckbox("Always on top", $x+5,40)
 				GUICtrlSetState($cOnTop, $GUI_CHECKED)
 
-			GUICtrlCreateGroup("Street Duel",$x, $y+50 ,170,40)
+			GUICtrlCreateGroup("Street Duel",$x, $y+50 ,270,40)
 				GUIStartGroup()
 				Global $cLoop = GUICtrlCreateCheckbox("Loop area", $x+5,90)
 				Global $cOrb  = GUICtrlCreateCheckbox("Auto use orb", $x+80,90)
+				Global $cGem  = GUICtrlCreateCheckbox("Check for gems", $x+170,90)
 				GUICtrlSetState($cLoop, $GUI_CHECKED)
+				GUICtrlSetState($cGem, $GUI_CHECKED)
 
 			GUICtrlCreateGroup("Gate Duel",5, 125,170,40)
 				GUIStartGroup()
@@ -248,6 +250,12 @@ Func Control_gui($nMsg)
 					$Loop = True
 				Else
 					$Loop = false
+				EndIf
+			Case $cGem
+				if _IsChecked($cGem) Then
+					$CheckGems = True
+				Else
+					$CheckGems = false
 				EndIf
 			 Case $cOrb
 				if _IsChecked($cOrb) Then

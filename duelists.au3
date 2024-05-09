@@ -14,7 +14,7 @@ Func Get_duelists($world)
 			Local $duelist = [1, 2, 6, 7, 8, 13, 14, 15, 16, 17, 18, 19, 23, 24, 25, 26, 27, 28]
 			Write_log("Yu-Gi-Oh ARCV selected")
 		Case $world = 5
-			Local $duelist = [2, 6, 7, 14, 15, 18, 19]
+			Local $duelist = [2, 6, 7, 14, 15, 18, 19, 29]
 			Write_log("Yu-Gi-Oh Vrains selected")
 		Case $world = 7
 			Local $duelist = [2, 3, 6, 7, 8, 13, 14, 15, 16, 17, 18, 22]
@@ -120,6 +120,9 @@ Func Object_color($n)
 		Case $n = 28
 			Local $face = [0xDDB596,0x558894,0x2B4752,0x222C3C,0x812B33,0x725E4B,0xCEBBAA,0x33445D]
 			Local $return = ["Shay", $face]
+		Case $n = 29
+			Local $face = [0xE8E9EC,0x475773,0x653C43,0xE9B887,0x8899A0,0xC54447,0xD7CE5C]
+			Local $return = ["Hanoi", $face]
 		Case $n = 99
 			Local $face = [0xFF6600, 0xFF7700, 0xFF8700, 0xFF5700]
 			Local $return = ["Loot", $face]
