@@ -16,17 +16,19 @@ Func Tag_duel()
 	  While True
 		 Write_log("Tag Duel initial screen")
 		 While Not has_white_dialog()
-		    Write_log("Start!")
-			Click(650, 520)
+			Local $pixels[6][3] = [[696, 571, 0x083281], [593, 570, 0x08317D], [616, 572, 0xFFFFFF], [662, 569, 0xFFFFFF], [747, 478, 0x112233], [518, 327, 0x112233]]
+
+			If Compare_pixels($pixels) Then
+				Write_log("Close dialog")
+				Click(650, 570) ;close
+			Else
+				Write_log("Start!")
+				Click(650, 520)
+			EndIf
 		    Sleep(1000)
 		 WEnd
 
-		 While Not (Compare_pixel(650, 520, 0xFFFFFF) == 1 And Compare_pixel(680, 500, 0x001133) == 1)
-		    Write_log("White Dialog")
-			Click(700, 660)
-			Click(650, 520)
-		    Sleep(1000)
-		 WEnd
+		 Skip_dialog()
 
 		 Write_log("LvL 40")
 		 Click(750, 450)
@@ -45,12 +47,38 @@ Func Tag_duel()
 			WEnd
 			Sleep(3000)
 		 WEnd
+
+		 Write_log("Duel is over!")
+		 Skip_dialog()
+		 Sleep(2000)
 	  WEnd
+	Else
+		Write_log("Please open Tag Duel")
    EndIf
 EndFunc
 
 Func On_tag_duel()
-   Return (Compare_pixel(400, 520, 0x091B3D) == 1 AND Compare_pixel(650, 480, 0xA5ABB6) == 1 AND Compare_pixel(650, 550, 0x0A1838) == 1)
+	Local $pixels[5][3] = [[400, 520, 0x030914], [462, 654, 0xFC5555], [402, 617, 0xBCBCC5], [769, 117, 0xBDBAC4], [674, 119, 0xC50000]]
+
+	Return Compare_pixels($pixels)
+EndFunc
+
+Func Skip_dialog()
+	While has_white_dialog()
+		Write_log("White Dialog")
+
+		Local $pixels[5][3] = [[904, 522, 0x072C71], [884, 527, 0xFEFEFF], [874, 531, 0x093991], [889, 525, 0xFFFFFF], [895, 525, 0xFFFFFF]]
+
+		If Compare_pixels($pixels) Then
+			Write_log("Skipping Dialog")
+			Click(904, 522)
+		Else
+			Click(700, 660)
+			Click(650, 520)
+		EndIf
+
+		Sleep(1000)
+	WEnd
 EndFunc
 
 #cs
