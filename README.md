@@ -29,10 +29,6 @@ Simple bot with GUI using Autoit languange for farming Duel Link/ Duellink PC St
   - Run by pressing F5 or build by press F7 then open dlpc.ex at your repository
   - Make sure Duellink main(middle) windows section is visible
 
-## Discord
-
-<https://discord.gg/fcAAC4fm>
-
 ## Screenshot
 
 ![image](https://github.com/ftuyama/duel-links-bot/assets/11530478/e37cbdb2-2939-49e0-a686-4d1d2494bf0d)
